@@ -1,219 +1,74 @@
-\documentclass[12pt,a4paper]{report}
-
-% Packages required
-\usepackage{float, array, enumitem, multirow, makecell}
-\usepackage{booktabs}
-\usepackage{array}
-\usepackage{tabularx}
-\usepackage{float}
-\usepackage{makecell}
-\usepackage[utf8]{inputenc}
-\usepackage[top=1in, bottom=1in, left=1.25in, right=1in]{geometry}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{tabularx}
-\usepackage{pifont}
-\usepackage[edges]{forest}
-\usepackage{tikz}
-\usepackage{hyperref}
-\usepackage{setspace}
-\usepackage{titlesec}
-\usepackage{xcolor}
-\usepackage{fancyhdr}
-\usepackage{longtable}
-\usepackage{multirow}
-\usepackage{float}
-\usepackage{enumitem}
-\usepackage{caption}
-\usetikzlibrary{positioning, shapes.geometric, arrows.meta, calc, arrows}
-\usepackage{graphicx} % Required for \resizebox
-\usetikzlibrary{positioning, shadows, fit, arrows.meta}
-% Footer setup
-\pagestyle{fancy}
-\fancyhf{}
-\fancyfoot[C]{\thepage}
-\renewcommand{\headrulewidth}{0pt}
-\fancyfoot[L]{\footnotesize Capital University of Science and Technology, Islamabad}
-\fancyfoot[R]{\footnotesize Department of Computer Science}
-\renewcommand{\footrulewidth}{0.4pt}
-
-% Chapter heading format
-\titleformat{\chapter}[display]
-  {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
-\titlespacing*{\chapter}{0pt}{-20pt}{40pt}
-
-\setstretch{1.4}
-
-% Caption styling
-\captionsetup{labelfont={bf}, textfont={normalfont}}
-
-\setcounter{chapter}{1}
-\setcounter{page}{24}
-
-
-\begin{document}
-
-% ==========================================
-% CHAPTER 2
-% ==========================================
-\chapter{Requirement Specification and Analysis}
-
-The emphasis of this chapter is on getting a clear and comprehensive understanding
-of the requirements for the MazdoorLink AI platform. The requirements have been
-gathered through market research, stakeholder interviews with potential customers
-and workers in Pakistan's informal labor sector, and analysis of existing home
-service platforms. The chapter presents both functional and non-functional
-requirements, use case modeling with fully dressed use cases, system sequence
-diagrams for each use case, and a domain model that collectively define the
-expected behavior and architectural foundation of the proposed system.
-
-\subsection*{Requirement Specification}
-
-Requirements specification for MazdoorLink AI involves frequent communication
-with the three primary user groups --- customers seeking home maintenance
-services, skilled workers looking for consistent job opportunities, and
-administrators managing the platform ecosystem --- to determine specific feature
-expectations, resolve conflicts or ambiguity in requirements, and document all
-aspects of the project development process from start to finish. Requirements are
-a description of how the system should behave, or a statement of what the
-application is expected to do, presented in precise, clear, and plain language so
-that they can be reviewed by a business analyst or non-technical stakeholder with
-minimal technical expertise.
-
-\newpage
-
 % ==========================================
 % SECTION 2.1
 % ==========================================
 \section{Functional Requirements}
 
-The Functional Requirements Specification documents the operations and activities that the MazdoorLink AI system must be able to perform. These requirements are organized by user role (Customer, Worker, Administrator) and written in simple, non-technical language.
+The Functional Requirements Specification documents the operations and activities
+that the MazdoorLink system must be able to perform. These requirements are
+organized by user role (Customer, Worker, Administrator) and derived directly
+from the system's user stories. Implementation status reflects the current
+development state of the system.
 
-\begin{longtable}{|c|p{9.5cm}|c|c|}
-\caption{Functional Requirements} \label{tab:functional_req} \\
+\vspace{8pt}
+
+\begin{longtable}{|>{\centering\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{7.0cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2.5cm}|}
+
+\caption{Functional Requirements}\label{tab:functional_req}\\
+
 \hline
-\textbf{S. No.} & \textbf{Functional Requirement} & \textbf{Type} & \textbf{Status} \\
+\textbf{S. No.} & \textbf{Functional Requirement} & \textbf{Type} & \textbf{Status}\\
 \hline
 \endfirsthead
-\multicolumn{4}{c}%
-{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+
+\multicolumn{4}{c}{\tablename\ \thetable{} -- \textit{Continued from previous page}}\\[4pt]
 \hline
-\textbf{S. No.} & \textbf{Functional Requirement} & \textbf{Type} & \textbf{Status} \\
+\textbf{S. No.} & \textbf{Functional Requirement} & \textbf{Type} & \textbf{Status}\\
 \hline
 \endhead
-\hline \multicolumn{4}{r}{\textit{Continued on next page}} \\
+
+\hline
+\multicolumn{4}{r|}{\textit{Continued on next page}}\\
 \endfoot
+
 \hline
 \endlastfoot
 
-\hline
-FR-C01 & Customers sign up and log into the application using phone number with OTP verification & Core & Pending \\
-\hline
-FR-C02 & Customers search for workers by service category (plumber, electrician, carpenter, painter, etc.) & Core & Pending \\
-\hline
-FR-C03 & Customers filter workers by location, rating, availability, and price range & Core & Pending \\
-\hline
-FR-C04 & Customers use pre-defined job templates for common tasks (e.g., ``Fix Leaking Tap'', ``Install Ceiling Fan'') & Intermediate & Pending \\
-\hline
-FR-C05 & Customers post custom job requests with description and optional photos & Core & Pending \\
-\hline
-FR-C06 & Customers schedule bookings for future dates and specific time slots & Core & Pending \\
-\hline
-FR-C07 & Customers view worker profiles including ratings, reviews, past work photos, and verification status & Core & Pending \\
-\hline
-FR-C08 & Customers receive top 5 most suitable worker recommendations using AI matching algorithm & Core & Pending \\
-\hline
-FR-C09 & Customers save workers to a favourites list for quick rebooking & Intermediate & Pending \\
-\hline
-FR-C10 & Customers track worker's real-time GPS location during active jobs & Core & Pending \\
-\hline
-FR-C11 & Customers view automatic time tracking showing work start time, end time, and total duration & Core & Pending \\
-\hline
-FR-C12 & Customers use in-app chat with automatic English-to-Urdu and Urdu-to-English translation & Core & Pending \\
-\hline
-FR-C13 & Customers initiate voice calls to workers through the application & Intermediate & Pending \\
-\hline
-FR-C14 & Customers view before-and-after service photos uploaded by workers & Intermediate & Pending \\
-\hline
-FR-C15 & Customers make secure in-app payments using JazzCash, Easypaisa, or debit/credit card & Core & Pending \\
-\hline
-FR-C16 & Customers rate workers on a 5-star scale and submit text reviews after job completion & Core & Pending \\
-\hline
-FR-C17 & Customers report damage or service issues with photo evidence and description & Intermediate & Pending \\
-\hline
-FR-C18 & Customers view their complete booking history with job status and payment receipts & Core & Pending \\
-\hline
-FR-C19 & Customers receive push notifications for booking confirmations, worker arrival alerts, and job completion updates & Core & Pending \\
-\hline
-
-\hline
-FR-W01 & Workers register by uploading CNIC (front and back images) and police clearance certificate & Core & Pending \\
-\hline
-FR-W02 & Workers pay a refundable security deposit (PKR 5,000--10,000) before account activation & Core & Pending \\
-\hline
-FR-W03 & Workers verify their phone number using OTP authentication during registration & Core & Pending \\
-\hline
-FR-W04 & Workers use a simplified Urdu-language interface with large touch targets and icon-based navigation & Intermediate & Pending \\
-\hline
-FR-W05 & Workers use voice input (Urdu speech-to-text) for messages and descriptions & Intermediate & Pending \\
-\hline
-FR-W06 & Workers toggle their availability status (Online/Offline) with a single tap & Core & Pending \\
-\hline
-FR-W07 & Workers receive instant push notifications for nearby job opportunities matching their skills & Core & Pending \\
-\hline
-FR-W08 & Workers view full job details including location, description, estimated price, customer rating, and photos & Core & Pending \\
-\hline
-FR-W09 & Workers accept or reject incoming job requests using simple Accept/Reject buttons & Core & Pending \\
-\hline
-FR-W10 & Workers view all scheduled bookings in a calendar view showing date, time, and customer information & Core & Pending \\
-\hline
-FR-W11 & Workers create service packages offering bundled services at a fixed price & Intermediate & Pending \\
-\hline
-FR-W12 & Workers automatically share their current GPS location while they are online & Core & Pending \\
-\hline
-FR-W13 & Workers receive navigation to the customer's job location using Google Maps integration & Core & Pending \\
-\hline
-FR-W14 & Workers upload before-and-after photos of completed work to build their portfolio & Intermediate & Pending \\
-\hline
-FR-W15 & Workers use automatic work duration tracking with a start/stop timer & Core & Pending \\
-\hline
-FR-W16 & Workers use in-app chat with automatic Urdu-to-English and English-to-Urdu translation & Core & Pending \\
-\hline
-FR-W17 & Workers view their earnings dashboard showing daily, weekly, and monthly income summaries & Core & Pending \\
-\hline
-FR-W18 & Workers view their current average rating, total jobs completed, and recent customer reviews & Core & Pending \\
-\hline
-FR-W19 & Workers view and respond to any damage report filed against them & Intermediate & Pending \\
-\hline
-
-\hline
-FR-A01 & Administrators log in using secure OTP-based authentication & Core & Pending \\
-\hline
-FR-A02 & Administrators view all pending worker verification requests with CNIC and police clearance previews & Core & Pending \\
-\hline
-FR-A03 & Administrators approve or reject worker registrations after reviewing submitted documents & Core & Pending \\
-\hline
-FR-A04 & Administrators view all damage reports with customer evidence, worker response, and job details & Core & Pending \\
-\hline
-FR-A05 & Administrators approve or reject damage claims after investigation & Core & Pending \\
-\hline
-FR-A06 & Administrators automatically deduct approved damage compensation from the worker's security deposit & Core & Pending \\
-\hline
-FR-A07 & Administrators suspend or permanently ban any customer or worker from the platform & Core & Pending \\
-\hline
-FR-A08 & Administrators view the platform analytics dashboard showing total users, active jobs, total revenue, and growth metrics & Intermediate & Pending \\
-\hline
-FR-A09 & Administrators add, edit, or remove service categories on the platform & Intermediate & Pending \\
-\hline
-FR-A10 & Administrators configure the platform commission rate (default 5--15\%) & Intermediate & Pending \\
-\hline
-FR-A11 & Administrators process monthly security deposit refunds automatically for workers with no damage claims & Intermediate & Pending \\
-\hline
-FR-A12 & Administrators view and formally resolve disputes between customers and workers & Core & Pending \\
-\hline
-FR-A13 & Administrators view a list of all reported workers with damage history, rating penalties, and account status & Intermediate & Pending \\
-\hline
+FR-C01 & Customers can sign up and log in to the application & Core & Implemented \\ \hline
+FR-C02 & Customers can select a service category and issue & Core & Implemented \\ \hline
+FR-C03 & Customers can view matching workers & Core & Implemented \\ \hline
+FR-C04 & Customers can post job requests & Core & Implemented \\ \hline
+FR-C05 & Customers can communicate with workers & Core & Pending \\ \hline
+FR-C06 & Customers can view their job dashboard & Core & Implemented \\ \hline
+FR-C07 & Customers can track worker location & Core & Implemented \\ \hline
+FR-C08 & Customers can cancel a job & Intermediate & Implemented \\ \hline
+FR-C09 & Customers can report complaints & Intermediate & Pending \\ \hline
+FR-C10 & Customers can add workers as favourites & Core & Implemented \\ \hline
+FR-C11 & Customers can view past and active bookings & Core & Pending \\ \hline
+FR-C12 & Customers can rate workers & Core & Pending \\ \hline
+FR-C13 & Customers can pay for services & Core & Pending \\ \hline
+FR-W01 & Workers can sign up, log in, and wait for approval & Core & Implemented \\ \hline
+FR-W02 & Workers can set online or offline status & Core & Implemented \\ \hline
+FR-W03 & Workers can add and edit skills and rates & Core & Implemented \\ \hline
+FR-W04 & Workers can receive job offers & Core & Implemented \\ \hline
+FR-W05 & Workers can accept or decline jobs & Core & Implemented \\ \hline
+FR-W06 & Workers can view earnings dashboard & Core & Pending \\ \hline
+FR-W07 & Workers can use voice navigation & Intermediate & Pending \\ \hline
+FR-W08 & Workers can receive Urdu chat translation & Intermediate & Pending \\ \hline
+FR-W09 & Workers can top up account balance & Core & Pending \\ \hline
+FR-A01 & Administrators can approve or reject workers & Core & Implemented \\ \hline
+FR-A02 & Administrators can view job activity & Core & Pending \\ \hline
+FR-A03 & Administrators can view platform analytics & Intermediate & Pending \\ \hline
+FR-A04 & Administrators can manage complaints & Core & Pending \\ \hline
+FR-G01 & Users can control app functions using voice commands & Intermediate & Pending \\ \hline
+FR-G02 & Customers and workers can upload and update profile pictures & Core & Implemented \\ \hline
+FR-G03 & Users can change app language between English and Urdu & Core & Implemented \\
 \end{longtable}
+
+\vspace{6pt}
+\noindent
+\textbf{Status Legend:} \textit{Pending} -- requirement is planned for implementation.
+
+\newpage
 
 % ==========================================
 % SECTION 2.2
@@ -222,91 +77,117 @@ FR-A13 & Administrators view a list of all reported workers with damage history,
 
 Non-functional requirements specify criteria that judge the operation of the
 system rather than specific behaviours. The following requirements define the
-quality attributes for the MazdoorLink AI platform.
+quality attributes for the MazdoorLink platform, informed by its serverless
+Flutter--Firebase architecture and its target audience of both customers and
+low-literacy workers in Pakistan.
 
-\begin{longtable}{|c|p{9cm}|c|}
-\caption{Non-Functional Requirements} \label{tab:nonfunctional_req} \\
+\vspace{8pt}
+
+\begin{longtable}{|>{\centering\arraybackslash}p{1.5cm}|>{\raggedright\arraybackslash}p{9.8cm}|>{\centering\arraybackslash}p{2.2cm}|}
+
+\caption{Non-Functional Requirements}\label{tab:nonfunctional_req}\\
+
 \hline
-\textbf{S. No.} & \textbf{Non-Functional Requirement} & \textbf{Category} \\
+\textbf{S. No.} & \textbf{Non-Functional Requirement} & \textbf{Category}\\
 \hline
 \endfirsthead
-\multicolumn{3}{c}{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+
+\multicolumn{3}{c}{\tablename\ \thetable{} -- \textit{Continued from previous page}}\\[4pt]
 \hline
-\textbf{S. No.} & \textbf{Non-Functional Requirement} & \textbf{Category} \\
+\textbf{S. No.} & \textbf{Non-Functional Requirement} & \textbf{Category}\\
 \hline
 \endhead
-\hline \multicolumn{3}{r}{\textit{Continued on next page}} \\
+
+\hline
+\multicolumn{3}{r|}{\textit{Continued on next page}}\\
 \endfoot
+
 \hline
 \endlastfoot
 
-1 & The user interface should be intuitive and accessible for all user roles, ensuring ease of navigation for customers, workers, and administrators & Usability \\
-\hline
-2 & The system should provide real-time feedback for user actions (loading states, success/error messages) & Usability \\
-\hline
-3 & All user passwords and sensitive personal data shall be encrypted using AES-256 encryption & Security \\
-\hline
-4 & All payment transactions shall be processed through PCI-DSS compliant payment gateways & Security \\
-\hline
-5 & The AI job matching algorithm shall recommend suitable workers within 2 seconds of job posting submission & Performance \\
-\hline
-6 & The system shall support a minimum of 10,000 concurrent active users without performance degradation & Scalability \\
-\hline
-7 & The system shall maintain 99\% uptime excluding scheduled maintenance windows & Reliability \\
-\hline
-8 & Push notifications shall be delivered to target devices within 5 seconds of the trigger event & Performance \\
-\hline
-9 & The system shall support Android 7.0 and above and iOS 12.0 and above mobile devices & Compatibility \\
-\hline
-10 & All API responses shall be returned within 3 seconds or the interface shall display an appropriate loading indicator & Performance \\
-\hline
+1  & The system must provide distinct, intuitive role-based interfaces (Customer, Worker, Admin) accessible to low-literacy users & Usability \\ \hline
+2  & The interface must support a bilingual (English/Urdu) mode with correct RTL/LTR text rendering & Usability \\ \hline
+3  & Firebase Authentication tokens (JWT) and Firestore security rules must restrict data access to the correct role and account & Security \\ \hline
+4  & Worker CNIC images and profile media must be stored securely via Cloudinary, with only access URLs stored in Firestore & Security \\ \hline
+5  & Firestore real-time streams for jobs and chat must reflect updates within 2 seconds under normal network conditions & Performance \\ \hline
+6  & The worker heartbeat mechanism must update \texttt{isOnline} and \texttt{lastSeenAt} within 30 seconds of a state change, and set offline automatically when the app is backgrounded & Performance \\ \hline
+7  & The system must leverage Firebase's distributed infrastructure to support a growing number of concurrent users & Scalability \\ \hline
+8  & The application must run on modern Android and iOS devices via the Flutter cross-platform framework & Compatibility \\ \hline
+9  & Client-side worker filtering and skill matching must execute without noticeable UI lag & Performance \\ \hline
+10 & The system must maintain high availability by relying on managed serverless infrastructure & Reliability \\ \hline
+11 & Job requests must include expiration timers to automatically invalidate unanswered offers & Reliability \\ \hline
+12 & Media uploads must be compressed before transmission to Cloudinary to reduce mobile data usage & Performance \\
+
 \end{longtable}
+
+\newpage
 
 % ==========================================
 % SECTION 2.3
 % ==========================================
 \section{Selected Functional Requirements}
 
-The following functional requirements have been selected for the current development iteration (Phase 1 -- MVP). These represent the core features necessary to launch a functional and usable labor hiring platform and will be fully implemented in the first release.
+The following functional requirements have been selected for the current
+development iteration. These requirements are listed in simple form and are
+currently marked as \textit{Pending}.
 
-\begin{longtable}{|c|p{9.8cm}|c|}
-\caption{Selected Functional Requirements for Phase 1} \label{tab:selected_req} \\
+\vspace{8pt}
+
+\begin{longtable}{|>{\centering\arraybackslash}p{1.2cm}|>{\raggedright\arraybackslash}p{8.2cm}|>{\centering\arraybackslash}p{2.0cm}|>{\centering\arraybackslash}p{2.3cm}|}
+
+\caption{Selected Functional Requirements}\label{tab:selected_req}\\
+
 \hline
-\textbf{S. No.} & \textbf{Functional Requirement} & \textbf{Reference} \\
+\textbf{S. No.} & \textbf{Functional Requirement} & \textbf{Reference} & \textbf{Status}\\
 \hline
 \endfirsthead
-\multicolumn{3}{c}{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
+
+\multicolumn{4}{c}{\tablename\ \thetable{} -- \textit{Continued from previous page}}\\[4pt]
 \hline
-\textbf{S. No.} & \textbf{Functional Requirement} & \textbf{Reference} \\
+\textbf{S. No.} & \textbf{Functional Requirement} & \textbf{Reference} & \textbf{Status}\\
 \hline
 \endhead
-\hline \multicolumn{3}{r}{\textit{Continued on next page}} \\
+
+\hline
+\multicolumn{4}{r|}{\textit{Continued on next page}}\\
 \endfoot
+
 \hline
 \endlastfoot
 
-1 & Customers sign up and log into the application using phone number with OTP verification & FR-C01 \\
-\hline
-2 & Workers register by uploading CNIC (front and back images) and police clearance certificate & FR-W01 \\
-\hline
-3 & Customers search for workers by service category and filter by location, rating, and availability & FR-C02, FR-C03 \\
-\hline
-4 & Customers post custom job requests with description and optional photos & FR-C05 \\
-\hline
-5 & Customers receive top 5 most suitable worker recommendations using AI matching algorithm & FR-C08 \\
-\hline
-6 & Workers accept or reject incoming job requests using simple Accept/Reject buttons & FR-W09 \\
-\hline
-7 & Customers make secure in-app payments using JazzCash, Easypaisa, or debit/credit card & FR-C15 \\
-\hline
-8 & Workers view their earnings dashboard showing daily, weekly, and monthly income summaries & FR-W17 \\
-\hline
-9 & Administrators view the platform analytics dashboard showing total users, active jobs, total revenue, and growth metrics & FR-A08 \\
-\hline
-10 & Customers and Workers receive push notifications for booking confirmations, job opportunities, and status updates & FR-C19, FR-W07 \\
-\hline
+1  & Customers can sign up and log in to the application & FR-C01 & Implemented \\ \hline
+2  & Customers can select a service category and issue & FR-C02 & Implemented \\ \hline
+3  & Customers can view matching workers & FR-C03 & Implemented \\ \hline
+4  & Customers can post job requests & FR-C04 & Implemented \\ \hline
+5  & Customers can communicate with workers & FR-C05 & Pending \\ \hline
+6  & Customers can view their job dashboard & FR-C06 & Implemented \\ \hline
+7  & Customers can track worker location & FR-C07 & Implemented \\ \hline
+8  & Customers can cancel a job & FR-C08 & Implemented \\ \hline
+9  & Customers can report complaints & FR-C09 & Pending \\ \hline
+10 & Customers can add workers as favourites & FR-C10 & Implemented \\ \hline
+11 & Customers can view past and active bookings & FR-C11 & Pending \\ \hline
+12 & Customers can rate workers & FR-C12 & Pending \\ \hline
+13 & Customers can pay for services & FR-C13 & Pending \\ \hline
+14 & Workers can sign up, log in, and wait for approval & FR-W01 & Implemented \\ \hline
+15 & Workers can set online or offline status & FR-W02 & Implemented \\ \hline
+16 & Workers can add and edit skills and rates & FR-W03 & Implemented \\ \hline
+17 & Workers can receive job offers & FR-W04 & Implemented \\ \hline
+18 & Workers can accept or decline jobs & FR-W05 & Implemented \\ \hline
+19 & Workers can view earnings dashboard & FR-W06 & Pending \\ \hline
+20 & Workers can use voice navigation & FR-W07 & Pending \\ \hline
+21 & Workers can receive Urdu chat translation & FR-W08 & Pending \\ \hline
+22 & Workers can top up account balance & FR-W09 & Pending \\ \hline
+23 & Administrators can approve or reject workers & FR-A01 & Implemented \\ \hline
+24 & Administrators can view job activity & FR-A02 & Pending \\ \hline
+25 & Administrators can view platform analytics & FR-A03 & Pending \\ \hline
+26 & Administrators can manage damage claims & FR-A04 & Pending \\ \hline
+27 & Users can control app functions using voice commands & FR-G01 & Pending \\ \hline
+28 & Customers and workers can upload and update profile pictures & FR-G02 & Implemented \\ \hline
+29 & Users can change app language between English and Urdu & FR-G03 & Implemented \\
 \end{longtable}
+
 \newpage
+
 % ==========================================
 % SECTION 2.4
 % ==========================================
@@ -314,249 +195,1835 @@ The following functional requirements have been selected for the current develop
 
 A use case defines a set of use-case instances where each instance is a sequence
 of actions a system performs that yields an observable result of value to a
-particular actor. The functionality of the MazdoorLink AI system is defined by
-different use cases, each of which represents a specific goal for a particular actor.
-Figure~\ref{fig:usecase} presents the complete use case diagram for the
-MazdoorLink AI system showing all major actors and their associated system
-functions.
+particular actor. The MazdoorLink system follows a \textbf{Serverless
+Client-Side Architecture} in which a Flutter frontend communicates directly
+with Firebase services (Authentication, Firestore) and external APIs
+(Cloudinary, Google Maps) without a dedicated application server. The following
+29 use cases are modelled below.
+Figure~\ref{fig:usecase} presents the complete use case diagram showing all
+major actors and their associated system functions.
 
-% ==========================================
-% USE CASE DIAGRAM
-% ==========================================
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{system_use_case.png}
-\caption{MazdoorLink AI -- System Use Case Diagram}
+\includegraphics[width=0.88\textwidth]{usec.jpeg}
+\caption{MazdoorLink App -- System Use Case Diagram}
 \label{fig:usecase}
 \end{figure}
 
 \newpage
 
+% ------------------------------------------
+% UC-01
+% ------------------------------------------
+\subsection*{Use Case 1: Customer Sign Up and Login}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-01 \\ \hline
+\textbf{UseCase Name:} & Customer Sign Up and Login \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: Firebase Authentication, Email OTP Service, Firestore \\ \hline
+\textbf{Description:} & The customer starts from the welcome screen by tapping ``I Need a Service''. The system shows email/password login, forgot password, and signup options. Login uses email and password. Forgot password uses email OTP verification before setting a new password. Signup collects full name, email, mobile number, CNIC, password, and confirm password, then verifies the customer through an email OTP before login. \\ \hline
+\textbf{Trigger:} & Customer taps ``I Need a Service'' on the welcome screen. \\ \hline
+\textbf{Preconditions:} & 1. Customer has an active internet connection. \newline 2. Customer has a valid email address. \newline 3. Customer account is not blocked. \\ \hline
+\textbf{Post Conditions:} & 1. Customer is logged in after successful login or signup OTP verification. \newline 2. New customer profile is saved after signup. \newline 3. Customer is redirected to the customer home screen. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Customer taps ``Forgot Password'', enters email, verifies OTP, enters new password and confirm password, then returns to the login screen. \newline \textbf{Alt-2:} Customer taps ``Signup'', enters required details, verifies email OTP, and is logged in. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Invalid email or password -- error shown. \newline \textbf{E2:} Incorrect OTP -- retry option shown. \newline \textbf{E3:} Password and confirm password do not match -- validation message shown. \newline \textbf{E4:} OTP expired -- customer requests a new OTP. \\ \hline
+\end{tabular}
+\caption*{UC-01: Customer Sign Up and Login (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\scriptsize
+\vspace*{-0.8cm}
+\renewcommand{\arraystretch}{0.92}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{2.4cm}|p{11.9cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.65cm}|p{5.65cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Taps ``I Need a Service'' & \\ \hline
+ & 2. Shows login screen with email, password, forgot password, and signup options \\ \hline
+3. Enters email/password and taps ``Continue'' & \\ \hline
+ & 4. Validates credentials and opens customer home screen \\ \hline
+\multicolumn{2}{|l|}{\textbf{Signup Flow}} \\ \hline
+5. Taps ``Signup'' and enters full name, email, mobile number, CNIC, password, and confirm password & \\ \hline
+ & 6. Sends OTP to customer's email \\ \hline
+7. Enters correct OTP & \\ \hline
+ & 8. Creates account and logs in customer \\ \hline
+\multicolumn{2}{|l|}{\textbf{Forgot Password Flow}} \\ \hline
+9. Taps ``Forgot Password'' and enters email & \\ \hline
+ & 10. Sends OTP to customer's email \\ \hline
+11. Enters correct OTP & \\ \hline
+ & 12. Shows new password and confirm password screen \\ \hline
+13. Enters new password and taps ``Continue'' & \\ \hline
+ & 14. Updates password and redirects to login screen \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-01: Customer Sign Up and Login}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-02
+% ------------------------------------------
+\subsection*{Use Case 2: Customer Selects Service Category and Issue}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-02 \\ \hline
+\textbf{Use Case Name:} & Customer Selects Service Category and Issue \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: App Routing System, Payment Method Selector \\ \hline
+\textbf{Description:} & From the customer dashboard, the customer views service categories such as Electrician and Plumber. The customer selects one category, chooses the issue they are facing, selects a payment method such as Cash, Easypaisa, or JazzCash, and then taps ``Find Workers''. \\ \hline
+\textbf{Trigger:} & Customer opens the dashboard after login. \\ \hline
+\textbf{Preconditions:} & 1. Customer is logged in. \newline 2. Service categories and issue lists are available. \newline 3. Payment method options are available. \\ \hline
+\textbf{Post Conditions:} & 1. Selected category, issue, and payment method are saved for the request. \newline 2. Customer is navigated to the matching worker list. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Customer changes the selected category; issue selection is refreshed. \newline \textbf{Alt-2:} Customer changes payment method before finding workers. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} No category selected -- system asks customer to select a category. \newline \textbf{E2:} No issue selected -- system asks customer to select an issue. \newline \textbf{E3:} No payment method selected -- system asks customer to select a payment method. \\ \hline
+\end{tabular}
+\caption*{UC-02: Customer Selects Service Category and Issue (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer opens dashboard & \\ \hline
+ & 2. Displays service categories such as Electrician and Plumber \\ \hline
+3. Customer selects Electrician or Plumber & \\ \hline
+ & 4. Displays issues related to the selected category \\ \hline
+5. Customer selects the issue they are facing & \\ \hline
+6. Customer selects payment method (Cash, Easypaisa, or JazzCash) & \\ \hline
+7. Customer taps ``Find Workers'' & \\ \hline
+ & 8. Saves category, issue, and payment method; navigates to matching workers \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-02: Customer Selects Service Category and Issue}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-03
+% ------------------------------------------
+\subsection*{Use Case 3: Intelligent Worker Filtering}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-03 \\ \hline
+\textbf{Use Case Name:} & Intelligent Worker Filtering \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: Google Maps, Firestore Database \\ \hline
+\textbf{Description:} & After tapping ``Find Workers'', the customer selects their location from the map. The system finds workers whose category and skills match the selected issue, who are online, and who are within 25 km of the selected location. Matching worker profiles are then shown to the customer. \\ \hline
+\textbf{Trigger:} & Customer taps ``Find Workers'' after selecting category, issue, and payment method. \\ \hline
+\textbf{Preconditions:} & 1. Customer has selected category, issue, and payment method. \newline 2. Customer can select a location on the map. \newline 3. Worker location and availability data are available. \\ \hline
+\textbf{Post Conditions:} & 1. Customer location is selected. \newline 2. Worker profiles matching skill, online status, and 25 km distance are displayed. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} No worker is found within 25 km -- system shows an empty state. \newline \textbf{Alt-2:} Customer changes location and searches again. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Location is not selected -- system asks customer to choose a map location. \newline \textbf{E2:} Worker data cannot be loaded -- retry option is shown. \\ \hline
+\end{tabular}
+\caption*{UC-03: Intelligent Worker Filtering (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer taps ``Find Workers'' & \\ \hline
+ & 2. Opens map location selection screen \\ \hline
+3. Customer selects their location from the map & \\ \hline
+ & 4. Loads approved workers with matching category and online status \\ \hline
+ & 5. Checks worker skills against selected issue \\ \hline
+ & 6. Calculates distance between customer and worker location \\ \hline
+ & 7. Filters workers within 25 km \\ \hline
+ & 8. Displays matching worker profiles to customer \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-03: Intelligent Worker Filtering}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-04
+% ------------------------------------------
+\subsection*{Use Case 4: Customer Hires Worker}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-04 \\ \hline
+\textbf{Use Case Name:} & Customer Posts a Job / Hires Worker \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: Firestore Database, Worker (notified) \\ \hline
+\textbf{Description:} & The customer reviews a worker's profile, specifies a price and payment method, and posts the job to the selected worker. A new document is created in the Firestore \texttt{jobs} collection with \texttt{status: pending} and an expiration timer. The worker's app receives the offer instantly through its real-time stream. \\ \hline
+\textbf{Trigger:} & Customer taps ``Hire'' on a worker's profile. \\ \hline
+\textbf{Preconditions:} & 1. Customer is authenticated. \newline 2. Selected worker is approved and online. \\ \hline
+\textbf{Post Conditions:} & 1. A \texttt{jobs} document exists with \texttt{status: pending} and an expiration timer. \newline 2. Worker's dashboard shows the new offer in real time. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Worker declines -- customer is notified and may select a different worker. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Offer expires unanswered -- job auto-invalidated; customer notified. \newline \textbf{E2:} Network failure -- retry prompt; no duplicate document created. \\ \hline
+\end{tabular}
+\caption*{UC-04: Customer Posts a Job / Hires Worker (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer opens a worker's profile & \\ \hline
+ & 2. Displays worker details, skills, and rates \\ \hline
+3. Customer enters price, selects payment method, taps ``Hire'' & \\ \hline
+ & 4. Creates \texttt{jobs} document with \texttt{status: pending} and starts expiration timer \\ \hline
+ & 5. Firestore stream pushes the offer to the worker's dashboard instantly \\ \hline
+ & 6. Confirms to the customer that the job was posted \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-04: Customer Posts a Job / Hires Worker}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-05
+% ------------------------------------------
+\subsection*{Use Case 5: Chat between Customer and Worker}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-05 \\ \hline
+\textbf{Use Case Name:} & Chat between Customer and Worker \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer, Worker \quad Secondary: Firestore (\texttt{conversations}, \texttt{messages}), Translation Service \\ \hline
+\textbf{Description:} & After the job is accepted, the customer or worker taps the ``Chat'' option to open the chat interface. Both users can send real-time messages in English or Urdu. If either user taps the ``En--Ur'' button, the chat text is converted between English and Urdu. \\ \hline
+\textbf{Trigger:} & Customer or worker taps the ``Chat'' option for an accepted job. \\ \hline
+\textbf{Preconditions:} & 1. Job status is accepted. \newline 2. Customer and worker are authenticated. \newline 3. Chat service is available. \\ \hline
+\textbf{Post Conditions:} & 1. Messages are saved and shown in real time. \newline 2. Chat can be translated between English and Urdu when requested. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} User chats without translation. \newline \textbf{Alt-2:} User taps ``En--Ur'' to translate English to Urdu or Urdu to English. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Message send fails -- retry option is shown. \newline \textbf{E2:} Translation fails -- original message remains visible. \\ \hline
+\end{tabular}
+\caption*{UC-05: Real-Time Chat (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer or worker taps ``Chat'' for the accepted job & \\ \hline
+ & 2. Opens shared chat interface \\ \hline
+ & 3. Loads previous messages and starts real-time message stream \\ \hline
+4. User types a message in English or Urdu and taps Send & \\ \hline
+ & 5. Saves and displays the message in real time \\ \hline
+6. User taps ``En--Ur'' translation button & \\ \hline
+ & 7. Converts chat text between English and Urdu \\ \hline
+8. Other user reads and replies & \\ \hline
+ & 9. Updates chat screen instantly \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-05: Real-Time Chat between Customer and Worker}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-06
+% ------------------------------------------
+\subsection*{Use Case 6: Customer Views Job History}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-06 \\ \hline
+\textbf{Use Case Name:} & Customer Views Job History \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: Firestore Database \\ \hline
+\textbf{Description:} & The customer views their past and ongoing job requests in their dashboard. The app subscribes to Firestore job streams (\texttt{streamAllJobs} / \texttt{streamWorkerActiveJobs}) filtered by the customer's \texttt{uid}, so status changes (accepted, working, completed) appear live. \\ \hline
+\textbf{Trigger:} & Customer opens the dashboard/history tab. \\ \hline
+\textbf{Preconditions:} & 1. Customer is authenticated. \\ \hline
+\textbf{Post Conditions:} & 1. All jobs linked to the customer's \texttt{uid} are listed with their current status. \newline 2. The list updates in real time as statuses change. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} No jobs exist -- an empty state with a ``Post your first job'' prompt is shown. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Stream error -- cached data shown with a reconnect indicator. \\ \hline
+\end{tabular}
+\caption*{UC-06: Customer Views Job History (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer opens dashboard & \\ \hline
+ & 2. Subscribes to job streams filtered by customer \texttt{uid} \\ \hline
+ & 3. Renders ongoing and past jobs with current statuses \\ \hline
+4. Customer taps a job for details & \\ \hline
+ & 5. Displays full job detail view (worker, price, status timeline) \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-06: Customer Views Job History}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-07
+% ------------------------------------------
+\subsection*{Use Case 7: Real-Time Worker Tracking Map}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-07 \\ \hline
+\textbf{Use Case Name:} & Real-Time Worker Tracking Map \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: Worker, Google Maps SDK, Geolocator (worker GPS), Firestore Database \\ \hline
+\textbf{Description:} & After the worker accepts the job, the system automatically shows the customer the worker's real-time location as the worker moves toward the customer's location. When the worker reaches the customer location, the system shows the worker a confirmation message asking ``Have you arrived?''. If the worker selects ``Yes'', the customer receives a message that the worker has arrived. When the customer confirms arrival by selecting ``Yes'', the job status changes to show that the worker is doing the work. \\ \hline
+\textbf{Trigger:} & Worker accepts the job and the system automatically starts showing the worker location to the customer. \\ \hline
+\textbf{Preconditions:} & 1. Worker has accepted the job. \newline 2. Job \texttt{status} is \texttt{accepted}. \newline 3. Worker's device has GPS permission enabled. \\ \hline
+\textbf{Post Conditions:} & 1. Customer can see the worker moving on the map. \newline 2. Worker arrival confirmation is sent to the customer. \newline 3. After customer confirmation, job \texttt{status} is updated to \texttt{working}. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Worker GPS unavailable -- last known position with timestamp shown. \newline \textbf{Alt-2:} Worker selects ``No'' on arrival prompt -- tracking continues. \newline \textbf{Alt-3:} Customer selects ``No'' on arrival confirmation -- job remains accepted and tracking continues. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Map fails to load -- textual status fallback displayed. \\ \hline
+\end{tabular}
+\caption*{UC-07: Real-Time Worker Tracking Map (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Worker accepts the job & \\ \hline
+ & 2. Enables worker tracking for the accepted job \\ \hline
+3. Customer views the automatically displayed tracking map & \\ \hline
+ & 4. Displays the worker's live moving location \\ \hline
+5. Worker reaches the customer's location & \\ \hline
+ & 6. Shows worker a prompt: ``Have you arrived?'' \\ \hline
+7. Worker selects ``Yes'' & \\ \hline
+ & 8. Sends arrival message to the customer \\ \hline
+9. Customer selects ``Yes'' to confirm arrival & \\ \hline
+ & 10. Updates job status to \texttt{working} and shows that the worker is doing work \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-07: Real-Time Worker Tracking Map}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-08
+% ------------------------------------------
+\subsection*{Use Case 8: Customer Cancels Job}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-08 \\ \hline
+\textbf{Use Case Name:} & Customer Cancels Job\\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: Firestore Database, Worker (notified) \\ \hline
+\textbf{Description:} & Until the worker has not arrived at the customer location, the customer can cancel the job. When the customer cancels, the system displays a cancellation interface where the customer must enter or select the reason for cancelling. The cancellation reason is stored and sent to the worker in chat so the worker can see why the job was cancelled. \\ \hline
+\textbf{Trigger:} & Customer taps ``Cancel Job'' before the worker has arrived. \\ \hline
+\textbf{Preconditions:} & 1. Job \texttt{status} is \texttt{pending} or \texttt{accepted}. \newline 2. Worker has not arrived at the customer location. \\ \hline
+\textbf{Post Conditions:} & 1. Job \texttt{status} is updated to \texttt{cancelled}. \newline 2. Cancellation reason is stored. \newline 3. Cancellation reason is sent to the worker in chat. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Customer aborts cancellation -- job remains unchanged. \newline \textbf{Alt-2:} Customer does not enter a reason -- system asks the customer to provide a reason before cancellation. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Worker has already arrived or job is already in working/completed state -- cancellation is rejected with a message. \\ \hline
+\end{tabular}
+\caption*{UC-08: Customer Cancels Job (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer taps ``Cancel Job'' before worker arrival & \\ \hline
+ & 2. Checks that the worker has not arrived yet \\ \hline
+ & 3. Displays cancellation interface requiring a reason \\ \hline
+4. Customer enters or selects the cancellation reason and confirms & \\ \hline
+ & 5. Updates job \texttt{status} to \texttt{cancelled} and stores the reason \\ \hline
+ & 6. Sends the cancellation reason to the worker in chat \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-08: Customer Cancels Job}
+\end{table}
+}
+
+\newpage
+
+
+% ------------------------------------------
+% UC-09
+% ------------------------------------------
+\subsection*{Use Case 9: Customer Complaint and Admin Chat}
+
+{\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.9}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{2.7cm}|p{12.1cm}|}
+\hline
+\textbf{Use Case ID:} & UC-09 \\ \hline
+\textbf{Use Case Name:} & Customer Complaint and Admin Chat \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: Administrator, Firestore, Cloudinary, Chat Service \\ \hline
+\textbf{Description:} & Customer opens Settings, selects Customer Support, chooses a work/order from history, enters complaint details, and starts admin chat. Admin opens Complaints, views the user's complaint details, and chats with the customer. \\ \hline
+\textbf{Trigger:} & Customer clicks Settings, then ``Customer Support''. \\ \hline
+\textbf{Preconditions:} & 1. Customer is logged in. \newline 2. Work/order history exists. \\ \hline
+\textbf{Post Conditions:} & 1. Complaint details are saved. \newline 2. Admin chat is opened. \newline 3. Complaint appears in admin Complaints. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} No history exists -- empty message shown. \newline \textbf{Alt-2:} Photos or claim amount are skipped -- complaint is still submitted. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Submission or photo upload fails -- retry option is shown. \\ \hline
+\end{tabular}
+\caption*{UC-09: Customer Complaint and Admin Chat (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.9}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{2.2cm}|p{12.6cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{6.15cm}|p{6.15cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer clicks Settings in home navbar & \\ \hline
+2. Customer clicks ``Customer Support'' & \\ \hline
+ & 3. Displays history of works/orders \\ \hline
+4. Customer clicks a work/order from history & \\ \hline
+ & 5. Opens complaint input form \\ \hline
+6. Customer enters issue description, photos, and optional claim amount & \\ \hline
+7. Customer clicks ``Submit \& Chat with Admin'' & \\ \hline
+ & 8. Saves complaint and opens admin chat UI \\ \hline
+9. Admin clicks ``Complaints'' in navbar & \\ \hline
+ & 10. Displays complaint usernames \\ \hline
+11. Admin clicks customer username & \\ \hline
+ & 12. Shows details, images, optional amount, and chat option \\ \hline
+13. Admin chats with customer & \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-09: Customer Complaint and Admin Chat}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-10
+% ------------------------------------------
+\subsection*{Use Case 10: Worker Sign Up, Login, and Approval}
+
+{\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.9}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{2.7cm}|p{12.1cm}|}
+\hline
+\textbf{Use Case ID:} & UC-10 \\ \hline
+\textbf{Use Case Name:} & Worker Sign Up, Login, and Approval \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Worker \quad Secondary: Administrator, Firebase Authentication, Email OTP Service, Firestore, Cloudinary \\ \hline
+\textbf{Description:} & Worker opens the work login page, logs in, resets password through OTP, or signs up with personal details, category, and documents. Signup is sent to admin for approval or rejection. \\ \hline
+\textbf{Trigger:} & Worker clicks ``I Want to Work'' on the home/welcome page. \\ \hline
+\textbf{Preconditions:} & 1. Worker has internet access. \newline 2. Worker has valid email, CNIC, and required documents. \\ \hline
+\textbf{Post Conditions:} & 1. Approved worker can log in. \newline 2. Signup is stored as pending. \newline 3. Approval email or rejection reason is sent. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Forgot password uses email OTP and new password entry. \newline \textbf{Alt-2:} Admin rejects worker with written reason. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Invalid email/password or OTP -- error shown. \newline \textbf{E2:} Missing field/document -- signup blocked. \\ \hline
+\end{tabular}
+\caption*{UC-10: Worker Sign Up, Login, and Approval (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{0.72}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{1.6cm}|p{13.4cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{6.55cm}|p{6.55cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Worker clicks ``I Want to Work'' & \\ \hline
+ & 2. Shows worker login page \\ \hline
+3. Worker enters correct email/password and logs in & \\ \hline
+ & 4. If approved, opens worker home screen \\ \hline
+5. Worker clicks ``Forgot Password'' if needed & \\ \hline
+ & 6. Sends OTP to worker email and shows OTP UI \\ \hline
+7. Worker enters OTP, new password, and confirm password & \\ \hline
+ & 8. Updates password and returns worker to login page \\ \hline
+9. Worker clicks ``Signup'' if new & \\ \hline
+10. Worker enters name, email, mobile, CNIC, password, confirm password, and category & \\ \hline
+11. Worker uploads profile picture, CNIC front/back, police certificate, and specialization certificate & \\ \hline
+12. Worker clicks ``Sign Up'' & \\ \hline
+ & 13. Shows OTP screen and sends OTP to email \\ \hline
+14. Worker enters correct OTP & \\ \hline
+ & 15. Stores worker details as pending and returns worker to login page \\ \hline
+16. Admin clicks ``Workers'' in navbar & \\ \hline
+ & 17. Shows worker names with pending, approved, and rejected status \\ \hline
+18. Admin opens pending worker details & \\ \hline
+ & 19. Shows all worker inputs and uploaded documents \\ \hline
+20. Admin accepts or rejects worker & \\ \hline
+ & 21. Sends approval email or rejection reason to worker \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-10: Worker Sign Up, Login, and Approval}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-11
+% ------------------------------------------
+\subsection*{Use Case 11: Worker Toggles Online/Offline Presence}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-11 \\ \hline
+\textbf{Use Case Name:} & Worker Toggles Online/Offline Presence (Heartbeat) \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Worker \quad Secondary: Firestore Database \\ \hline
+\textbf{Description:} & The worker toggles their availability so customers only see them when they are ready to work. Toggling updates \texttt{isOnline} and \texttt{lastSeenAt} in Firestore; the app pings a 30-second heartbeat while active and automatically sets the worker offline when the app goes to the background. \\ \hline
+\textbf{Trigger:} & Worker taps the availability toggle on their home screen. \\ \hline
+\textbf{Preconditions:} & 1. Worker is authenticated and approved. \\ \hline
+\textbf{Post Conditions:} & 1. \texttt{isOnline} and \texttt{lastSeenAt} fields are updated in Firestore. \newline 2. Worker's visibility in customer search results changes accordingly. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} App backgrounded -- system automatically sets \texttt{isOnline: false}. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Heartbeat write fails -- worker treated as offline after timeout. \\ \hline
+\end{tabular}
+\caption*{UC-11: Worker Toggles Online/Offline Presence (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Worker taps availability toggle ON & \\ \hline
+ & 2. Sets \texttt{isOnline: true} and updates \texttt{lastSeenAt} in Firestore \\ \hline
+ & 3. Starts 30-second heartbeat ping loop \\ \hline
+ & 4. Worker now appears in customer search results \\ \hline
+5. Worker toggles OFF or backgrounds the app & \\ \hline
+ & 6. Sets \texttt{isOnline: false}; stops heartbeat \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-11: Worker Toggles Online/Offline Presence}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% ------------------------------------------
+% UC-12
+% ------------------------------------------
+\subsection*{Use Case 12: Worker Manages Skills and Rates}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-12 \\ \hline
+\textbf{Use Case Name:} & Worker Manages Skills and Rates \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Worker \quad Secondary: Firestore Database \\ \hline
+\textbf{Description:} & The worker clicks Settings in the navigation bar, then clicks ``Skills and Services''. On this screen, the worker adds the services they provide and enters the price for each service. When the worker clicks ``Complete Setup'', the services and prices are saved so customers can view accurate worker service details. \\ \hline
+\textbf{Trigger:} & Worker clicks Settings in the navigation bar and selects ``Skills and Services''. \\ \hline
+\textbf{Preconditions:} & 1. Worker is authenticated and approved. \\ \hline
+\textbf{Post Conditions:} & 1. Worker services and prices are saved. \newline 2. Customers can see the worker's updated services and prices. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Worker edits or removes a service -- updated service list is saved after completing setup. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Worker leaves services or prices empty -- system asks the worker to complete required fields. \\ \hline
+\end{tabular}
+\caption*{UC-12: Worker Manages Skills and Rates (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Worker clicks Settings in the navigation bar & \\ \hline
+2. Worker clicks ``Skills and Services'' & \\ \hline
+ & 3. Opens services setup screen \\ \hline
+4. Worker adds services and enters prices & \\ \hline
+5. Worker clicks ``Complete Setup'' & \\ \hline
+ & 6. Saves worker services and prices; confirms setup completion \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-12: Worker Manages Skills and Rates}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-13
+% ------------------------------------------
+\subsection*{Use Case 13: Worker Receives Job Offers}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-13 \\ \hline
+\textbf{Use Case Name:} & Worker Receives Job Offers \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Worker \quad Secondary: Firestore Database, Customer (originator) \\ \hline
+\textbf{Description:} & The worker sees new incoming job requests from customers in real time on their dashboard via the \texttt{streamWorkerJobs} Firestore stream. Expired job offers are automatically hidden from the list. \\ \hline
+\textbf{Trigger:} & A new \texttt{jobs} document addressed to the worker with \texttt{status: pending} is created in Firestore. \\ \hline
+\textbf{Preconditions:} & 1. Worker is authenticated, approved, and online. \\ \hline
+\textbf{Post Conditions:} & 1. The new offer is displayed on the worker's dashboard with job details. \newline 2. Expired offers are hidden automatically. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Multiple simultaneous offers -- all are listed, sorted by recency. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Offer expires before the worker views it -- it is filtered out of the stream. \\ \hline
+\end{tabular}
+\caption*{UC-13: Worker Receives Job Offers (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Worker has dashboard open (online) & \\ \hline
+ & 2. \texttt{streamWorkerJobs} listens for jobs addressed to the worker \\ \hline
+ & 3. New pending job pushed to dashboard instantly \\ \hline
+4. Worker reviews job details (issue, location, price) & \\ \hline
+ & 5. Expired offers are filtered out automatically \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-13: Worker Receives Job Offers}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-14
+% ------------------------------------------
+\subsection*{Use Case 14: Worker Accepts or Declines Job}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-14 \\ \hline
+\textbf{Use Case Name:} & Worker Accepts or Declines Job \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Worker \quad Secondary: Firestore Database, Customer (notified) \\ \hline
+\textbf{Description:} & The worker accepts or declines a job offer, moving the job through the pipeline (\texttt{pending} $\rightarrow$ \texttt{accepted}/\texttt{declined} $\rightarrow$ \texttt{working} $\rightarrow$ \texttt{completed}). The status update is written to the Firestore job document, and the customer's app reflects the change in real time. \\ \hline
+\textbf{Trigger:} & Worker taps ``Accept'' or ``Decline'' on a pending job offer. \\ \hline
+\textbf{Preconditions:} & 1. A pending, non-expired offer exists for this worker. \\ \hline
+\textbf{Post Conditions:} & 1. Job \texttt{status} updated in Firestore. \newline 2. Customer's dashboard updates in real time. \newline 3. If accepted, chat and job pipeline become active. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Worker declines -- customer notified and may select another worker. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Offer expires as worker responds -- action rejected; ``Offer expired'' shown. \\ \hline
+\end{tabular}
+\caption*{UC-14: Worker Accepts or Declines Job (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Worker reviews pending job offer & \\ \hline
+2. Worker taps ``Accept'' & \\ \hline
+ & 3. Updates job document: \texttt{status: accepted} \\ \hline
+ & 4. Customer's listener detects change; dashboard shows worker is on the way \\ \hline
+ & 5. Activates chat channel between both parties \\ \hline
+6. Worker progresses job (\texttt{working} $\rightarrow$ \texttt{completed}) & \\ \hline
+ & 7. Each status change streams to the customer in real time \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-14: Worker Accepts or Declines Job}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-15
+% ------------------------------------------
+\subsection*{Use Case 15: Worker Views Earnings and Tops Up Balance}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-15 \\ \hline
+\textbf{Use Case Name:} & Worker Views Earnings and Tops Up Balance \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Worker \quad Secondary: Firestore Database, Easypaisa, JazzCash \\ \hline
+\textbf{Description:} & The worker clicks ``Earnings'' in the navigation bar to view My Earnings, all transaction history, and current top-up balance. If the worker clicks ``Top Up'', the system lets the worker select Easypaisa or JazzCash, enter/send money, and add it to the worker's top-up balance. \\ \hline
+\textbf{Trigger:} & Worker clicks ``Earnings'' in the navigation bar. \\ \hline
+\textbf{Preconditions:} & 1. Worker is authenticated and approved. \newline 2. Worker has access to Easypaisa or JazzCash for top-up. \\ \hline
+\textbf{Post Conditions:} & 1. My Earnings, all transactions, and top-up balance are displayed. \newline 2. Successful top-up amount is added to worker balance. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} No transactions exist -- empty transaction history is shown. \newline \textbf{Alt-2:} Worker cancels top-up -- balance remains unchanged. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Payment fails -- top-up is not added and retry option is shown. \\ \hline
+\end{tabular}
+\caption*{UC-15: Worker Views Earnings and Tops Up Balance (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Worker clicks ``Earnings'' in the navigation bar & \\ \hline
+ & 2. Displays My Earnings, all transactions, and top-up balance \\ \hline
+3. Worker clicks ``Top Up'' & \\ \hline
+ & 4. Shows payment method options: Easypaisa and JazzCash \\ \hline
+5. Worker selects Easypaisa or JazzCash and sends money & \\ \hline
+ & 6. Verifies payment and adds amount to worker top-up balance \\ \hline
+ & 7. Records top-up in transaction history \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-15: Worker Views Earnings and Tops Up Balance}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-16
+% ------------------------------------------
+\subsection*{Use Case 16: Worker Voice Navigation (Accessibility)}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-16 \\ \hline
+\textbf{Use Case Name:} & Worker Voice Navigation (Accessibility) \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Worker (low-literacy user) \quad Secondary: Speech Service \\ \hline
+\textbf{Description:} & An illiterate or low-literacy worker navigates the app using voice commands in Urdu, improving accessibility. \textit{Current status: the UI exists; the \texttt{speech\_service.dart} engine is a stub and full speech recognition will be integrated in Phase~2.} \\ \hline
+\textbf{Trigger:} & Worker taps the microphone/voice navigation button. \\ \hline
+\textbf{Preconditions:} & 1. Microphone permission is granted. \newline 2. Voice navigation is enabled in settings. \\ \hline
+\textbf{Post Conditions:} & 1. The spoken command is recognised and mapped to a navigation action. \newline 2. The app navigates to the requested screen. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Command not recognised -- system asks the worker to repeat in Urdu. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Microphone permission denied -- system explains how to enable it. \\ \hline
+\end{tabular}
+\caption*{UC-16: Worker Voice Navigation (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Worker taps microphone button & \\ \hline
+ & 2. Starts listening via speech service \\ \hline
+3. Worker speaks a command in Urdu (e.g., ``show my jobs'') & \\ \hline
+ & 4. Converts speech to text and maps it to a route \\ \hline
+ & 5. Navigates to the requested screen and confirms audibly \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-16: Worker Voice Navigation (Accessibility)}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-17
+% ------------------------------------------
+\subsection*{Use Case 17: Customer and Worker Change App Language}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-17 \\ \hline
+\textbf{Use Case Name:} & Customer and Worker Change App Language \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer, Worker \quad Secondary: Local Storage, Firestore Database \\ \hline
+\textbf{Description:} & Customer or worker clicks Settings in the navigation bar and then clicks ``Language''. The user can switch the complete application language from English to Urdu or from Urdu to English. After selection, the language of the entire app interface is updated. \\ \hline
+\textbf{Trigger:} & Customer or worker opens Settings from the navigation bar and selects ``Language''. \\ \hline
+\textbf{Preconditions:} & 1. User is logged in as customer or worker. \\ \hline
+\textbf{Post Conditions:} & 1. Selected language preference is saved. \newline 2. Entire app interface changes to English or Urdu. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} User cancels language selection -- previous language remains active. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Language preference fails to save -- system keeps the previous language and shows an error message. \\ \hline
+\end{tabular}
+\caption*{UC-17: Customer and Worker Change App Language (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer or worker clicks Settings in the navigation bar & \\ \hline
+2. User clicks ``Language'' & \\ \hline
+ & 3. Shows language options: English and Urdu \\ \hline
+4. User selects English or Urdu & \\ \hline
+ & 5. Saves selected language preference \\ \hline
+ & 6. Changes the entire app interface language \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-17: Customer and Worker Change App Language}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-18
+% ------------------------------------------
+\subsection*{Use Case 18: Admin Worker Approval Workflow}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-18 \\ \hline
+\textbf{Use Case Name:} & Admin Worker Approval Workflow \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Administrator \quad Secondary: Firestore Database, Worker (notified) \\ \hline
+\textbf{Description:} & The administrator opens the dashboard and clicks ``Workers'' in the navigation bar. The admin views pending worker requests, opens any pending request, and reviews all submitted details including name, email, phone number, CNIC number, selected category, and uploaded images/documents. The admin can accept the worker or reject the request by writing a rejection reason. \\ \hline
+\textbf{Trigger:} & Admin clicks ``Workers'' in the dashboard navigation bar. \\ \hline
+\textbf{Preconditions:} & 1. Admin is authenticated with admin-role credentials. \newline 2. At least one worker request is pending. \\ \hline
+\textbf{Post Conditions:} & 1. Worker status is updated to approved or rejected. \newline 2. If approved, worker can log in and work. \newline 3. If rejected, rejection reason is stored and sent to worker. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Admin does not decide -- worker remains pending. \newline \textbf{Alt-2:} Admin rejects worker -- admin must enter rejection reason. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Uploaded image fails to load -- admin is shown an error and can retry. \\ \hline
+\end{tabular}
+\caption*{UC-18: Admin Worker Approval Workflow (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Admin opens dashboard & \\ \hline
+2. Admin clicks ``Workers'' in the navigation bar & \\ \hline
+ & 3. Displays workers with pending, approved, and rejected status \\ \hline
+4. Admin clicks any pending worker request & \\ \hline
+ & 5. Shows name, email, phone number, CNIC number, category, and uploaded images/documents \\ \hline
+6. Admin clicks ``Accept'' & \\ \hline
+ & 7. Updates worker status to approved and notifies worker \\ \hline
+8. Admin clicks ``Reject'' if request is invalid & \\ \hline
+9. Admin writes rejection reason & \\ \hline
+ & 10. Updates worker status to rejected and sends rejection reason to worker \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-18: Admin Worker Approval Workflow}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-19
+% ------------------------------------------
+\subsection*{Use Case 19: Admin Views Jobs and Applies Penalty}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-19 \\ \hline
+\textbf{Use Case Name:} & Admin Views Jobs and Applies Penalty \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Administrator \quad Secondary: Firestore (\texttt{jobs}), Worker Top-Up Balance \\ \hline
+\textbf{Description:} & The admin clicks ``Jobs'' in the navigation bar. The Jobs screen has two buttons: ``Completed'' and ``Ongoing''. The admin can view job details including customer name, worker name, status, and amount. For completed jobs only, the admin can apply a 5\% penalty, 10\% penalty, or a custom penalty amount, which is deducted from the worker's top-up balance. \\ \hline
+\textbf{Trigger:} & Admin clicks ``Jobs'' in the navigation bar. \\ \hline
+\textbf{Preconditions:} & 1. Admin is authenticated with admin-role credentials. \newline 2. Jobs exist in the system. \\ \hline
+\textbf{Post Conditions:} & 1. Completed or ongoing jobs are displayed. \newline 2. Job details are shown to admin. \newline 3. Penalty is deducted from worker top-up balance for completed jobs only. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Admin selects Ongoing -- penalty option is hidden or disabled. \newline \textbf{Alt-2:} Admin enters custom penalty -- system deducts the custom amount from worker balance. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Worker top-up balance is insufficient -- system shows an error or records pending deduction. \\ \hline
+\end{tabular}
+\caption*{UC-19: Admin Views Jobs and Applies Penalty (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Admin clicks ``Jobs'' in the navigation bar & \\ \hline
+ & 2. Displays ``Completed'' and ``Ongoing'' buttons \\ \hline
+3. Admin clicks ``Completed'' or ``Ongoing'' & \\ \hline
+ & 4. Shows matching jobs with customer name, worker name, status, and amount \\ \hline
+5. Admin opens a completed job & \\ \hline
+ & 6. Shows penalty options: 5\%, 10\%, or custom penalty \\ \hline
+7. Admin selects 5\%, 10\%, or enters custom penalty & \\ \hline
+ & 8. Deducts penalty from worker top-up balance and records it \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-19: Admin Views Jobs and Applies Penalty}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-20
+% ------------------------------------------
+\subsection*{Use Case 20: Admin Views Platform Stats}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-20 \\ \hline
+\textbf{Use Case Name:} & Admin Views Platform Stats \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Administrator \quad Secondary: Firestore Database \\ \hline
+\textbf{Description:} & Admin clicks \texttt{Platform Stats} on the home page and views total revenue, active jobs, total users, top service categories, and booking trends for today, weekly, monthly, and yearly views. \\ \hline
+\textbf{Trigger:} & Admin clicks \texttt{Platform Stats} on the home page. \\ \hline
+\textbf{Preconditions:} & 1. Admin is authenticated with admin-role credentials. \\ \hline
+\textbf{Post Conditions:} & 1. Platform statistics are displayed. \newline 2. Booking trends reflect the selected time filter. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Admin changes the booking trend filter to view today, weekly, monthly, or yearly statistics. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Statistics cannot be loaded -- system displays an error message and prompts the admin to retry. \\ \hline
+\end{tabular}
+\caption*{UC-20: Admin Views Platform Stats (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Admin clicks \texttt{Platform Stats} on the home page & \\ \hline
+ & 2. Displays total revenue, active jobs, total users, and top service categories \\ \hline
+3. Admin selects trend filter: \texttt{Today}, \texttt{Weekly}, \texttt{Monthly}, or \texttt{Yearly} & \\ \hline
+ & 4. Displays booking trends according to the selected filter \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-20: Admin Views Platform Stats}
+\end{table}
+}
+\newpage
+
+% ------------------------------------------
+% UC-21
+% ------------------------------------------
+\subsection*{Use Case 21: Admin Manages Damage Claims and Security Deposits}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-21 \\ \hline
+\textbf{Use Case Name:} & Admin Manages Damage Claims and Security Deposits \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Administrator \quad Secondary: Firestore (\texttt{damage\_claims}), Worker, Customer \\ \hline
+\textbf{Description:} & The admin reviews damage claims filed by customers and, where justified, deducts compensation from the responsible worker's security deposit. \textit{Current status: review UI (bottom sheets) and Firestore streams are defined; the full claim lifecycle and financial transaction logic are planned for Phase~2.} \\ \hline
+\textbf{Trigger:} & A new document appears in the \texttt{damage\_claims} collection. \\ \hline
+\textbf{Preconditions:} & 1. Admin is authenticated with admin-role credentials. \newline 2. A pending damage claim exists with supporting evidence. \\ \hline
+\textbf{Post Conditions:} & 1. Claim is marked \texttt{approved} or \texttt{rejected}. \newline 2. If approved, deduction is recorded against the worker's security deposit. \newline 3. Both parties are notified of the outcome. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Admin requests more evidence -- claim stays pending with a note. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Deposit balance insufficient -- partial deduction recorded and flagged for follow-up. \\ \hline
+\end{tabular}
+\caption*{UC-21: Admin Manages Damage Claims (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Admin opens damage claims list & \\ \hline
+ & 2. Streams pending documents from \texttt{damage\_claims} \\ \hline
+3. Admin reviews claim details and evidence & \\ \hline
+4. Admin approves the claim and enters deduction amount & \\ \hline
+ & 5. Updates claim status; records deduction against worker's deposit \\ \hline
+ & 6. Notifies worker and customer of the resolution \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-21: Admin Manages Damage Claims and Security Deposits}
+\end{table}
+}
+
+\newpage
+
+
+% ------------------------------------------
+% UC-22
+% ------------------------------------------
+\subsection*{Use Case 22: Customer Adds Favourite Worker}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-22 \\ \hline
+\textbf{Use Case Name:} & Customer Adds Favourite Worker \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: Firestore Database \\ \hline
+\textbf{Description:} & The customer saves a preferred worker as a favourite for quick access in future bookings. \\ \hline
+\textbf{Trigger:} & Customer taps the favourite button on a worker profile. \\ \hline
+\textbf{Preconditions:} & 1. Customer is logged in. \newline 2. Worker profile is available. \\ \hline
+\textbf{Post Conditions:} & 1. Worker is added to the customer's favourites list. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Customer removes the worker from favourites. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Save fails -- system shows an error message. \\ \hline
+\end{tabular}
+\caption*{UC-22: Customer Adds Favourite Worker (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer opens worker profile & \\ \hline
+2. Customer taps favourite button & \\ \hline
+ & 3. Saves worker ID in customer's favourites list \\ \hline
+ & 4. Shows confirmation to customer \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-22: Customer Adds Favourite Worker}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-23
+% ------------------------------------------
+\subsection*{Use Case 23: Customer Views Past and Active Bookings}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-23 \\ \hline
+\textbf{Use Case Name:} & Customer Views Past and Active Bookings \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: Firestore Database \\ \hline
+\textbf{Description:} & The customer taps the booking icon in the home page navigation bar. The bookings screen displays two top buttons, ``Active'' and ``Past''. Active bookings show work that is currently being performed, while past bookings show completed booking records including worker name, work performed, date, time, and amount. \\ \hline
+\textbf{Trigger:} & Customer taps the booking icon in the home page navigation bar. \\ \hline
+\textbf{Preconditions:} & 1. Customer is logged in. \\ \hline
+\textbf{Post Conditions:} & 1. Active bookings and past bookings are displayed under their respective tabs. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} No active work exists -- the Active tab shows an empty state. \newline \textbf{Alt-2:} No past bookings exist -- the Past tab shows an empty state. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Booking data fails to load -- retry option is shown. \\ \hline
+\end{tabular}
+\caption*{UC-23: Customer Views Past and Active Bookings (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer taps booking icon in the home page navigation bar & \\ \hline
+ & 2. Opens bookings screen with Active and Past buttons at the top \\ \hline
+3. Customer selects Active & \\ \hline
+ & 4. Shows any work currently being performed \\ \hline
+5. Customer selects Past & \\ \hline
+ & 6. Shows completed bookings with worker name, work performed, date, time, and amount \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-23: Customer Views Past and Active Bookings}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-23
+% ------------------------------------------
+\subsection*{Use Case 24: Customer Rates Worker}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-24 \\ \hline
+\textbf{Use Case Name:} & Customer Rates Worker \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: Firestore Database, Worker \\ \hline
+\textbf{Description:} & The customer rates a worker after service completion. \\ \hline
+\textbf{Trigger:} & Customer opens a completed booking. \\ \hline
+\textbf{Preconditions:} & 1. Booking is completed. \newline 2. Customer has not already submitted a rating. \\ \hline
+\textbf{Post Conditions:} & 1. Rating is saved and reflected on the worker profile. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Customer skips rating. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Rating save fails -- customer can retry. \\ \hline
+\end{tabular}
+\caption*{UC-24: Customer Rates Worker (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer opens completed booking & \\ \hline
+2. Customer selects rating and submits & \\ \hline
+ & 3. Stores rating against booking and worker \\ \hline
+ & 4. Updates worker average rating \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-24: Customer Rates Worker}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-24
+% ------------------------------------------
+\subsection*{Use Case 25: Customer Pays for Services}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-25 \\ \hline
+\textbf{Use Case Name:} & Customer Pays for Services \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer \quad Secondary: Payment Service, Firestore Database, Worker \\ \hline
+\textbf{Description:} & The customer pays the worker for a booked service. \\ \hline
+\textbf{Trigger:} & Customer confirms payment for a job. \\ \hline
+\textbf{Preconditions:} & 1. Job exists. \newline 2. Payment amount is available. \\ \hline
+\textbf{Post Conditions:} & 1. Payment status is recorded. \newline 2. Worker earnings are updated. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Customer chooses cash payment. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Payment fails -- job remains unpaid. \\ \hline
+\end{tabular}
+\caption*{UC-25: Customer Pays for Services (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Customer opens payment screen & \\ \hline
+2. Customer confirms payment & \\ \hline
+ & 3. Processes payment or records cash mode \\ \hline
+ & 4. Updates job payment status \\ \hline
+ & 5. Updates worker earnings \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-25: Customer Pays for Services}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-25
+% ------------------------------------------
+\subsection*{Use Case 26: Worker Tops Up Account Balance}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-26 \\ \hline
+\textbf{Use Case Name:} & Worker Tops Up Account Balance \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Worker \quad Secondary: Payment Service, Firestore Database \\ \hline
+\textbf{Description:} & The worker adds money to their account balance. \\ \hline
+\textbf{Trigger:} & Worker opens wallet and selects top up. \\ \hline
+\textbf{Preconditions:} & 1. Worker is logged in. \newline 2. Payment method is available. \\ \hline
+\textbf{Post Conditions:} & 1. Worker balance is increased. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Worker cancels the top-up process. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Payment fails -- balance is not updated. \\ \hline
+\end{tabular}
+\caption*{UC-26: Worker Tops Up Account Balance (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. Worker opens wallet screen & \\ \hline
+2. Worker enters top-up amount & \\ \hline
+3. Worker confirms payment & \\ \hline
+ & 4. Processes payment \\ \hline
+ & 5. Updates worker balance \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-26: Worker Tops Up Account Balance}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-26
+% ------------------------------------------
+\subsection*{Use Case 27: Users Control App Functions Using Voice Commands}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-27 \\ \hline
+\textbf{Use Case Name:} & Users Control App Functions Using Voice Commands \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer, Worker, Administrator \quad Secondary: Speech Service \\ \hline
+\textbf{Description:} & Users perform app actions by speaking voice commands. \\ \hline
+\textbf{Trigger:} & User taps the microphone button. \\ \hline
+\textbf{Preconditions:} & 1. User is logged in. \newline 2. Microphone permission is granted. \\ \hline
+\textbf{Post Conditions:} & 1. Voice command is converted into an app action. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} Command is not recognized -- user is asked to repeat. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Microphone permission denied -- permission message is shown. \\ \hline
+\end{tabular}
+\caption*{UC-27: Users Control App Functions Using Voice Commands (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. User taps microphone button & \\ \hline
+2. User speaks a command & \\ \hline
+ & 3. Converts speech to text \\ \hline
+ & 4. Matches command with app action \\ \hline
+ & 5. Performs requested action \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-27: Users Control App Functions Using Voice Commands}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-27
+% ------------------------------------------
+\subsection*{Use Case 28: Customers and Workers Upload Profile Pictures}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-28 \\ \hline
+\textbf{Use Case Name:} & Customers and Workers Upload Profile Pictures \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer, Worker \quad Secondary: Cloudinary, Firestore Database \\ \hline
+\textbf{Description:} & Customers and workers upload or update profile pictures. \\ \hline
+\textbf{Trigger:} & User selects update profile picture. \\ \hline
+\textbf{Preconditions:} & 1. User is logged in. \newline 2. Image is selected from device. \\ \hline
+\textbf{Post Conditions:} & 1. New profile picture is saved and displayed. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} User removes existing profile picture. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Upload fails -- old picture remains unchanged. \\ \hline
+\end{tabular}
+\caption*{UC-28: Customers and Workers Upload Profile Pictures (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. User opens profile screen & \\ \hline
+2. User selects a profile picture & \\ \hline
+ & 3. Uploads image to Cloudinary \\ \hline
+ & 4. Saves image URL in Firestore \\ \hline
+ & 5. Displays updated profile picture \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-28: Customers and Workers Upload Profile Pictures}
+\end{table}
+}
+
+\newpage
+
+% ------------------------------------------
+% UC-28
+% ------------------------------------------
+\subsection*{Use Case 29: Users Change App Language}
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Use Case ID:} & UC-29 \\ \hline
+\textbf{Use Case Name:} & Users Change App Language \\ \hline
+\textbf{Created By:} & Bilal Aziz \hfill \textbf{Date Created:} 15-Apr-2026 \\ \hline
+\textbf{Actors:} & Primary: Customer, Worker, Administrator \quad Secondary: Local Settings Storage \\ \hline
+\textbf{Description:} & Users switch the app language between English and Urdu. \\ \hline
+\textbf{Trigger:} & User selects a language option from settings. \\ \hline
+\textbf{Preconditions:} & 1. User has opened the app settings. \\ \hline
+\textbf{Post Conditions:} & 1. Selected language is applied to the app interface. \\ \hline
+\textbf{Alternative Flows:} & \textbf{Alt-1:} User keeps the current language. \\ \hline
+\textbf{Exceptions:} & \textbf{E1:} Language save fails -- previous language remains active. \\ \hline
+\end{tabular}
+\caption*{UC-29: Users Change App Language (Part 1)}
+\end{table}
+}
+
+\newpage
+
+{\small
+\renewcommand{\arraystretch}{1.05}
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{3cm}|p{11.2cm}|}
+\hline
+\textbf{Normal Flow:} &
+\begin{tabular}[t]{|p{5.4cm}|p{5.4cm}|}
+\hline
+\textbf{Actor} & \textbf{System} \\ \hline
+1. User opens language settings & \\ \hline
+2. User selects English or Urdu & \\ \hline
+ & 3. Saves selected language preference \\ \hline
+ & 4. Updates app interface language \\ \hline
+\end{tabular} \\ \hline
+\end{tabular}
+\caption{UC-29: Users Change App Language}
+\end{table}
+}
+
+\newpage
+
 % ==========================================
-% USE CASE TABLES (PLACEHOLDERS)
-% ==========================================
-
-\subsection*{Use Case 1: Customer Register and Login with OTP}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_01.png}
-\caption{UC-01: Customer Register and Login with OTP}
-\end{figure}
-
-\newpage
-
-\subsection*{Use Case 2: Customer Posts Job Request}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_02.png}
-\caption{UC-02: Customer Posts Job Request}
-\end{figure}
-
-\newpage
-
-\subsection*{Use Case 3: Worker Registers with CNIC and Security Deposit}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_03.png}
-\caption{UC-03: Worker Registers with CNIC and Security Deposit}
-\end{figure}
-
-\newpage
-
-\subsection*{Use Case 4: Admin Verifies Worker Documents}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_04.png}
-\caption{UC-04: Admin Verifies Worker Documents}
-\end{figure}
-
-\newpage
-
-\subsection*{Use Case 5: Worker Accepts or Rejects Job Request}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_05.png}
-\caption{UC-05: Worker Accepts or Rejects Job Request}
-\end{figure}
-
-\newpage
-
-\subsection*{Use Case 6: Real-Time Chat with Automatic Translation}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_06.png}
-\caption{UC-06: Real-Time Chat with Automatic Translation}
-\end{figure}
-
-\newpage
-
-\subsection*{Use Case 7: Customer Makes In-App Payment}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_07.png}
-\caption{UC-07: Customer Makes In-App Payment}
-\end{figure}
-
-\newpage
-
-\subsection*{Use Case 8: Customer Rates and Reviews Worker}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_08.png}
-\caption{UC-08: Customer Rates and Reviews Worker}
-\end{figure}
-
-\newpage
-
-\subsection*{Use Case 9: Customer Reports Damage or Service Issue}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_09.png}
-\caption{UC-09: Customer Reports Damage or Service Issue}
-\end{figure}
-
-\newpage
-
-\subsection*{Use Case 10: Admin Handles Damage Report and Resolves Claim}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_10.png}
-\caption{UC-10: Admin Handles Damage Report and Resolves Claim}
-\end{figure}
-
-\newpage
-
-\subsection*{Use Case 11: Worker Toggles Availability and Receives Job Alert}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_11.png}
-\caption{UC-11: Worker Toggles Availability and Receives Job Alert}
-\end{figure}
-
-\newpage
-
-\subsection*{Use Case 12: Worker Uploads Before-and-After Service Photos}
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{use_case_12.png}
-\caption{UC-12: Worker Uploads Before-and-After Service Photos}
-\end{figure}
-
-\newpage
-
-% ==========================================
-% SECTION 2.5 -- SYSTEM SEQUENCE DIAGRAMS
+% SECTION 2.5
 % ==========================================
 \section{System Sequence Diagrams}
- 
-The following diagrams show the sequence of interactions between actors and the MazdoorLink AI system for each of the primary use cases.
- 
-\subsection*{SSD 01: Customer Register and Login with OTP}
+
+The following diagrams show the sequence of interactions between actors and the
+MazdoorLink system for each of the 29 use cases. All backend interactions occur
+directly between the Flutter client and Firebase services (Authentication,
+Firestore) or external APIs (Cloudinary, Google Maps) in accordance with the
+platform's serverless architecture.
+
+\subsection*{SSD 01: Customer Sign Up and Login}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_01.png}
+\includegraphics[width=0.88\textwidth]{ssd1 (1).png}
 \caption{System Sequence Diagram -- UC-01}
 \end{figure}
-\newpage
 
-\subsection*{SSD 02: Customer Posts Job Request}
+\newpage
+\subsection*{SSD 02: Customer Selects Service Category and Issue}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_02.png}
+\includegraphics[width=0.88\textwidth]{ssd2.png}
 \caption{System Sequence Diagram -- UC-02}
 \end{figure}
-\newpage
 
-\subsection*{SSD 03: Worker Registers with CNIC and Security Deposit}
+\newpage
+\subsection*{SSD 03: Intelligent Worker Filtering}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_03.png}
+\includegraphics[width=0.88\textwidth]{ssd3.png}
 \caption{System Sequence Diagram -- UC-03}
 \end{figure}
-\newpage
 
-\subsection*{SSD 04: Admin Verifies Worker Documents}
+\newpage
+\subsection*{SSD 04: Customer Hires Worker}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_04.png}
+\includegraphics[width=0.88\textwidth]{ssd4.png}
 \caption{System Sequence Diagram -- UC-04}
 \end{figure}
-\newpage
 
-\subsection*{SSD 05: Worker Accepts or Rejects Job Request}
+\newpage
+\subsection*{SSD 05: Chat between Customer and Worker}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_05.png}
+\includegraphics[width=0.88\textwidth]{ssd05.png}
 \caption{System Sequence Diagram -- UC-05}
 \end{figure}
-\newpage
 
-\subsection*{SSD 06: Real-Time Chat with Automatic Translation}
+\newpage
+\subsection*{SSD 06: Customer Views Job History}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_06.png}
+\includegraphics[width=0.88\textwidth]{ssd06.png}
 \caption{System Sequence Diagram -- UC-06}
 \end{figure}
-\newpage
 
-\subsection*{SSD 07: Customer Makes In-App Payment}
+\newpage
+\subsection*{SSD 07: Real-Time Worker Tracking Map}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_07.png}
+\includegraphics[width=0.88\textwidth]{ssd07.png}
 \caption{System Sequence Diagram -- UC-07}
 \end{figure}
-\newpage
 
-\subsection*{SSD 08: Customer Rates and Reviews Worker}
+\newpage
+\subsection*{SSD 08: Customer Cancels Job}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_08.png}
+\includegraphics[width=0.88\textwidth]{ssd08.png}
 \caption{System Sequence Diagram -- UC-08}
 \end{figure}
-\newpage
 
-\subsection*{SSD 09: Customer Reports Damage or Service Issue}
+
+\newpage
+\subsection*{SSD 09: Customer Complaint and Admin Chat}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_09.png}
-\caption{System Sequence Diagram -- UC-09}
+\includegraphics[width=0.88\textwidth]{ssd10.png}
+\caption{System Sequence Diagram -- UC09}
 \end{figure}
-\newpage
 
-\subsection*{SSD 10: Admin Handles Damage Report and Resolves Claim}
+\newpage
+\subsection*{SSD 10: Worker Sign Up, Login, and Approval}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_10.png}
+\includegraphics[width=0.88\textwidth]{ssd11.png}
 \caption{System Sequence Diagram -- UC-10}
 \end{figure}
-\newpage
 
-\subsection*{SSD 11: Worker Toggles Availability and Receives Job Alert}
+\newpage
+\subsection*{SSD 11: Worker Toggles Online/Offline Presence}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_11.png}
+\includegraphics[width=0.88\textwidth]{ssd12.png}
 \caption{System Sequence Diagram -- UC-11}
 \end{figure}
-\newpage
 
-\subsection*{SSD 12: Worker Uploads Before-and-After Service Photos}
+\newpage
+\subsection*{SSD 12: Worker Manages Skills and Rates}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{ssd_12.png}
+\includegraphics[width=0.88\textwidth]{ssd12.png}
 \caption{System Sequence Diagram -- UC-12}
 \end{figure}
+
 \newpage
- 
-\newpage
-\section{Domain Model}
- 
-The domain model represents the conceptual entities and their relationships.
- 
+\subsection*{SSD 13: Worker Receives Job Offers}
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{domain_model.png}
-\caption{MazdoorLink AI -- Domain Model}
+\includegraphics[width=0.88\textwidth]{ssd13.png}
+\caption{System Sequence Diagram -- UC-13}
+\end{figure}
+
+\newpage
+\subsection*{SSD 14: Worker Accepts or Declines Job}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd14.png}
+\caption{System Sequence Diagram -- UC-14}
+\end{figure}
+
+\newpage
+\subsection*{SSD 15: Worker Views Earnings and Tops Up Balance}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd15.png}
+\caption{System Sequence Diagram -- UC-15}
+\end{figure}
+
+\newpage
+\subsection*{SSD 16: Worker Voice Navigation}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd16.png}
+\caption{System Sequence Diagram -- UC-16}
+\end{figure}
+
+\newpage
+\subsection*{SSD 17: Customer and Worker Change App Language}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd17.png}
+\caption{System Sequence Diagram -- UC-17}
+\end{figure}
+
+\newpage
+\subsection*{SSD 18: Admin Worker Approval Workflow}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd18.png}
+\caption{System Sequence Diagram -- UC-18}
+\end{figure}
+
+\newpage
+\subsection*{SSD 19: Admin Views Jobs and Applies Penalty}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd19.png}
+\caption{System Sequence Diagram -- UC-19}
+\end{figure}
+
+\newpage
+\subsection*{SSD 20: Admin Views Platform Stats}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd20.png}
+\caption{System Sequence Diagram -- UC-20}
+\end{figure}
+
+\newpage
+\subsection*{SSD 21: Admin Manages Damage Claims and Security Deposits}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd21.png}
+\caption{System Sequence Diagram -- UC-21}
+\end{figure}
+
+\newpage
+
+\newpage
+\subsection*{SSD 22: Customer Adds Favourite Worker}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd22.png}
+\caption{System Sequence Diagram -- UC-22}
+\end{figure}
+
+\newpage
+\subsection*{SSD 23: Customer Views Past and Active Bookings}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd23.png}
+\caption{System Sequence Diagram -- UC-23}
+\end{figure}
+
+\newpage
+\subsection*{SSD 24: Customer Rates Worker}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd24.png}
+\caption{System Sequence Diagram -- UC-24}
+\end{figure}
+
+\newpage
+\subsection*{SSD 25: Customer Pays for Services}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd25.png}
+\caption{System Sequence Diagram -- UC-25}
+\end{figure}
+
+\newpage
+\subsection*{SSD 26: Worker Tops Up Account Balance}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd26.png}
+\caption{System Sequence Diagram -- UC-26}
+\end{figure}
+
+\newpage
+\subsection*{SSD 27: Users Control App Functions Using Voice Commands}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd27.png}
+\caption{System Sequence Diagram -- UC-27}
+\end{figure}
+
+\newpage
+\subsection*{SSD 28: Customers and Workers Upload Profile Pictures}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd28.png}
+\caption{System Sequence Diagram -- UC-28}
+\end{figure}
+
+\newpage
+\subsection*{SSD 29: Users Change App Language}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth]{ssd29.png}
+\caption{System Sequence Diagram -- UC-29}
+\end{figure}
+
+% ==========================================
+% SECTION 2.6
+% ==========================================
+\section{Domain Model}
+
+The domain model represents the conceptual entities within the MazdoorLink
+platform and their relationships, reflecting the Firestore NoSQL collections
+(\texttt{users}, \texttt{jobs}, \texttt{conversations}, \texttt{messages},
+\texttt{complaints}, \texttt{damage\_claims}) and the external service
+integrations (Firebase Authentication, Cloudinary, Google Maps Platform) that
+together form the system's serverless backend.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{domain.png}
+\caption{MazdoorLink -- Domain Model}
 \label{fig:domain}
 \end{figure}
- 
-\end{document}
