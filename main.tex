@@ -1,5 +1,4 @@
 \documentclass[11pt,a4paper]{article}
-
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -42,8 +41,7 @@ Code Generation: Bug Taxonomy, Repair Techniques, and \\
 Multi-Agent Collaborative Frameworks}}
 
 \author{
-Adan Shahzad, Zikria Akhtar, Muhmmad Immad Ahmed Khan \\
-\small Department of Software Engineering \\
+Muhmmad Immad Ahmed Khan, Adan Shahzad, Zikria Akhtar, Mudassar Adeel  \\   
 \small Capital University of Science and Technology, Islamabad, Pakistan \\
 }
 \date{\today}
@@ -393,9 +391,9 @@ Table~\ref{tab:classification} summarizes the classification of the 24 selected 
 \midrule
 2 & Code Generation & 6 & Li et al.~\cite{li2025scot} (SCoT), Jiang et al.~\cite{jiang2024selfplan} (Self-Planning), Wei et al.~\cite{wei2022cot} (CoT), Chen et al.~\cite{chen2021humaneval} (HumanEval), Austin et al.~\cite{austin2021mbpp} (MBPP), Hendrycks et al.~\cite{hendrycks2021apps} (APPS) \\
 \midrule
-3 & Bug Detection \& Classification & 2 & Dou et al.~\cite{dou2026}*, Liu et al.~\cite{liu2025llm4tdg} (LLM4TDG) \\
+3 & Bug Detection \& Classification & 1 & Dou et al.~\cite{dou2026}* \\
 \midrule
-4 & Code Repair & 5 & Xia et al.~\cite{xia2023apr}, Chen et al.~\cite{chen2023selfdebug} (Self-Debug), Wang et al.~\cite{wang2024intervenor} (Intervenor), Frenkel et al.~\cite{frenkel2025apr}, Zhang et al.~\cite{zhang2024copilot} (Copilot-in-the-Loop) \\
+4 & Code Repair & 6 & Xia et al.~\cite{xia2023apr}, Chen et al.~\cite{chen2023selfdebug} (Self-Debug), Wang et al.~\cite{wang2024intervenor} (Intervenor), Frenkel et al.~\cite{frenkel2025apr}, Zhang et al.~\cite{zhang2024copilot} (Copilot-in-the-Loop), Liu et al.~\cite{liu2025llm4tdg} (LLM4TDG) \\
 \midrule
 5 & Code Optimization & 3 & Zhao et al.~\cite{zhao2025semopt} (SemOpt), Jonnala et al.~\cite{jonnala2025} (Efficiency), Lyu et al.~\cite{lyu2025toppass} (Top Pass) \\
 \midrule
@@ -463,6 +461,8 @@ Table~\ref{tab:repair_approaches} summarizes the bug detection and repair approa
 \end{tabular}
 \end{table}
 
+Among the constraint‑based approaches, \cite{liu2025llm4tdg} stands out by combining a constraint dependency graph with conflict‑driven clause learning (CDCL) to iteratively repair syntactic and semantic errors in test drivers. Their framework achieves a 47.62\% constraint understanding gain and raises the average \texttt{pass@k} of nine LLMs by 10.41\% (up to 18.66\% for CodeQwen‑chat) on HUMANEVAL and HUMANEVAL+. It further demonstrates effectiveness on real‑world security testing tasks, detecting malicious behavior in compromised PyPI dependency libraries by generating correct, executable test cases.
+
 \subsection{Benchmarks and Evaluation Datasets}
 \label{sec:benchmarks_results}
 
@@ -486,6 +486,7 @@ Table~\ref{tab:benchmarks} summarizes the benchmarks used for evaluation across 
 7 & CodeContests & 1 & 13{,}000+ competitive problems \\
 8 & SWE-bench (GitHub issues) & 1 & Real-world repository bugs \\
 9 & RWPB (Dou et al.) & 1 & 140 real-world 2024 GitHub tasks \\
+9.5 & pypi\_malregistry & 1 & 5 real-world malicious Python packages; Security (dynamic testing) \\
 10 & Real-world web projects (5 types) & 1 & E-commerce, forum, blog, news, admin \\
 \bottomrule
 \end{tabular}
@@ -514,7 +515,7 @@ Table~\ref{tab:tools_prelim} presents the preliminary identification of tools an
 5 & SCoT~\cite{li2025scot} & \cite{li2025scot} \\
 6 & ABFCG~\cite{zhang2025abfcg} & \cite{zhang2025abfcg} \\
 \midrule
-\multicolumn{3}{l}{\textit{Bug Detection \& Repair Tools (5)}} \\
+\multicolumn{3}{l}{\textit{Bug Repair \& Test Generation Tools (5)}} \\
 \midrule
 7 & LLM4TDG~\cite{liu2025llm4tdg} & \cite{liu2025llm4tdg} \\
 8 & Self-Debug~\cite{chen2023selfdebug} & \cite{chen2023selfdebug,dou2026} \\
@@ -603,7 +604,7 @@ Bai et al.~\cite{bai2025agent} & Proprietary & Partial & GPT-3.5/4 & Yes & Yes (
 \cmidrule(lr){2-4} \cmidrule(lr){5-7}
  & \textbf{License} & \textbf{Custom.} & \textbf{Supported LLMs} & \textbf{Feedback} & \textbf{Iterative} & \textbf{Taxonomy} \\
 \midrule
-LLM4TDG~\cite{liu2025llm4tdg} & Open-source & Full & 9 LLMs & Runtime + CDG & Yes (CDCL) & Constraint-based \\
+LLM4TDG~\cite{liu2025llm4tdg} & Open-source & Full & 9 LLMs & Runtime + CDG & Yes (CDCL) & No (constraint‑driven) \\
 Self-Debug~\cite{chen2023selfdebug} & N/A & Full & Any LLM & Compiler & Yes & No \\
 Intervenor~\cite{wang2024intervenor} & Open-source & Full & GPT-4 + student & Compiler + CoT & Yes & No \\
 Dou et al.~\cite{dou2026} & Open-source & Full & 9 LLMs & Compiler + Taxonomy & Yes (2-iter) & 3 primary / 10 secondary \\
@@ -693,8 +694,8 @@ SWE-bench & Variable & Python & GitHub issues & Real-world repair & Low \\
 \begin{itemize}[leftmargin=*]
 \item \textbf{Five researches} have been identified in the \textit{General} category, covering multi-aspect LLM code generation (Bai et al., AnnCoder, CodingCare, Dou et al., ABFCG).
 \item \textbf{Six researches} have been identified in the \textit{Code Generation} category, with three being foundational benchmark papers (HumanEval, MBPP, APPS) and three being technique-focused works (SCoT, Self-Planning, CoT).
-\item \textbf{Two researches} have been identified in the \textit{Bug Detection \& Classification} category (Dou et al., LLM4TDG).
-\item \textbf{Five researches} have been identified in the \textit{Code Repair} category (Xia et al., Self-Debug, Intervenor, Frenkel et al., Copilot-in-the-Loop).
+\item \textbf{One research} has been identified in the \textit{Bug Detection \& Classification} category (Dou et al.).
+\item \textbf{Six researches} have been identified in the \textit{Code Repair} category (Xia et al., Self-Debug, Intervenor, Frenkel et al., Copilot-in-the-Loop, LLM4TDG).
 \item \textbf{Three researches} have been identified in the \textit{Code Optimization} category (SemOpt, Jonnala et al., Top Pass).
 \item \textbf{Three researches} have been identified in the \textit{Security} category (Bruni et al., PromSec, CodingCare).
 \end{itemize}
@@ -713,7 +714,7 @@ The overview, publication year, validation method, and description of each selec
 \textbf{Answer:} On the basis of the SLR, 18 tools/frameworks and 10 benchmarks have been identified to support LLM-based code generation across the five activity dimensions. After the comparative evaluation in Section~\ref{sec:comparison}, the following key tools are recommended by activity:
 \begin{itemize}[leftmargin=*]
 \item \textbf{Seven generation frameworks} are presented to support prompting, planning, and multi-agent orchestration (ChatDev, MetaGPT, AutoGen, Self-Planning, SCoT, ABFCG, Bai et al.).
-\item \textbf{Eight bug detection and repair tools} are presented (LLM4TDG, Self-Debug, Intervenor, Dou et al., Xia et al., Frenkel et al., Copilot-in-the-Loop, AnnCoder).
+\item \textbf{Eight bug detection and repair tools} are presented (LLM4TDG, Self-Debug, Intervenor, Dou et al., Xia et al., Frenkel et al., Copilot-in-the-Loop, AnnCoder). Among these, LLM4TDG notably achieves the highest \texttt{pass@k} improvement (18.66\% on CodeQwen‑chat) and validates its approach on real malicious packages, bridging the gap between benchmarks and security testing.
 \item \textbf{Four code optimization tools} are presented (SemOpt, Jonnala et al., Top Pass, AnnCoder).
 \item \textbf{Three security tools} are presented (PromSec, CodingCare, Bruni et al.).
 \item \textbf{Three static analysis integration tools} are consistently used across security-focused works (CodeQL, Semgrep, Bandit).
@@ -733,6 +734,8 @@ It is analyzed that prompting and reasoning scaffolds are the core enablers of L
 \subsection{Discussion on Bug Detection and Repair}
 
 Bug taxonomy construction (e.g., Dou et al.'s 3-primary/10-secondary classification) provides essential analytical infrastructure for systematic repair. Self-critique with compiler feedback, often combined with bug-taxonomy-driven prompts, achieves a 29.2\% repair success rate after two iterations on state-of-the-art models. However, functional bugs, which account for the highest proportion of errors, remain the hardest to repair, with transformation rates (functional $\to$ correct) lagging behind syntax and runtime bug repair. This indicates that functional correctness demands deeper semantic understanding that current LLMs, even with iterative feedback, do not fully possess.
+
+In contrast, LLM4TDG~\cite{liu2025llm4tdg} shows that constraint‑driven iterative repair not only improves benchmark scores but also uncovers malicious code in real‑world dependency libraries, hinting at its potential for integrated security and correctness validation.
 
 \subsection{Discussion on Optimization and Security}
 
