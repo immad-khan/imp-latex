@@ -1,0 +1,890 @@
+% ==========================================
+% CHAPTER 3
+% ==========================================
+\chapter{System Design}
+
+The purpose of this chapter is to provide information that is complementary
+to the code of the MazdoorLink platform. Without an adequate design that
+delivers the required functions as well as quality attributes, the project
+will fail. Communicating architecture to its stakeholders is as important a
+job as creating it in the first place. This chapter presents the structural
+and behavioral design artifacts of the MazdoorLink system, including the
+software architecture, class diagram, sequence diagrams, entity relationship
+diagram, database schema, user interface design, and a list of third-party
+software components used in the development of the system.
+
+Two views are considered while defining the software architecture of the
+MazdoorLink platform. The structural view encompasses the architecture
+diagram, component diagram, and class diagram, which collectively describe
+the static organization of the system. The behavioral view encompasses the
+sequence diagrams and activity diagrams, which describe the dynamic
+interactions and workflows within the system. Both views together provide a
+comprehensive understanding of the system design.
+
+The MazdoorLink platform follows a \textbf{Serverless Client-Side
+Architecture} as its primary architectural style. A Flutter mobile frontend
+communicates directly with Firebase services (Authentication and Firestore)
+and external APIs (Cloudinary and Google Maps Platform) without any
+intermediate application server or custom backend. All business logic that
+requires real-time data operates through Firestore snapshot streams and
+client-side processing within the Flutter application. The
+\textbf{Repository Pattern} is applied in the service layer to abstract
+Firestore operations from the UI logic through dedicated service classes
+such as \texttt{workers\_service.dart} and \texttt{cloudinary\_service.dart}.
+The \textbf{Observer Pattern} is realized through Firestore real-time
+listeners, which propagate live data updates directly to the Flutter widgets
+without any polling mechanism.
+
+\newpage
+
+% ==========================================
+% SECTION 3.1
+% ==========================================
+\section{Layer Definition}
+
+The MazdoorLink platform is structured around a three-layer client-side
+architecture, where each layer is responsible for a distinct set of
+functions. Because the system uses a serverless approach, there is no
+dedicated application server; all layers reside within the Flutter
+application or are provided as managed cloud services consumed directly
+by the client.
+
+\begin{table}[H]
+    \centering
+    \caption{Layers Definition}
+    \label{tab:layers}
+    \vspace{0.2cm}
+    \begin{tabular}{|p{4cm}|p{9cm}|}
+        \hline
+        \textbf{Layer} & \textbf{Description} \\
+        \hline
+        Presentation Layer & Handles all user interactions and renders the visual interface. It delivers distinct, role-based views tailored to different user types, supports localization with proper text-direction handling (both left-to-right and right-to-left layouts), and coordinates application navigation through a centralized routing system. \\
+        \hline
+        Business Logic Layer & Acts as the coordinator for the application, housing all client-side business rules and defining abstractions for external services. This layer encapsulates data persistence, remote API operations, and asset-handling mechanisms (such as image compression and storage) behind clean interfaces. It also accommodates placeholder integrations for planned future services and manages global application state to ensure data flows predictably throughout the system. \\
+        \hline
+        DataBase Layer & Houses the external storage, database, and identity management systems consumed by the client application. This layer manages secure user authentication (including session tokens and multi-factor validation), maintains real-time NoSQL data storage for active application states, and handles cloud-based media hosting for user profiles and identity verification documents. \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Presentation Layer}
+
+The Presentation Layer occupies the top level of the MazdoorLink
+architecture and is built entirely using the Flutter framework, targeting
+both Android and iOS platforms from a single Dart codebase. This layer
+renders three distinct role-specific interfaces housed in
+\texttt{lib/screens/}: the Customer App, the Worker App, and the Admin
+Dashboard. Navigation between screens is handled by a centralized route
+generator in \texttt{mazdoor\_flow.dart} (\texttt{AppRoutes}), which
+manages screen transitions and passes typed data arguments such as
+\texttt{RecommendationArguments} during the hiring flow. A custom
+bilingual engine (\texttt{AppLocalizations} and \texttt{bilingual()}
+helpers) dynamically switches the entire UI between English and Urdu,
+with correct right-to-left text rendering for Urdu. The Worker UI is
+specifically designed for low-literacy users, featuring large one-tap
+buttons, high-contrast colors, and Urdu as the default language.
+
+\subsection{Service Integration Layer}
+
+The Service Integration Layer sits between the Presentation Layer and the
+Data Layer and contains all client-side business logic and service
+abstractions. \texttt{workers\_service.dart} is the main repository class
+that abstracts all Firestore operations including fetching workers, creating
+job documents, and updating statuses, following the Repository Pattern.
+\texttt{cloudinary\_service.dart} handles compressing local image files and
+uploading them directly to the Cloudinary API, storing the returned public
+URL in Firestore. Global application state — including the current language
+preference and theme — is managed by an \texttt{AppScope} InheritedWidget
+that sits at the root of the widget tree. Transient UI state such as form
+inputs, toggle positions, and loading indicators is managed by standard
+\texttt{StatefulWidget} instances. Stub service classes
+(\texttt{speech\_service.dart} for Urdu voice navigation and
+\texttt{translation\_service.dart} for automatic chat translation) are
+defined in this layer and are targeted for full backend integration in
+Phase~2.
+
+\subsection{Data Layer}
+
+The Data Layer contains all persistent storage and identity management
+infrastructure used by the MazdoorLink platform. It is accessed directly
+by the Flutter client through official SDKs without any intermediate
+server. Firebase Authentication manages user identities, issues JWT session
+tokens, and provides the unique \texttt{uid} used to link every user to
+their data in Firestore. Cloud Firestore is the primary NoSQL real-time
+database and the core data engine of the system; the Flutter app connects
+directly to Firestore using secure snapshot streams to receive real-time UI
+updates. The primary Firestore collections are \texttt{users},
+\texttt{jobs}, \texttt{conversations}, \texttt{messages},
+\texttt{complaints}, and \texttt{damage\_claims}. Cloudinary serves as the
+media storage provider; when a worker uploads a CNIC or profile picture,
+the image is sent directly from the device to Cloudinary, which returns a
+public HTTPS URL that is then saved in the worker's Firestore document.
+
+\section{Software Architecture}
+
+Software architecture is described as the organization or structure of a
+system, where the system represents a collection of components that
+accomplish a specific function or set of functions. The architecture of the
+MazdoorLink platform has been designed with careful consideration of five
+major architectural decisions: the application type, the deployment
+strategy, the appropriate technologies, the quality attributes, and the
+crosscutting concerns.
+
+\textbf{Application Type:} MazdoorLink is a cross-platform mobile
+application developed using the Flutter framework, targeting both Android
+and iOS operating systems from a single codebase. The application follows
+a serverless client-side architecture where the Flutter frontend
+communicates directly with Firebase services and the Cloudinary and Google
+Maps APIs through their respective SDKs and REST interfaces, without a
+custom application server.
+
+\textbf{Deployment Strategy:} The mobile application is distributed through
+the Google Play Store and Apple App Store. All backend data infrastructure
+is provided by Google Firebase's managed, globally distributed cloud
+platform, which eliminates the need for on-premises infrastructure and
+enables automatic scaling. Media assets are stored on Cloudinary's managed
+CDN. There are no custom servers or containerized services to deploy or
+maintain.
+
+\textbf{Appropriate Technologies:} The technology stack is composed of
+Flutter and Dart for the mobile frontend; Firebase Authentication for
+OTP-based user verification and JWT session management; Cloud Firestore as
+the primary real-time NoSQL database; Cloudinary for compressed media
+storage; the Google Maps Flutter Plugin and Geolocator for location
+services; and the \texttt{image\_picker} plugin for device camera and
+gallery access.
+
+\textbf{Quality Attributes:} Scalability is achieved through Firebase's
+automatic horizontal scaling and Cloudinary's CDN distribution.
+Security is enforced through Firebase Security Rules, OTP-based
+authentication, and encrypted data transmission over HTTPS. Performance
+is ensured through Firestore's real-time snapshot streams, client-side
+skill-intersection filtering, and image compression before Cloudinary
+upload. Reliability is provided through Firebase's managed infrastructure
+combined with job expiration timers that automatically invalidate
+unanswered offers. Usability is addressed through role-specific interfaces
+with bilingual support designed for users of different literacy levels.
+
+\textbf{Crosscutting Concerns:} Security is applied uniformly across all
+Firestore data access points through Firebase Security Rules that restrict
+reads and writes to the correct authenticated role. Internationalization
+is handled through Flutter's localization framework via the custom
+\texttt{AppLocalizations} wrapper supporting English and Urdu. The worker
+online/offline heartbeat mechanism addresses presence management by writing
+\texttt{isOnline} and \texttt{lastSeenAt} to Firestore every 30 seconds
+and automatically setting the worker offline when the app is backgrounded.
+
+The architecture follows the \textbf{Serverless Client-Side} pattern,
+organizing the system into three distinct layers as illustrated in
+Figure~\ref{fig:architecture}. The Presentation Layer handles all user
+interface rendering and interaction. The Service Integration Layer processes
+client-side business rules and abstracts external service calls. The Data
+Layer manages persistent storage and authentication through Firebase and
+Cloudinary. This pattern was chosen because it eliminates server maintenance
+overhead, provides built-in scalability, enables real-time data
+synchronization through Firestore streams, and allows the team to focus
+development effort entirely on the Flutter client.
+
+\vspace{1cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{2 (1).png}
+\caption{MazdoorLink -- Software Architecture Diagram}
+\label{fig:architecture}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% SECTION 3.2
+% ==========================================
+\section{Class Diagram}
+
+The class diagram provides an overview of the MazdoorLink system by
+describing the objects and classes inside the system and the relationships
+between them. It models the domain-specific data structure and serves as
+a blueprint for the Firestore document collections and the Flutter data
+model classes used throughout the application.
+
+The primary classes identified in the MazdoorLink system are as follows.
+The \textbf{User} class serves as the base class from which the
+\textbf{Customer} and \textbf{Worker} classes inherit, capturing shared
+attributes such as \texttt{uid}, \texttt{phone}, \texttt{name},
+\texttt{profileImageUrl}, \texttt{role}, and \texttt{status}. This
+inheritance relationship reflects the \textbf{Generalization} design
+pattern and maps directly to the single Firestore \texttt{users}
+collection, where the \texttt{role} field distinguishes document types.
+The \textbf{Admin} class is an independent actor with its own set of
+responsibilities and a corresponding role value.
+
+The \textbf{Worker} class extends \textbf{User} with additional attributes
+including \texttt{serviceCategory}, \texttt{cnicImageUrl} (a Cloudinary
+URL), \texttt{verificationStatus} (pending, approved, or rejected),
+\texttt{isOnline}, \texttt{lastSeenAt}, and a \texttt{skills} array
+containing nested skill objects each with a name and rate. The
+\texttt{skills} array drives the client-side skill-intersection filtering
+used in the intelligent worker matching flow.
+
+The \textbf{Job} class represents a job document in the Firestore
+\texttt{jobs} collection and contains attributes including \texttt{jobId},
+\texttt{customerId}, \texttt{workerId}, \texttt{serviceCategory},
+\texttt{selectedIssues}, \texttt{price}, \texttt{paymentMethod},
+\texttt{locationCoordinates}, \texttt{status} (pending, accepted, working,
+completed, declined, cancelled, or expired), \texttt{createdAt}, and
+\texttt{expiresAt}. The expiration timer is evaluated client-side to
+automatically hide offers that have not been accepted within the defined
+window.
+
+The \textbf{Conversation} class represents a document in the Firestore
+\texttt{conversations} collection and aggregates a \texttt{messages}
+subcollection. The \textbf{Message} class represents an individual chat
+document within that subcollection, with attributes for \texttt{senderId},
+\texttt{content}, and \texttt{timestamp}. The \textbf{Complaint} class
+maps to the \texttt{complaints} Firestore collection and contains
+\texttt{complaintId}, \texttt{customerId}, \texttt{jobId},
+\texttt{description}, \texttt{evidenceUrls}, and \texttt{status}. The
+\textbf{DamageClaim} class maps to the \texttt{damage\_claims} collection
+and contains additional fields for \texttt{adminDecision} and
+\texttt{deductionAmount}.
+
+The class diagram reflects \textbf{Association}, \textbf{Aggregation},
+and \textbf{Composition} relationships between these classes. A Customer
+aggregates multiple Jobs; a Conversation composes multiple Messages; a
+Worker is associated with multiple Jobs and Complaints. The
+\textbf{Repository Pattern} is applied through \texttt{workers\_service.dart},
+which encapsulates all Firestore read and write operations and exposes
+typed stream methods (\texttt{streamWorkerJobs},
+\texttt{streamAllJobs}, \texttt{streamWorkerEarnings}) to the Presentation
+Layer.
+
+\vspace{1cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{cd (1).png}
+\caption{MazdoorLink -- Class Diagram}
+\label{fig:classdiagram}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% SECTION 3.3
+% ==========================================
+\section{Sequence Diagrams}
+
+Sequence diagrams, when used in conjunction with class diagrams, provide an
+extremely effective communication mechanism for the MazdoorLink system.
+UML sequence diagrams illustrate how objects interact in a given situation
+by showing the messages sent among the instances of these classes and the
+order in which they are sent. The following sequence diagrams describe the
+key interaction flows within the MazdoorLink platform.
+
+Because MazdoorLink follows a serverless client-side architecture, all
+sequence diagrams show the Flutter client communicating directly with
+Firebase Authentication, Cloud Firestore, and Cloudinary. There is no
+intermediate application server or Cloud Function in any interaction flow.
+The Firestore real-time snapshot stream is the primary mechanism through
+which status changes and new data are propagated to all listening clients
+without any polling.
+
+\vspace{0.5cm}
+
+% ==========================================
+% SEQUENCE DIAGRAM 1
+% ==========================================
+\subsection*{Sequence Diagram 1: Customer Login and Registration}
+
+Figure~\ref{fig:sd01} illustrates the sequence of interactions that occur
+when a customer registers or logs in to the MazdoorLink platform using
+OTP-based phone number verification. The customer submits a phone number
+through the Flutter application, which forwards the request directly to
+Firebase Authentication. Firebase Auth dispatches an OTP to the customer's
+mobile number and, upon successful verification, issues a JWT session token
+with a unique \texttt{uid}. The Flutter client then checks whether a
+\texttt{users} document with that \texttt{uid} already exists in Firestore.
+If no document is found, the client writes a new one with
+\texttt{role: customer} and navigates the user to the home screen. If the
+document already exists, the session is resumed and the customer is
+navigated directly to the home screen.
+
+\vspace{0.8cm}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{ssd11.png}
+\caption{Sequence Diagram -- Customer Login and Registration}
+\label{fig:sd01}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% SEQUENCE DIAGRAM 2
+% ==========================================
+\subsection*{Sequence Diagram 2: Customer Posts Job Request}
+
+Figure~\ref{fig:sd02} illustrates the sequence of interactions that occur
+when a customer posts a job request. The customer selects a service
+category and specific issues through the Flutter application, which then
+queries Firestore directly for all \texttt{users} documents where
+\texttt{role = worker}, \texttt{status = approved}, the category matches,
+and \texttt{isOnline = true}. The Flutter client applies a client-side
+skill-intersection filter against the returned worker documents to retain
+only those whose \texttt{skills} array contains the selected issues. The
+customer reviews the filtered worker list, selects a worker, specifies a
+price and payment method, and taps ``Hire''. The Flutter client writes a
+new document to the Firestore \texttt{jobs} collection with
+\texttt{status: pending} and an \texttt{expiresAt} timestamp. The selected
+worker's \texttt{streamWorkerJobs} listener detects the new document and
+surfaces the job offer on the worker's dashboard in real time.
+
+\vspace{0.8cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{ssd12.png}
+\caption{Sequence Diagram -- Customer Posts Job Request}
+\label{fig:sd02}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% SEQUENCE DIAGRAM 3
+% ==========================================
+\subsection*{Sequence Diagram 3: Worker Accepts Job Request}
+
+Figure~\ref{fig:sd03} illustrates the sequence of interactions that occur
+when a worker receives and responds to a job offer. The worker's
+\texttt{streamWorkerJobs} Firestore listener surfaces the pending job
+document on the worker's dashboard. Expired offers are filtered out
+client-side before display. The worker reviews the job details and taps
+``Accept''. The Flutter client updates the \texttt{status} field of the
+job document in Firestore directly to \texttt{accepted}. The customer's
+own job stream listener detects this status change in real time and
+updates the customer's dashboard to reflect that the worker has accepted
+and is on the way. The chat channel between the two parties becomes active
+once the job reaches the \texttt{accepted} state.
+
+\vspace{0.8cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{sd3.png}
+\caption{Sequence Diagram -- Worker Accepts Job Request}
+\label{fig:sd03}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% SEQUENCE DIAGRAM 4
+% ==========================================
+\subsection*{Sequence Diagram 4: Real-Time Chat with Automatic Translation}
+
+Figure~\ref{fig:sd04} illustrates the sequence of interactions that occur
+during a real-time chat session between a customer and a worker. Once a
+job is accepted, both parties can access the chat screen for that job.
+When a user sends a message, the Flutter client writes a new document
+directly to the \texttt{messages} subcollection within the corresponding
+\texttt{conversations} document in Firestore. The recipient's Firestore
+snapshot stream listener detects the new document and delivers it to the
+chat screen in real time. The automatic translation feature, which would
+pass incoming English messages through the \texttt{translation\_service.dart}
+to produce Urdu output for the worker, is currently a UI stub and is
+targeted for full integration in Phase~2. In the current implementation,
+messages are displayed in their original language on both sides.
+
+\vspace{0.8cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{sd4.png}
+\caption{Sequence Diagram -- Real-Time Chat with Automatic Translation}
+\label{fig:sd04}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% SEQUENCE DIAGRAM 5
+% ==========================================
+\subsection*{Sequence Diagram 5: Admin Verifies Worker Documents}
+
+Figure~\ref{fig:sd05} illustrates the sequence of interactions that occur
+when an administrator reviews and verifies a worker's registration. The
+administrator logs in to the admin dashboard, which subscribes to a
+Firestore stream over the \texttt{users} collection filtered to documents
+where \texttt{status = pending}. The dashboard displays the pending workers'
+details including their name, service category, and CNIC image, which is
+fetched by rendering the Cloudinary URL stored in the worker's Firestore
+document. The administrator reviews the details and taps ``Approve'' or
+``Reject''. The Flutter admin client updates the \texttt{status} field of
+the worker's \texttt{users} document directly in Firestore. The worker's
+application, which is listening to its own profile document, detects the
+change in real time and updates the worker's view to reflect the approval
+or rejection decision.
+
+\vspace{0.8cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{sd5.png}
+\caption{Sequence Diagram -- Admin Verifies Worker Documents}
+\label{fig:sd05}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% SEQUENCE DIAGRAM 6
+% ==========================================
+\subsection*{Sequence Diagram 6: Customer Reports Complaint and Admin Resolves Claim}
+
+Figure~\ref{fig:sd06} illustrates the sequence of interactions that occur
+when a customer reports a complaint and the administrator resolves the
+claim. The customer submits a complaint through the Flutter application,
+optionally uploading photographic evidence directly to Cloudinary and
+saving the returned URL in the complaint data. The Flutter client writes
+a new document to the Firestore \texttt{complaints} collection. The admin
+dashboard's stream listener surfaces the new complaint in real time. The
+administrator reviews the complaint details and any attached evidence.
+Upon reaching a decision, the admin client updates the complaint document
+\texttt{status} field in Firestore and, if the claim is approved, records
+a deduction against the worker's security deposit data within Firestore.
+Both the customer and the worker detect the resolution through their
+respective Firestore listeners. The full financial transaction lifecycle
+for security deposit deductions is partially implemented and is targeted
+for completion in Phase~2.
+
+\vspace{0.8cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{sd6.png}
+\caption{Sequence Diagram -- Customer Reports Complaint and Admin Resolves Claim}
+\label{fig:sd06}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% SECTION 3.4
+% ==========================================
+\section{Entity Relationship Diagram}
+
+An entity relationship diagram (ERD) is a conceptual representation of the
+data stored in the MazdoorLink system. The ERD identifies the primary
+entities of the system, their attributes, and the relationships that exist
+between them. Although the MazdoorLink platform uses Cloud Firestore, a
+NoSQL document database, the entity relationship model is presented here
+to provide a technology-independent conceptual view of the data domain.
+During physical design, this model is mapped into Firestore collections
+and document structures as described in Section~3.5.
+
+The primary entities identified in the MazdoorLink data model are
+\textbf{Customer}, \textbf{Worker}, \textbf{Admin}, \textbf{Job},
+\textbf{Conversation}, \textbf{Message}, \textbf{Complaint}, and
+\textbf{DamageClaim}.
+
+The \textbf{Customer} entity has a one-to-many relationship with
+\textbf{Job}, as a single customer may post multiple job requests over
+time. The \textbf{Worker} entity also has a one-to-many relationship with
+\textbf{Job}, as a worker may be assigned to multiple jobs across their
+activity history. A \textbf{Job} has a one-to-one relationship with a
+\textbf{Conversation}, as each accepted job creates exactly one chat
+channel between the customer and the worker. A \textbf{Conversation}
+has a one-to-many relationship with \textbf{Message}, as multiple
+messages are exchanged within a single conversation. The
+\textbf{Customer} entity has a one-to-many relationship with
+\textbf{Complaint}, as a customer may raise multiple complaints over
+time. A \textbf{Complaint} has a zero-to-one relationship with
+\textbf{DamageClaim}, as not every complaint results in a formal damage
+claim. The \textbf{Worker} entity is associated with any
+\textbf{DamageClaim} filed against them through the related job
+reference. The \textbf{Admin} entity manages both \textbf{Worker}
+verification (through the \texttt{status} field on the \texttt{users}
+document) and \textbf{DamageClaim} resolution.
+
+\vspace{1cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{erd.png}
+\caption{MazdoorLink -- Entity Relationship Diagram}
+\label{fig:erd}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% SECTION 3.5
+% ==========================================
+\section{Database Schema}
+
+The database schema of the MazdoorLink platform defines the logical
+structure of all data stored within Cloud Firestore. Firestore organizes
+data as collections of documents, where each document contains key-value
+pairs representing the attributes of a data entity. The schema described
+in this section defines the primary Firestore collections, their document
+field structures, field types, and the relationships maintained through
+stored \texttt{uid} references.
+
+The \textbf{users} collection is the single collection that stores profile
+documents for all registered users of the platform, regardless of role.
+Each user document is identified by the \texttt{uid} assigned by Firebase
+Authentication and contains the following fields: \texttt{uid} (string,
+primary identifier), \texttt{role} (string, one of \texttt{customer},
+\texttt{worker}, or \texttt{admin}), \texttt{name} (string),
+\texttt{phone} (string), \texttt{profileImageUrl} (string, Cloudinary
+URL), and \texttt{status} (string, one of \texttt{active},
+\texttt{suspended}, or \texttt{banned}). Documents belonging to workers
+carry additional fields: \texttt{serviceCategory} (string),
+\texttt{cnicImageUrl} (string, Cloudinary URL),
+\texttt{verificationStatus} (string, one of \texttt{pending},
+\texttt{approved}, or \texttt{rejected}), \texttt{isOnline} (boolean),
+\texttt{lastSeenAt} (timestamp), and \texttt{skills} (array of maps,
+each map containing \texttt{skillName} (string) and \texttt{rate}
+(number)).
+
+The \textbf{jobs} collection acts as the transactional ledger of the
+platform. Each document contains: \texttt{jobId} (string),
+\texttt{customerId} (string, reference to \texttt{users}),
+\texttt{workerId} (string, reference to \texttt{users}),
+\texttt{serviceCategory} (string), \texttt{selectedIssues} (array of
+strings), \texttt{price} (number), \texttt{paymentMethod} (string),
+\texttt{locationCoordinates} (geopoint), \texttt{status} (string, one
+of \texttt{pending}, \texttt{accepted}, \texttt{working},
+\texttt{completed}, \texttt{declined}, \texttt{cancelled}, or
+\texttt{expired}), \texttt{createdAt} (timestamp), and
+\texttt{expiresAt} (timestamp).
+
+The \textbf{conversations} collection powers the real-time chat feature.
+Each document contains: \texttt{conversationId} (string),
+\texttt{jobId} (string, reference to \texttt{jobs}),
+\texttt{customerId} (string), \texttt{workerId} (string), and
+\texttt{createdAt} (timestamp). Each conversation document contains a
+\textbf{messages} subcollection where individual message documents are
+stored with the fields: \texttt{messageId} (string), \texttt{senderId}
+(string), \texttt{content} (string), and \texttt{timestamp} (timestamp).
+
+The \textbf{complaints} collection stores complaint records submitted by
+customers. Each document contains: \texttt{complaintId} (string),
+\texttt{customerId} (string), \texttt{workerId} (string),
+\texttt{jobId} (string), \texttt{description} (string),
+\texttt{evidenceUrls} (array of Cloudinary URL strings), and
+\texttt{status} (string, one of \texttt{open}, \texttt{underReview},
+\texttt{resolved}, or \texttt{rejected}).
+
+The \textbf{damage\_claims} collection stores formal damage claim records
+reviewed by administrators. Each document contains:
+\texttt{claimId} (string), \texttt{complaintId} (string, reference to
+\texttt{complaints}), \texttt{workerId} (string), \texttt{customerId}
+(string), \texttt{adminDecision} (string), \texttt{deductionAmount}
+(number), and \texttt{resolvedAt} (timestamp).
+
+\vspace{1cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{schema.png}
+\caption{MazdoorLink -- Database Schema}
+\label{fig:schema}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% SECTION 3.6
+% ==========================================
+\section{User Interface Design}
+
+User Interface (UI) design for the MazdoorLink platform focuses on
+anticipating what each category of user needs to accomplish and ensuring
+that the interface provides elements that are easy to access, understand,
+and use to facilitate those actions. The UI design brings together concepts
+from interaction design, visual design, and information architecture. The
+design philosophy of the MazdoorLink platform is guided by two primary
+principles: simplicity for low-literacy workers and comprehensiveness for
+technically proficient customers and administrators.
+
+The customer-facing interface follows a clean, card-based material design
+language with clear visual hierarchy, intuitive navigation through a
+bottom navigation bar, and prominent call-to-action buttons. The
+worker-facing interface is intentionally simplified, featuring large
+one-tap action buttons, high-contrast colors, Urdu as the default language,
+and a prominent availability toggle for presence management. The
+administrator interface provides a data-dense dashboard with list views,
+status badges, and action buttons for managing users, verifying documents,
+and resolving complaints. All interfaces share a consistent global design
+system defined in \texttt{app\_theme.dart}, which provides color palettes
+(teals, reds, amber), typography, and standard widget styles throughout
+the application to ensure visual coherence.
+
+\vspace{0.5cm}
+
+% ==========================================
+% UI SCREEN 1
+% ==========================================
+\subsection*{UI Screen 1:User login and Sign up Screen}
+
+The authentication module manages user entry and account creation through distinct Login and Sign Up interfaces.
+
+Login Screen: Features a "Welcome back" interface where existing users authenticate using their registered email address and password. It includes toggleable password visibility, a "Forgot password?" recovery option, a "Continue" action button, and a direct navigation link to the registration flow for new users.
+
+Sign Up Screen: Provides a comprehensive onboarding form to create a new account. It collects essential user profile data including full name, email address, mobile number pre-populated with a Pakistani country code (+92), and a CNIC number for identity verification. Security credentials are established via matching password and confirmation fields with visibility toggles. The form finishes with a category selection dropdown and a required profile picture upload utility capped at a 100KB file size.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{uc1.jpeg}
+\vspace{2pt}
+\small Login Screen
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{uc2.jpeg}
+\vspace{2pt}
+\small Sign up Screen
+\end{minipage}
+\caption{MazdoorLink -- User Login and Sign up Screens}
+\label{fig:ui1}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% UI SCREEN 2
+% ==========================================
+\subsection*{UI Screen 2: Customer Home Screen}
+
+The Customer Home Screen serves as the primary dashboard for users upon authentication, providing a streamlined interface to discover and book services.
+
+Header \& Search: The top header features a location-awareness indicator (showing the current active area), a language selector toggle, and a prominent search bar prompting users to input their required services.
+
+Service Discovery: Below the header, a "Favorite Workers" shortcut allows users to quickly access and rehire preferred providers directly. Primary service categories (such as Electrician and Plumber) are presented as clean, grid-based selection cards.
+
+Top Rated Workers: A dedicated list displays highly-rated available service providers, complete with a "See all" option. Each worker card shows the provider's name, profile avatar, service category, and base pricing rate.
+
+Bottom Navigation \& Voice Control: The persistent bottom navigation bar organizes core application sections: Home, Bookings, Chat, and Settings. A prominent circular voice icon is positioned at the center of the navigation bar to support voice-activated commands and accessibility.
+\vspace{0.5cm}
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.62\textheight,keepaspectratio]{ui3.jpeg}
+\caption{MazdoorLink -- Customer Home Screen}
+\label{fig:ui02}
+\end{figure}
+\newpage
+% ==========================================
+% UI SCREEN 3
+% ==========================================
+\subsection*{UI Screen 3: Worker Home Screen}
+
+The Worker Home Screen features a simplified, highly visual layout optimized for ease of use and quick action.
+
+Header \& Availability Status: The top header displays the worker's avatar, name, and registered skill category. Directly below, a prominent status banner houses a large toggle switch to control online availability, giving clear visual confirmation of the worker's active status.
+
+Job Offers Area: The main body of the screen is dedicated to incoming job offers, displaying real-time updates and notifications (such as "No new jobs yet" when inactive) to keep the worker updated on available tasks without cluttering the workspace.
+
+Bottom Navigation \& Voice Utility: A persistent bottom navigation bar provides direct access to core features: Dashboard, Earnings, Chat, and Settings. A centralized, circular voice icon is integrated at the bottom to support voice-activated assistance and hands-free control.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.62\textheight,keepaspectratio]{ui5.jpeg}
+\caption{MazdoorLink -- Worker Home Screen}
+\label{fig:ui03}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% UI SCREEN 4
+% ==========================================
+\subsection*{UI Screen 4: Worker Profile Screen}
+
+The Worker Profile Screen allows a customer to review a worker's full
+profile before posting a job. It displays the worker's profile photo
+(loaded from the Cloudinary URL stored in Firestore), name, service
+category, , listed skills with
+individual rates, and overall reviws. ``Hire'' button at the bottom
+navigates the customer to the job posting flow with the selected worker's
+details pre-populated as route arguments.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.62\textheight,keepaspectratio]{ui4.jpeg}
+\caption{MazdoorLink -- Worker Profile Screen}
+\label{fig:ui04}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% UI SCREEN 5
+% ==========================================
+\subsection*{UI Screen 5: Job Tracking and Active Booking Screen}
+
+Once a worker accepts an incoming service request, both the customer and
+the worker transition to a synchronized, real-time job tracking interface
+designed to coordinate the active booking. The screen displays a prominent
+visual progress tracker showing the current booking state, such as Worker
+En Route, Job in Progress, or Completed.
+
+The interface also shows basic provider and client details, including
+names, contact shortcuts, and the selected service category so both
+parties can verify the active task. Quick-access utilities allow the user
+to open real-time chat or launch voice-guided navigation and assistance
+for coordinating arrival at the job location. High-contrast lifecycle
+buttons allow the parties to verify job commencement and mark the task as
+complete once the service has been successfully delivered.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.62\textheight,keepaspectratio]{jobtracking.png}
+\caption{MazdoorLink -- Job Tracking and Active Booking Screen}
+\label{fig:ui05}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% UI SCREEN 6
+% ==========================================
+\subsection*{UI Screen 6: Job Completion Screen}
+
+The Job Completion Screen coordinates the final phase of a service booking
+by providing visual confirmation of job completion, payment collection, and
+feedback readiness. It confirms that the active service session has reached
+its completed state and presents the final payment outcome clearly to the
+user.
+
+The upper portion of the interface contains an active map that tracks the
+service location coordinates during the session. A prominent, high-contrast
+SOS emergency button appears at the top right to support user safety and
+quick assistance if needed. At the bottom, a modal receipt sheet displays
+the success message ``Job and payment completed!'', the final amount
+received, and a structured breakdown containing the job type, customer name,
+payment method, and total transaction amount.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.62\textheight,keepaspectratio]{job-completion.png}
+\caption{MazdoorLink -- Job Completion Screen}
+\label{fig:ui06}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% UI SCREEN 7
+% ==========================================
+\subsection*{UI Screen 7: Incoming Job Offer Screen}
+
+The Incoming Job Offer Screen presents real-time job requests directly to
+online workers, allowing them to quickly evaluate and respond to customer
+offers. The top banner maintains the worker's active status profile and
+includes an availability toggle switch, confirming that the worker is
+online and eligible to receive incoming requests.
+
+A prominent ``New Job!'' card appears in real time and displays the
+critical booking details needed for quick decision making. These details
+include the requested service or issue type, such as Water Tap Leakage,
+the customer's username, a live countdown timer showing the remaining time
+to act on the offer, the selected payment method, and the offered payout
+amount. The screen provides two high-contrast response actions: a
+red-bordered ``Reject'' button to dismiss the offer and a solid ``Accept''
+button to claim the job and begin the tracking flow.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.62\textheight,keepaspectratio]{job-offer.png}
+\caption{MazdoorLink -- Incoming Job Offer Screen}
+\label{fig:ui07}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% UI SCREEN 8
+% ==========================================
+\subsection*{UI Screen 8: Admin Interface}
+
+The Admin Interface serves as the central control panel for platform
+administrators to monitor system health and manage daily operational
+workflows. Its dashboard header provides immediate visibility into key
+platform metrics, including active worker counts, pending complaints, and
+total refund figures.
+
+A structured quick-action menu supports core administrative tasks such as
+reviewing damage claims, managing security deposits, accessing platform
+statistics, and administering customer and service-provider accounts. The
+interface also includes an activity-monitoring feed that tracks recent
+platform events, such as job completions and operational updates, to
+support real-time oversight. A bottom navigation bar provides dedicated
+paths for managing workers, monitoring jobs, and resolving user complaints.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+\centering
+\includegraphics[height=0.62\textheight,keepaspectratio]{admin-interface.png}
+\caption{MazdoorLink -- Admin Interface}
+\label{fig:ui08}
+\end{figure}
+
+\newpage
+
+% ==========================================
+% UI SCREEN 9
+% ==========================================
+\subsection*{UI Screen 9: Worker Verification and Approval Screen}
+
+The Worker Verification and Approval Screen allows administrators to review
+pending worker applications and verify credentials before granting active
+platform access. The upper section presents the worker's profile and
+registration details with a visible pending-status indicator, including
+identification and contact information such as email, phone number, CNIC,
+and localized service category.
+
+A dedicated document-verification area supports administrative review of
+uploaded background and skill records. This includes police certificate
+details for security clearance, specialization certificate details for
+trade verification, and CNIC document images for identity confirmation.
+The screen enables administrators to make an informed approval or rejection
+decision based on the worker's submitted profile and documents.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.48\textwidth}
+\centering
+\includegraphics[height=0.62\textheight,keepaspectratio]{view1.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\includegraphics[height=0.62\textheight,keepaspectratio]{view2.png}
+\end{minipage}
+\caption{MazdoorLink -- Worker Verification and Approval Screen}
+\label{fig:ui09}
+\end{figure}
+
+
+
+\newpage
