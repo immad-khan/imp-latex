@@ -716,18 +716,15 @@ These characteristics are applicable to all the tools:
 \subsection{Tools Evaluation Outcomes}
 \label{sec:comparison}
 
-\clearpage
-\onecolumn
-\begin{landscape}
-
 \subsubsection{Comparison of code generation approaches}
-\begin{table}[H]
+\begin{table*}[!t]
 \centering
 \caption{Comparison of code generation approaches.}
 \label{tab:cmp_generation}
-\scriptsize
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}lccccccc@{}}
+\footnotesize
+\setlength{\tabcolsep}{2.8pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{@{}p{58pt}p{58pt}p{38pt}p{72pt}p{58pt}p{75pt}p{42pt}X@{}}
 \toprule
 \multirow{2}{*}{\textbf{Tool Name}} & \multicolumn{4}{c}{\textbf{General Characteristics}} & \multicolumn{3}{c}{\textbf{Activity-Specific Characteristics}} \\
 \cmidrule(lr){2-5} \cmidrule(lr){6-8}
@@ -738,20 +735,18 @@ Self-Planning~\cite{jiang2024selfplan} & N/A (prompt method) & N/A & Any LLM & \
 ABFCG~\cite{zhang2025abfcg} & N/A & Partial & Custom (RetNet) & Java & KG-based retrieval & No & No \\
 AlphaCodium~\cite{ridnik2024} \tbd & \tbd & \tbd & \tbd & \tbd & \tbd & \tbd & \tbd\ (test-based flow) \\
 \bottomrule
-\end{tabular}
-}
-\end{table}
-\clearpage
+\end{tabularx}
+\end{table*}
 
 \subsubsection{Comparison of verification and test generation tools}
-\begin{table}[H]
+\begin{table*}[!t]
 \centering
 \caption{Comparison of verification and test generation tools.}
 \label{tab:cmp_verification}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.15}
-\begin{tabularx}{\linewidth}{@{}p{60pt}p{70pt}p{35pt}p{100pt}p{95pt}p{110pt}p{115pt}X@{}}
+\begin{tabularx}{\textwidth}{@{}p{48pt}p{55pt}p{30pt}p{68pt}p{62pt}p{72pt}p{78pt}X@{}}
 \toprule
 \multirow{2}{*}{\textbf{Tool Name}} & \multicolumn{4}{c}{\textbf{General Characteristics}} & \multicolumn{3}{c}{\textbf{Activity-Specific Characteristics}} \\
 \cmidrule(lr){2-5} \cmidrule(lr){6-8}
@@ -765,18 +760,17 @@ SAGA / TCGBench~\cite{ma2025saga} & Code/data available (github.com/open-compass
 Clover~\cite{sun2024clover} & Code/data available (github.com/ChuyueSun/Clover) & Full & GPT-4 (primary); CodeLlama-34b (ablation, found largely incapable) & Dafny (primary); Verus/Rust (preliminary, 41 examples) & 6-edge consistency check (5 LLM reconstruction/equivalence tests + 1 deductive Dafny/Z3 soundness proof) & No hidden test suite; requires formal (Dafny/Verus) annotations & Not reported \\
 \bottomrule
 \end{tabularx}
-\end{table}
-\clearpage
+\end{table*}
 
 \subsubsection{Comparison of iterative self-repair tools}
-\begin{table}[H]
+\begin{table*}[!t]
 \centering
 \caption{Comparison of iterative self-repair tools.}
 \label{tab:cmp_repair}
-\scriptsize
+\footnotesize
 \setlength{\tabcolsep}{2.5pt}
 \renewcommand{\arraystretch}{1.12}
-\begin{tabularx}{\linewidth}{@{}p{62pt}p{65pt}p{35pt}p{105pt}p{70pt}p{100pt}p{35pt}p{105pt}X@{}}
+\begin{tabularx}{\textwidth}{@{}p{48pt}p{48pt}p{28pt}p{68pt}p{48pt}p{65pt}p{30pt}p{72pt}X@{}}
 \toprule
 \multirow{2}{*}{\textbf{Tool Name}} & \multicolumn{4}{c}{\textbf{General Characteristics}} & \multicolumn{4}{c}{\textbf{Activity-Specific Characteristics}} \\
 \cmidrule(lr){2-5} \cmidrule(lr){6-9}
@@ -795,17 +789,17 @@ LDB~\cite{zhong2024ldb} & Code/dataset available; license not stated & Full & GP
 Olausson et al.~\cite{olausson2024} & Code/data available & Full & CodeLlama-13b-instruct, GPT-3.5, GPT-4 & Python & LLM-generated explanation from execution errors & Yes & Variable (swept as independent variable, $n_p \times n_{fr}$ grid) & No \\
 \bottomrule
 \end{tabularx}
-\end{table}
-\clearpage
+\end{table*}
 
 \subsubsection{Comparison of optimization tools}
-\begin{table}[H]
+\begin{table*}[!t]
 \centering
 \caption{Comparison of code optimization tools and techniques.}
 \label{tab:cmp_optimization}
-\scriptsize
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}lcccccc@{}}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{@{}p{65pt}p{52pt}p{32pt}p{75pt}p{70pt}p{100pt}X@{}}
 \toprule
 \multirow{2}{*}{\textbf{Tool Name}} & \multicolumn{3}{c}{\textbf{General Characteristics}} & \multicolumn{3}{c}{\textbf{Activity-Specific Characteristics}} \\
 \cmidrule(lr){2-4} \cmidrule(lr){5-7}
@@ -816,19 +810,18 @@ Jonnala et al.~\cite{jonnala2025} & N/A & N/A & GPT-3.5-Turbo, GPT-4-Turbo, GPT-
 Top Pass~\cite{lyu2025toppass} & N/A & N/A & ChatGPT, DeepSeek-Coder & Ranking & pass@k loss & Python \\
 Copilot-in-the-Loop~\cite{zhang2024copilot} & Proprietary & No & Copilot Chat & Quality/Maintainability (code smells) & Prompt-based (name-specificity) & Python \\
 \bottomrule
-\end{tabular}
-}
-\end{table}
-\clearpage
+\end{tabularx}
+\end{table*}
 
 \subsubsection{Comparison of security tools}
-\begin{table}[H]
+\begin{table*}[!t]
 \centering
 \caption{Comparison of security-focused tools in LLM code generation.}
 \label{tab:cmp_security}
-\scriptsize
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}lccccccc@{}}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{@{}p{55pt}p{55pt}p{30pt}p{65pt}p{48pt}p{88pt}p{65pt}X@{}}
 \toprule
 \multirow{2}{*}{\textbf{Tool Name}} & \multicolumn{4}{c}{\textbf{General Characteristics}} & \multicolumn{3}{c}{\textbf{Activity-Specific Characteristics}} \\
 \cmidrule(lr){2-5} \cmidrule(lr){6-8}
@@ -839,23 +832,22 @@ CodingCare~\cite{ding2025codingcare} & N/A & N/A & DeepSeek, Mistral, CodeLlama 
 Bruni et al.~\cite{bruni2025} & GPL-3.0 & Full & GPT-3.5/4o-Mini/4o & Python/C & 18+ CWEs & Semgrep + CodeQL & Static \\
 SVEN~\cite{he2023sven} \tbd & \tbd & \tbd & \tbd & \tbd & \tbd & \tbd & Training-time (prefix tuning) \\
 \bottomrule
-\end{tabular}
-}
+\end{tabularx}
 \begin{flushleft}
 \footnotesize \textit{CodingCare result:} $\geq$50\% reduction (up to 100\% on 2 of 5 test projects).
 \textit{PromSec result:} reduces total CWE count from 164 (ablation without gGAN) to 4 while holding 0.97 code-graph similarity; needs as few as 2 LLM queries per fix cycle vs.\ 7 for the matched baseline.
 \end{flushleft}
-\end{table}
-\clearpage
+\end{table*}
 
 \subsubsection{Comparison of benchmarks}
-\begin{table}[H]
+\begin{table*}[!t]
 \centering
 \caption{Comparison of benchmarks used in LLM code generation research.}
 \label{tab:cmp_benchmarks}
-\scriptsize
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}lccccc@{}}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabularx}{\textwidth}{@{}p{92pt}p{55pt}p{70pt}p{105pt}X p{62pt}@{}}
 \toprule
 \textbf{Benchmark} & \textbf{Size} & \textbf{Language} & \textbf{Source} & \textbf{Focus} & \textbf{Leakage Risk} \\
 \midrule
@@ -886,12 +878,8 @@ CloverBench~\cite{sun2024clover} & 60 base $\times$ 5 variants (300) & Dafny & H
 MBPP-DFY-50~\cite{sun2024clover} & 50 (33 in-scope) & Dafny & Hand-translated from MBPP & Correctness/consistency & Low \\
 LiveCodeBench~\cite{jain2024} \tbd & \tbd & \tbd & Contest sites (time-windowed) & Contamination-free correctness & Very Low \\
 \bottomrule
-\end{tabular}
-}
-\end{table}
-
-\end{landscape}
-\twocolumn
+\end{tabularx}
+\end{table*}
 
 %====================================================================
 % SECTION 5 — ANSWERS OF RESEARCH QUESTIONS (mirrors Rashid Sec. 5)
