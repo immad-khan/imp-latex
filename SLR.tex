@@ -1,0 +1,1166 @@
+%====================================================================
+% SLR v2 — SINGLE-AGENT GENERATE–VERIFY–REPAIR PIPELINE
+% Structure mirrors: Rashid, Anwar & Khan (2015), JSS 106:150-163.
+%
+% READ ME FIRST:
+%  1) Every red [TBD] marker must be replaced with REAL data.
+%  2) Search-result counts (Table 1) and ALL PRISMA numbers (Fig. 3)
+%     must come from actually re-running the searches with the new
+%     single-agent search terms. Do NOT reuse the old counts.
+%  3) A candidate reading queue is in a comment block above Table 3.
+%     Pre-stubbed bibitems exist for all of them (flagged TODO-verify).
+%  4) After adding each new study, update: Table 3 (classification),
+%     Table 4 (techniques), Table 5 (mechanisms), Table 6 (tools),
+%     the matching comparison table (7-11), Table 12 (benchmarks),
+%     Fig. 4 (year counts), and every percentage in Sections 3, 5-7.
+%  5) Multi-agent papers (ChatDev, MetaGPT, AutoGen, AnnCoder, Bai)
+%     are NOT primary studies anymore. They remain cited ONLY as
+%     contrast literature in Sections 1 and 6.5.
+%====================================================================
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[top=0.68in,bottom=0.68in,left=0.70in,right=0.70in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning, calc, fit, backgrounds}
+\pgfplotsset{compat=1.17}
+\usepackage{setspace}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{dblfloatfix}
+\usepackage{pdflscape}
+\setstretch{1.0}
+\setlength{\columnsep}{0.28in}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\setlength{\headheight}{12pt}
+\titleformat{\section}{\normalfont\small\bfseries}{\thesection.}{0.45em}{}
+\titleformat{\subsection}{\normalfont\small\itshape}{\thesubsection.}{0.45em}{}
+\titleformat{\subsubsection}{\normalfont\footnotesize\itshape}{\thesubsubsection.}{0.45em}{}
+\titlespacing*{\section}{0pt}{1.1ex plus 0.3ex minus 0.2ex}{0.6ex}
+\titlespacing*{\subsection}{0pt}{0.9ex plus 0.2ex minus 0.2ex}{0.45ex}
+\titlespacing*{\subsubsection}{0pt}{0.75ex plus 0.2ex minus 0.1ex}{0.35ex}
+\captionsetup{font=footnotesize,labelfont=bf,labelsep=period,skip=4pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\scriptsize\thepage}
+\fancyhead[C]{\scriptsize M. I. A. Khan et al. / Systematic Literature Review on LLM Code Generation}
+\renewcommand{\headrulewidth}{0pt}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+    citecolor=blue
+}
+\definecolor{headerblue}{RGB}{31,78,120}
+\definecolor{lightgray}{RGB}{240,240,240}
+
+% ---- Placeholder macros: search for \tbd to find everything to fill ----
+\newcommand{\tbd}{\textcolor{red}{\textbf{[TBD]}}}
+\newcommand{\tbdn}[1]{\textcolor{red}{\textbf{[#1]}}}
+\newenvironment{topminipage}[1]{\begin{minipage}[t]{#1}}{\end{minipage}}
+
+\title{\textbf{A Systematic Literature Review on Large Language Model-Based \\
+Code Generation: Bug Taxonomy, Verification, and \\
+Iterative Self-Repair}}
+\author{
+Muhmmad Immad Ahmed Khan, Adan Shahzad, Zikria Akhtar, Mudassar Adeel  \\
+\small Capital University of Science and Technology, Islamabad, Pakistan \\
+}
+\date{\today}
+\begin{document}
+\twocolumn[
+\thispagestyle{empty}
+\begingroup
+\setstretch{1.0}
+\noindent{\raggedright\fontsize{17}{20}\selectfont\bfseries
+A Systematic Literature Review on Large Language Model-Based Code Generation:\\
+Bug Taxonomy, Verification, and Iterative Self-Repair\par}
+\vspace{0.55em}
+
+\noindent{\large Muhmmad Immad Ahmed Khan\textsuperscript{a},
+Adan Shahzad\textsuperscript{a}, Zikria Akhtar\textsuperscript{a},
+Mudassar Adeel\textsuperscript{a}\par}
+\vspace{0.25em}
+\noindent{\small\itshape
+\textsuperscript{a}Capital University of Science and Technology, Islamabad, Pakistan\par}
+\vspace{0.9em}
+\hrule height 0.6pt
+\vspace{0.8em}
+
+%====================================================================
+% ABSTRACT
+%====================================================================
+\noindent
+\begin{topminipage}{0.25\textwidth}
+\vspace{0pt}
+{\small\bfseries\textls{ARTICLE INFO}\par}
+\vspace{0.45em}
+\hrule height 0.35pt
+\vspace{0.55em}
+{\fontsize{8}{9.4}\selectfont
+\textit{Article type:}\par
+Systematic Literature Review\par
+\vspace{0.65em}
+\textit{Manuscript status:}\par
+In preparation\par
+\vspace{0.8em}
+\hrule height 0.35pt
+\vspace{0.55em}
+\textit{Review window:}\par
+2021--2025\par
+\vspace{0.8em}
+\textit{Keywords:}\par
+Large language models\par
+Code generation\par
+Bug taxonomy\par
+Verification\par
+Iterative self-repair\par
+Automated program repair\par}
+\end{topminipage}\hfill
+\begin{topminipage}{0.70\textwidth}
+\vspace{0pt}
+{\small\bfseries\textls{ABSTRACT}\par}
+\vspace{0.45em}
+\hrule height 0.35pt
+\vspace{0.5em}
+{\fontsize{8.2}{9.7}\selectfont
+\noindent
+The rapid advancement of Large Language Models (LLMs) has transformed automated code generation, yet LLM-generated code continues to exhibit syntactic errors, runtime failures, functional bugs, and security vulnerabilities. Contemporary responses to these shortcomings span structured prompting, verification through test execution and static analysis, and iterative self-repair grounded in execution feedback. However, these research threads have largely evolved in isolation, and no systematic synthesis exists that unifies code generation, bug taxonomy construction, verification, and bounded iterative repair within a single-agent pipeline perspective.
+\noindent
+This Systematic Literature Review (SLR) aims to identify, classify, and analyze the latest research practices from the 2021--2025 search window, including studies retained under the search protocol and formally published in 2026, where LLM-based approaches have been utilized for code generation, bug detection and classification, verification and test generation, iterative self-repair, efficiency optimization, and security assurance. The review further investigates the tools, frameworks, and benchmarks employed, and highlights research gaps that motivate the development of a single-agent generate--verify--repair framework with taxonomy-guided feedback and a bounded iteration budget, extending the empirical foundation established by Dou et al.
+\noindent
+Systematic Literature Review methodology has been adopted following the guidelines proposed by Kitchenham, as operationalized by Rashid et al. A comprehensive review protocol was developed incorporating six concrete selection criteria, a structured search process across four renowned scientific databases (IEEE, ACM, Springer, Elsevier, supplemented by arXiv), quality assessment procedures, and a formal data extraction and synthesis framework. Six predefined categories guided the classification of selected research works.
+\noindent
+From an initial pool of \tbd\ candidate studies, \tbd\ primary research works were selected through a rigorous multi-stage filtering process. The selected studies were classified into six categories: General, Code Generation, Bug Detection \& Classification, Verification \& Test Generation, Iterative Self-Repair, and Optimization \& Security. The analysis identified \tbd\ as the most prevalent prompting technique family (\tbd\% of studies), \tbd\ as the leading verification signal, and \tbd\ as the dominant repair feedback source, while iteration budgets across the literature were found to be \tbd. HumanEval/MBPP/APPS were the most widely used benchmarks. A comprehensive comparative evaluation of \tbd\ tools and frameworks was performed using both general and activity-specific characteristics, including feedback source, verification signal, oracle assumption, and iteration budget.
+\noindent
+The SLR reveals that contemporary research treats verification and repair as separable concerns, with bug-taxonomy knowledge, verification signals, and iteration budgets rarely integrated into one repair loop. A significant research gap exists in single-agent frameworks that couple fine-grained bug-taxonomy-guided feedback with verification-driven, bounded-iteration self-repair. This gap justifies the development of a generate--verify--repair pipeline that targets higher repair success than the two-iteration baseline reported by Dou et al., at a fraction of the computational cost documented for multi-agent alternatives.
+}
+\end{topminipage}
+\par\vspace{0.8em}
+\hrule height 0.6pt
+\vspace{0.75em}
+\endgroup
+]
+
+%====================================================================
+% SECTION 1 — INTRODUCTION  (mirrors Rashid et al. Section 1)
+%====================================================================
+\section{Introduction}
+\label{sec:introduction}
+Large Language Models (LLMs) such as GPT-4, Claude-3, DeepSeek-V3/R1, Code Llama, and StarCoder-2 have fundamentally reshaped the landscape of automated software engineering. Modern LLM-based code generation systems achieve unprecedented performance on standard benchmarks, with reasoning-specialized models such as DeepSeek-R1 attaining up to 77.9\% pass rates on real-world programming tasks \cite{dou2026}. However, despite this remarkable progress, LLM-generated code continues to exhibit critical shortcomings, including syntax violations, runtime exceptions, functional bugs, inefficient algorithmic implementations, and security vulnerabilities \cite{bruni2025,liu2025llm4tdg}. The major LLM-based code generation activities considered in this review are shown in Fig.~\ref{fig:activities}.
+
+Code generation from a natural language specification is the foremost activity. All subsequent activities (i.e., verification, repair, optimization, and security assurance) operate on the generated program. Verification is performed to establish whether the generated code satisfies its specification, typically through compiler checks, test execution, LLM-generated tests, runtime instrumentation, static analysis, or deductive formal verification~\cite{chen2023selfdebug,liu2025llm4tdg,sun2024clover}. If the code does not satisfy the verification requirements, corrections are made through iterative self-repair, in which the model revises its own output using the verification feedback, as shown in Fig.~\ref{fig:activities}. The final validated code is then evaluated against established benchmarks.
+
+% ------- Fig 1: Major LLM-based code generation activities (Rashid Fig. 1 analog) -------
+\begin{figure*}[!t]
+\centering
+\begin{tikzpicture}[
+    node distance=0.65cm,
+    stage/.style={rectangle, rounded corners, draw=headerblue, thick,
+        minimum width=5.2cm, minimum height=0.85cm, align=center,
+        fill=blue!5, font=\small},
+    substage/.style={rectangle, rounded corners, draw=headerblue!70, thick,
+        minimum width=1.55cm, minimum height=0.6cm, align=center,
+        fill=headerblue!12, font=\scriptsize},
+    arrow/.style={-stealth, thick},
+    loop/.style={-stealth, thick, red!70!black}
+]
+\node[stage, fill=orange!15, draw=orange!70!black] (req) {\textbf{Requirements} (natural language specification)};
+\node[stage, below=of req] (gen) {\textbf{Prompting \& Generation}};
+\node[substage, below=0.15cm of gen, xshift=-1.8cm] (cot) {CoT/SCoT};
+\node[substage, right=0.25cm of cot] (plan) {Self-Planning};
+\node[substage, right=0.25cm of plan] (fs) {Few-shot};
+\node[stage, below=1.0cm of gen] (ver) {\textbf{Verification}};
+\node[substage, below=0.15cm of ver, xshift=-2.4cm] (comp) {Compiler};
+\node[substage, right=0.25cm of comp] (test) {Tests};
+\node[substage, right=0.25cm of test] (gtest) {Gen.\ tests};
+\node[substage, right=0.25cm of gtest] (sa) {Static anal.};
+\node[stage, below=1.0cm of ver] (rep) {\textbf{Iterative Self-Repair} (bounded budget $k$)};
+\node[stage, below=of rep, fill=green!10, draw=green!50!black] (final) {\textbf{Validated Code $\rightarrow$ Benchmark Evaluation}};
+\draw[arrow] (req) -- (gen);
+\draw[arrow] (gen) -- (ver);
+\draw[arrow] (ver) -- (rep);
+\draw[arrow] (rep) -- (final);
+\draw[loop] (rep.west) .. controls +(-2.2,0) and +(-2.2,0) .. (ver.west)
+    node[midway, left, align=center, font=\scriptsize\color{red!70!black}]
+    {Correction\\(if required,\\$\leq k$ iterations)};
+\end{tikzpicture}
+\caption{Major LLM-based code generation activities in a single-agent generate--verify--repair pipeline.}
+\label{fig:activities}
+\end{figure*}
+
+Although researchers have put substantial effort into LLM-based code generation, it remains a challenging area due to the diversity of bug types exhibited by generated code \cite{dou2026}. It is always difficult to select appropriate prompting techniques and reasoning scaffolds for a given task. Moreover, there is a considerable dependency among the different activities (i.e., generation, verification, repair, optimization, and security assurance) that requires sufficient knowledge of all phases. Similarly, there are separate tools, feedback mechanisms, and benchmarks for each activity, and the selection of an appropriate verification signal and repair strategy is always problematic for researchers and practitioners. Notably, while multi-agent frameworks such as ChatDev \cite{qian2023chatdev}, MetaGPT \cite{hong2023metagpt}, and AutoGen \cite{wu2023autogen} have attracted considerable attention, their documented computational overheads motivate a systematic examination of what disciplined \textit{single-agent} pipelines can achieve when generation is coupled with explicit verification and bounded iterative repair.
+
+Keeping in view the current state of affairs, the objective of this systematic literature review (SLR) is to identify the latest research practices where LLM-based approaches have been used for code generation, verification, and self-repair. The identified researches are classified into six categories depending upon their relevance with the corresponding activity. Furthermore, various tools, frameworks, and benchmarks have also been identified. Consequently, the following research questions have been developed for this SLR:
+
+\textbf{Research question 1:} What important researches have been reported from 2021 to 2025 where LLM-based approaches have been utilized to support code generation, bug detection and classification, verification and test generation, iterative self-repair, efficiency optimization, and security assurance?
+
+\textbf{Research question 2:} Which prompting and reasoning techniques (zero-shot, few-shot, Chain-of-Thought, Structured Chain-of-Thought, Self-Planning, Recursive Criticism and Improvement, self-critique) are more frequently utilized for LLM-based code generation during 2021--2025 researches?
+
+\textbf{Research question 3:} Which verification and self-repair mechanisms (compiler/execution feedback, LLM-generated test verification, runtime-trace debugging, static analysis integration, bug-taxonomy-guided repair, constraint-based reasoning, post-hoc candidate ranking) are more frequently utilized during 2021--2025 researches, and with what iteration budgets?
+
+\textbf{Research question 4:} What are the significant tools, frameworks, and benchmarks for generation, verification, repair, optimization, and security in the context of LLM-based code generation, and how can they be compared based on general and activity-specific characteristics (including feedback source, verification signal, oracle assumption, and iteration budget)?
+
+The answers to all research questions are given in Section~\ref{sec:answers}. A review protocol, incorporating selection and rejection criteria, has been developed to perform this SLR. We have defined six categories (Section~\ref{sec:categories}) for the selected researches in order to obtain the answers to our research questions. A complete overview of this research work is presented in Fig.~\ref{fig:overview}.
+
+A review protocol is developed (Section~\ref{sec:protocol}) that contains the selection and rejection criteria (Section~\ref{sec:criteria}). As shown in Fig.~\ref{fig:overview}, four scientific databases plus arXiv are selected for the search process (Section~\ref{sec:search_process}) and six categories are defined (Section~\ref{sec:categories}) to classify the \tbd\ selected researches. Similarly, data extraction elements (Section~\ref{sec:data_extraction}) are defined to perform comprehensive analysis and synthesis of the selected researches. Consequently, the major findings of the SLR are summarized in Section~\ref{sec:results}. On the basis of the SLR, we preliminarily identify \tbd\ tools (Section~\ref{sec:tools_prelim}) that have been used in the selected researches to perform particular activities. In Section~\ref{sec:tools_investigation}, various tools characteristics (Section~\ref{sec:char_defined}) are defined for further evaluation. Results in Sections~\ref{sec:results} and \ref{sec:tools_investigation} provide the answers to the research questions, which are discussed in Section~\ref{sec:answers}. Further important aspects, the research gap, and certain limitations are discussed in Section~\ref{sec:discussion}. Finally, Section~\ref{sec:conclusions} concludes the article.
+
+% ------- Fig 2: Overview of research (Rashid Fig. 2 analog) -------
+\begin{figure*}[!t]
+\centering
+\begin{tikzpicture}[font=\scriptsize,
+    db/.style={draw=headerblue, thick, fill=blue!5, rounded corners,
+        minimum width=2.55cm, minimum height=0.85cm, align=center},
+    bar/.style={draw=headerblue, thick, fill=headerblue!15, rounded corners,
+        minimum width=14.6cm, minimum height=0.7cm, align=center, font=\scriptsize\bfseries},
+    cat/.style={draw=red!70!black, thick, fill=red!5, rounded corners,
+        minimum width=2.25cm, minimum height=1.15cm, align=center},
+    outbox/.style={draw=teal!60!black, thick, fill=teal!5, rounded corners,
+        minimum width=4.5cm, minimum height=1.0cm, align=center},
+    tool/.style={draw=violet!70!black, thick, fill=violet!5, rounded corners,
+        minimum width=2.6cm, minimum height=1.05cm, align=center},
+    arrow/.style={-stealth, thick}
+]
+% databases row
+\node[db] (d1) at (-6.0,0) {\textbf{IEEE}\\ieeexplore.ieee.org};
+\node[db] (d2) at (-3.0,0) {\textbf{SPRINGER}\\link.springer.com};
+\node[db] (d3) at (0,0)    {\textbf{ELSEVIER}\\sciencedirect.com};
+\node[db] (d4) at (3.0,0)  {\textbf{ACM}\\dl.acm.org};
+\node[db] (d5) at (6.0,0)  {\textbf{arXiv}\\arxiv.org};
+% criterion bar
+\node[bar] (crit) at (0,-1.6) {Selection and Rejection Criteria for Researches};
+% category row
+\node[cat] (c1) at (-6.1,-3.3) {General\\ \tbd\ papers};
+\node[cat] (c2) at (-3.65,-3.3) {Code\\Generation\\ \tbd\ papers};
+\node[cat] (c3) at (-1.2,-3.3) {Bug Detection\\\& Classification\\ \tbd\ papers};
+\node[cat] (c4) at (1.25,-3.3) {Verification \&\\Test Generation\\ \tbd\ papers};
+\node[cat] (c5) at (3.7,-3.3) {Iterative\\Self-Repair\\ \tbd\ papers};
+\node[cat] (c6) at (6.15,-3.3) {Optimization\\\& Security\\ \tbd\ papers};
+% synthesis bar
+\node[bar] (syn) at (0,-5.0) {Synthesis of qualitative and quantitative analysis};
+% outcomes row
+\node[outbox] (o1) at (-5.0,-6.6) {Prompting \& Reasoning\\Approaches (CoT/SCoT/Planning)};
+\node[outbox] (o2) at (0,-6.6)    {Preliminary Tools\\Identification: \tbd};
+\node[outbox] (o3) at (5.0,-6.6)  {Verification \& Repair Mechanisms\\(incl.\ iteration budgets)};
+% classification bar
+\node[bar] (cls) at (0,-8.2) {Tools and Benchmarks Classification and Investigation};
+% tool categories row
+\node[tool] (t1) at (-5.9,-9.8) {Generation\\Approaches\\ \tbd};
+\node[tool] (t2) at (-2.95,-9.8) {Verification\\Tools\\ \tbd};
+\node[tool] (t3) at (0,-9.8)    {Repair\\Tools\\ \tbd};
+\node[tool] (t4) at (2.95,-9.8) {Optimization\\Tools\\ \tbd};
+\node[tool] (t5) at (5.9,-9.8)  {Security\\Tools\\ \tbd};
+% arrows
+\foreach \d in {d1,d2,d3,d4,d5} \draw[arrow] (\d.south) -- (crit.north -| \d.south);
+\foreach \c in {c1,c2,c3,c4,c5,c6} \draw[arrow] (crit.south -| \c.north) -- (\c.north);
+\foreach \c in {c1,c2,c3,c4,c5,c6} \draw[arrow] (\c.south) -- (syn.north -| \c.south);
+\foreach \o in {o1,o2,o3} \draw[arrow] (syn.south -| \o.north) -- (\o.north);
+\draw[arrow] (o2.south) -- (cls.north);
+\foreach \t in {t1,t2,t3,t4,t5} \draw[arrow] (cls.south -| \t.north) -- (\t.north);
+\end{tikzpicture}
+\caption{Overview of research.}
+\label{fig:overview}
+\end{figure*}
+
+%====================================================================
+% SECTION 2 — RESEARCH METHODOLOGY  (mirrors Rashid et al. Section 2)
+%====================================================================
+\section{Research Methodology}
+\label{sec:methodology}
+Systematic literature review \cite{kitchenham2004} has been used to carry out this research, following the operationalization demonstrated by Rashid et al.~\cite{rashid2015}. It is a proper and replicable process to document pertinent details on a precise research area for reviewing and investigating all existing research related to the research questions. Consequently, this research incorporates five stages: 1) categories definition, 2) review protocol development, 3) selection and rejection criteria, 4) search process and quality assessment, and 5) data extraction and synthesis.
+
+\subsection{Categories Definition}
+\label{sec:categories}
+We have defined six categories in order to organize the selected researches. This categorization significantly improves the accuracy of the answers to our research questions. The categories are mutually complementary; a study addressing three or more activities simultaneously is assigned to the \textit{General} category, whereas studies targeting a specific activity are assigned to the corresponding specialized category. The details of the categories are given below.
+
+\subsubsection{General category}
+\label{sec:cat_general}
+This category contains research works where comprehensive solutions covering multiple LLM-based code generation activities (e.g., end-to-end pipelines spanning generation, verification, iterative repair, and evaluation) are proposed. Studies covering at least three of the six activity types are assigned to this category.
+
+\subsubsection{Code generation category}
+\label{sec:cat_generation}
+This category includes research works primarily focused on improving the generation of code from natural language specifications through techniques such as prompt engineering, in-context learning, planning-based decomposition, structured reasoning, and retrieval augmentation. Such researches do not significantly contribute to verification, repair, optimization, or security aspects.
+
+\subsubsection{Bug detection and classification category}
+\label{sec:cat_bugs}
+This category encompasses research works that propose taxonomies, classification schemes, or empirical characterizations of bugs introduced by LLM-generated code. These studies typically construct bug datasets, analyze root causes, and provide empirical insights into the limitations of contemporary LLMs.
+
+\subsubsection{Verification and test generation category}
+\label{sec:cat_verification}
+This category is dedicated to research works whose principal contribution is establishing \textit{whether generated code is correct} prior to (or independent of) any repair action. It includes LLM-generated test suites, dual execution agreement, learned verifiers, runtime instrumentation and tracing, constraint checking, and benchmark test-adequacy hardening. The verification signal produced by these works is the input upon which iterative self-repair operates; consequently, this category constitutes essential infrastructure for the repair loop depicted in Fig.~\ref{fig:activities}.
+
+\subsubsection{Iterative self-repair category}
+\label{sec:cat_repair}
+This category contains research works proposing automated repair mechanisms in which a single model iteratively revises its own (or another model's) output using feedback such as compiler diagnostics, failing tests, execution traces, or natural language critique. Techniques include self-debugging, self-refinement, fault-aware editing, conversational repair, and sampling-with-ranking paradigms. Critical analyses of the self-repair paradigm itself are also assigned to this category.
+
+\subsubsection{Optimization and security category}
+\label{sec:cat_optsec}
+This category encompasses research works addressing the efficiency, quality, readability, or maintainability of LLM-generated code, as well as its security dimension, including vulnerability detection, secure prompt engineering, CWE mitigation, and security-aware fine-tuning.
+
+\subsection{Review Protocol Development}
+\label{sec:protocol}
+Once the categories are defined, we develop the review protocol for our research on the basis of predefined SLR standards \cite{kitchenham2004,rashid2015}. Consequently, the developed protocol defines the background, research questions, selection and rejection criteria, search process, quality assessment, and data extraction and synthesis of the extracted data. Background and research questions are already described in the introductory part of this article (Section~\ref{sec:introduction}). The other details of the review protocol are given in subsequent sections.
+
+\subsubsection{Selection and rejection criteria}
+\label{sec:criteria}
+We define concrete criteria for the selection and rejection of research works. Six parameters are defined to ensure the correctness of the answers to our research questions. The research work will be selected on the basis of these parameters as given below:
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Subject-relevant:} Select the research work only if it is relevant to our research context. It must support the answers of our research questions and must be relevant to one of the six predefined categories (Section~\ref{sec:categories}). Reject irrelevant researches that do not belong to any of the six predefined categories. In particular, researches whose principal contribution is multi-agent orchestration are treated as contrast literature rather than primary studies, since the research context of this SLR is the single-agent generate--verify--repair pipeline.
+\item \textbf{2021--2025:} Selected research work must be published from 2021 to 2025. This ensures the inclusion of only the most recent advances, coinciding with the emergence of large-scale code-capable LLMs (e.g., Codex, GPT-3.5/4, DeepSeek-Coder). Reject all researches published before 2021. Dou et al.~\cite{dou2026} is retained as a named exception because it was accepted on 15 October 2025, within the search window, but formally appeared in the journal's January 2026 issue. SemOpt~\cite{zhao2025semopt} is likewise retained because its public preprint appeared in 2025 before its formal TOSEM publication in 2026.
+\item \textbf{Publisher:} Selected research work must be published in one of the four renowned scientific databases, i.e., IEEE, Springer, Elsevier, ACM, or be a highly-cited preprint on arXiv that has subsequently been accepted at a top venue (e.g., NeurIPS, ICML, ICLR, ACL, ICSE, FSE, OOPSLA, CCS, S\&P).
+\item \textbf{Crucial-effects:} Selected research work must have crucial positive effects on LLM-based code generation, verification, repair, optimization, or security. Reject the research work if its proposal does not have significant consequences, as determined by experimental validation or theoretical contribution.
+\item \textbf{Results-oriented:} Selected research work must be results-oriented. The proposal and ultimate outcomes of the research must be supported by solid facts and experimentation, with clear evaluation metrics (e.g., pass@k, repair success rate, bug reduction rate, security scanner output). Reject the research work if its proposal is verified through weak validation methods.
+\item \textbf{Repetition:} All researches in a particular research context cannot be included. Consequently, reject researches that are identical in contribution and only retain the most representative and highly-cited work per research thread.
+\end{enumerate}
+
+\subsubsection{Search process}
+\label{sec:search_process}
+The search process was systematically executed across four renowned scientific databases (IEEE Xplore, ACM Digital Library, SpringerLink, Elsevier ScienceDirect) and arXiv. A combination of search terms with AND/OR Boolean operators was employed, and the ``2021--2025'' publication filter was applied universally. Table~\ref{tab:search_terms} summarizes the search terms and the number of results obtained from each database.
+
+% NOTE: run the searches and fill REAL counts. Do not invent numbers.
+\begin{table*}[!t]
+\centering
+\caption{Search terms with Boolean operators and number of search results per database.}
+\label{tab:search_terms}
+\small
+\begin{tabular}{@{}clcccccc@{}}
+\toprule
+\textbf{\#} & \textbf{Search Term} & \textbf{Operator} & \textbf{IEEE} & \textbf{Springer} & \textbf{Elsevier} & \textbf{ACM} & \textbf{arXiv} \\
+\midrule
+1 & LLM code generation & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+2 & Self-repair code generation & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+3 & Self-debugging large language model & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+4 & Iterative refinement code generation & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+5 & Self-correction LLM code & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+6 & Test generation verification LLM & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+7 & Execution feedback code repair & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+8 & Bug taxonomy LLM & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+9 & Automated program repair LLM & OR & \tbd & \tbd & \tbd & \tbd & \tbd \\
+  &  & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+10 & LLM generated unit tests & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+11 & Chain-of-thought code generation & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+12 & Secure code generation LLM & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+13 & Code efficiency LLM optimization & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+14 & HumanEval MBPP benchmark evaluation & OR & \tbd & \tbd & \tbd & \tbd & \tbd \\
+   &  & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+15 & Benchmark contamination data leakage code & AND & \tbd & \tbd & \tbd & \tbd & \tbd \\
+\midrule
+\multicolumn{3}{r}{\textbf{Total initial results:}} & \tbd & \tbd & \tbd & \tbd & \tbd \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The filtering process followed a PRISMA-inspired multi-stage pipeline as depicted in Fig.~\ref{fig:prisma}. Starting from \tbd\ candidate studies (after removing cross-database duplicates), progressively stringent filters were applied to retain the final set of \tbd\ primary studies.
+
+% ------- Fig 3: Search process (Rashid Fig. 3 analog) -------
+\begin{figure*}[!t]
+\centering
+\begin{tikzpicture}[
+    node distance=0.8cm and 1.5cm,
+    box/.style={rectangle, rounded corners, draw=headerblue, thick,
+        minimum width=6cm, minimum height=0.9cm, align=center, fill=blue!5, font=\small},
+    rejectbox/.style={rectangle, rounded corners, draw=red!70!black, thick,
+        minimum width=5cm, minimum height=0.8cm, align=center, fill=red!5, font=\small},
+    finalbox/.style={rectangle, rounded corners, draw=green!50!black, very thick,
+        minimum width=6cm, minimum height=1.0cm, align=center, fill=green!10, font=\small\bfseries},
+    arrow/.style={-stealth, thick},
+    rejectarrow/.style={-stealth, thick, red!70!black, dashed}
+]
+\node[box] (s1) {Initial search results across 4 databases + arXiv \\ \tbd\ \textbf{candidate studies}};
+\node[rejectbox, right=of s1] (r1) {Rejected by Title: \\ \tbd\ \textbf{studies}};
+\node[box, below=of s1] (s2) {After Title screening \\ \tbd\ \textbf{studies}};
+\node[rejectbox, right=of s2] (r2) {Rejected by Abstract: \\ \tbd\ \textbf{studies}};
+\node[box, below=of s2] (s3) {After Abstract screening \\ \tbd\ \textbf{studies}};
+\node[rejectbox, right=of s3] (r3) {Rejected by general study \\ (criteria 1, 2, 3): \\ \tbd\ \textbf{studies}};
+\node[box, below=of s3] (s4) {After general study \\ \tbd\ \textbf{studies}};
+\node[rejectbox, right=of s4] (r4) {Rejected by detailed review \\ (criteria 4, 5, 6): \\ \tbd\ \textbf{studies}};
+\node[finalbox, below=of s4] (s5) {\tbd\ \textbf{Primary Studies Selected} \\ for Data Extraction \& Synthesis};
+\draw[arrow] (s1) -- (s2);
+\draw[arrow] (s2) -- (s3);
+\draw[arrow] (s3) -- (s4);
+\draw[arrow] (s4) -- (s5);
+\draw[rejectarrow] (s1) -- (r1);
+\draw[rejectarrow] (s2) -- (r2);
+\draw[rejectarrow] (s3) -- (r3);
+\draw[rejectarrow] (s4) -- (r4);
+\end{tikzpicture}
+\caption{PRISMA-inspired filtering diagram of the SLR search and selection process.}
+\label{fig:prisma}
+\end{figure*}
+
+The six-step filtering process is summarized as follows:
+\begin{enumerate}[leftmargin=*]
+\item Specify various search terms in five sources and analyze approximately \tbd\ search results (after deduplication) as per the selection and rejection criteria.
+\item Discard \tbd\ researches by reading their Title as per the selection and rejection criteria.
+\item Discard \tbd\ researches by reading their Abstract as per the selection and rejection criteria.
+\item Perform general study of \tbd\ researches by reading different relevant sections. On the basis of this general study, discard \tbd\ researches that do not meet criteria 1, 2, or 3.
+\item Perform detailed study of \tbd\ researches and discard \tbd\ researches that fail to meet the crucial-effects, results-oriented, or repetition criteria.
+\item Select \tbd\ \textbf{primary researches} fully compliant with all six predefined selection criteria for detailed data extraction and synthesis.
+\end{enumerate}
+
+\subsubsection{Quality assessment}
+\label{sec:quality_assessment}
+A quality criterion has been developed to understand the important outcomes of the selected researches and to define the credibility of each selected research and its decisive findings:
+\begin{enumerate}[leftmargin=*]
+\item The data appraisal of the research is based on concrete facts and theoretical perspective without any vague statements.
+\item The validation of research has been performed through proper validation methods (e.g., benchmark evaluation, human assessment, ablation studies).
+\item The research provides information about the tools, models, and datasets used in its work, enabling reproducibility.
+\item The objective is to include the most recent researches as much as possible. Therefore, \tbd\% of the selected researches were published from 2023 to 2025, as shown in Fig.~\ref{fig:year_distribution}.
+\item Originality of the research is another important factor. Therefore, only researches published in at least one of the four renowned scientific databases (IEEE, Springer, Elsevier, ACM) or highly-cited preprints accepted at top venues are included.
+\end{enumerate}
+
+% NOTE: bar values below currently reflect ONLY the 18 retained studies
+% (2021:3, 2022:0, 2023:2, 2024:4, 2025:7, 2026:2). Update after adding
+% every new study, and update ymax if any bar exceeds 12.
+\begin{figure*}[!t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar, width=12cm, height=7cm, bar width=0.8cm,
+    ymin=0, ymax=12,
+    ylabel={\textbf{Number of Selected Researches}},
+    xlabel={\textbf{Year of Publication}},
+    symbolic x coords={2021,2022,2023,2024,2025,2026},
+    xtick=data, nodes near coords,
+    nodes near coords style={font=\small\bfseries},
+    ymajorgrids=true, grid style=dashed,
+    title={\textbf{Distribution of Selected Primary Studies by Publication Year (\textcolor{red}{update after adding new studies})}},
+    enlarge x limits=0.15
+]
+\addplot[fill=headerblue!70,draw=headerblue] coordinates {
+    (2021,3) (2022,0) (2023,2) (2024,4) (2025,7) (2026,2)
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Quality assessment showing the temporal distribution of selected primary studies.}
+\label{fig:year_distribution}
+\end{figure*}
+
+\subsubsection{Data extraction and synthesis}
+\label{sec:data_extraction}
+Data extraction and synthesis, as shown in Table~\ref{tab:data_extraction}, were performed for each selected research in order to obtain the answers to the research questions. The ten attributes cover both bibliographic extraction and analytical synthesis.
+
+\begin{table*}[!t]
+\centering
+\caption{Data extraction and synthesis attributes for each selected research.}
+\label{tab:data_extraction}
+\small
+\begin{tabular}{@{}cp{4cm}p{9cm}@{}}
+\toprule
+\textbf{\#} & \textbf{Attribute} & \textbf{Description} \\
+\midrule
+\multicolumn{3}{l}{\textit{Extraction of Data}} \\
+\midrule
+1 & Bibliographic information & Title, author(s), publication year, publisher details, and type (journal/conference/preprint) \\
+2 & Overview & The basic proposal and objective of the selected research \\
+3 & Results & Quantitative and qualitative results obtained \\
+4 & Data collection & Nature of data used (synthetic, benchmark, real-world repositories) \\
+5 & Assumptions & Assumptions (if any) required to validate results, including oracle assumptions (e.g., availability of ground-truth test suites at inference time) \\
+6 & Validation & Validation method used (benchmark, case study, human evaluation, ablation) \\
+\midrule
+\multicolumn{3}{l}{\textit{Synthesis of Data}} \\
+\midrule
+7 & Classification & Relevance to one of the six predefined categories \\
+8 & Techniques utilized & Prompting, fine-tuning, RL, retrieval, planning, static analysis, etc. \\
+9 & Verification/Repair mechanism & Feedback source, verification signal, iteration budget, and repair strategy (self-critique, taxonomy-guided, CDCL backtracking, ranking, etc.) \\
+10 & Tools/Benchmarks identification & Tools, frameworks, and benchmarks used \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+%====================================================================
+% SECTION 3 — RESULTS  (mirrors Rashid et al. Section 3)
+%====================================================================
+\section{Results}
+\label{sec:results}
+\tbd\ primary studies were identified and classified across the six categories. The results are presented through structured synthesis tables, following the methodological guidelines that favor quantitative classification over paragraph-based summaries.
+
+%--------------------------------------------------------------------
+% CANDIDATE READING QUEUE (to grow the set toward ~35-40 studies).
+% Every entry below already has a pre-stubbed bibitem (TODO-verify).
+% Tier 1 (core to the generate-verify-repair tool):
+%   Self-Refine (madaan2023) | Reflexion (shinn2023) |
+%   Olausson et al. self-repair analysis (olausson2024) |
+%   CodeT (chenbei2023) | LDB (zhong2024ldb) | Self-Edit (zhang2023selfedit) |
+%   EvalPlus (liu2023evalplus)
+% Tier 2 (strong fits):
+%   AlphaCodium (ridnik2024) | ChatRepair (xia2024chatrepair) |
+%   CYCLE (ding2024cycle) | LEVER (ni2023lever) |
+%   Coder-Reviewer reranking (zhangt2023coderreviewer) | CodeRL (le2022coderl)
+% Tier 3 (empirical bug studies, security, benchmarks):
+%   Tambon et al. bugs study (tambon2025) | Pearce et al. Asleep at the
+%   Keyboard (pearce2022) | SVEN (he2023sven) | LiveCodeBench (jain2024) |
+%   also consider: ClassEval, CoderEval, CRUXEval, SelfEvolve
+% Rule: add ONLY the ones that pass all six criteria after full reading.
+%--------------------------------------------------------------------
+
+\subsection{Classification of Selected Researches}
+\label{sec:classification}
+Table~\ref{tab:classification} summarizes the classification of the \tbd\ selected researches into the six predefined categories.
+
+\begin{table*}[!t]
+\centering
+\caption{Classification of selected researches across the six predefined categories.}
+\label{tab:classification}
+\small
+\begin{tabular}{@{}clcp{7.5cm}@{}}
+\toprule
+\textbf{\#} & \textbf{Category} & \textbf{Count} & \textbf{Research Identification} \\
+\midrule
+1 & General & \tbd & Dou et al.~\cite{dou2026}, Ding et al.~\cite{ding2025codingcare} (CodingCare), \tbd\ (e.g., AlphaCodium~\cite{ridnik2024} if included) \\
+\midrule
+2 & Code Generation & \tbd & Li et al.~\cite{li2025scot} (SCoT), Jiang et al.~\cite{jiang2024selfplan} (Self-Planning), Chen et al.~\cite{chen2021humaneval} (HumanEval), Austin et al.~\cite{austin2021mbpp} (MBPP), Hendrycks et al.~\cite{hendrycks2021apps} (APPS), Zhang et al.~\cite{zhang2025abfcg} (ABFCG), \tbd \\
+\midrule
+3 & Bug Detection \& Classification & \tbd & Dou et al.~\cite{dou2026}*, \tbd\ (e.g., Tambon et al.~\cite{tambon2025} if included) \\
+\midrule
+4 & Verification \& Test Generation & \tbd & Liu et al.~\cite{liu2025llm4tdg} (LLM4TDG), Ni et al.~\cite{ni2023lever} (LEVER), Ma et al.~\cite{ma2025saga} (SAGA), Sun et al.~\cite{sun2024clover} (Clover), \tbd\ (e.g., CodeT~\cite{chenbei2023}, EvalPlus~\cite{liu2023evalplus} if included) \\
+\midrule
+5 & Iterative Self-Repair & 8 & Xia et al.~\cite{xia2023apr}, Chen et al.~\cite{chen2023selfdebug} (Self-Debug), Wang et al.~\cite{wang2024intervenor} (INTERVENOR), Olausson et al.~\cite{olausson2024}, Madaan et al.~\cite{madaan2023} (Self-Refine), Shinn et al.~\cite{shinn2023} (Reflexion), Zhong et al.~\cite{zhong2024ldb} (LDB), Zhang et al.~\cite{zhang2023selfedit} (Self-Edit), \tbd\ (e.g., ChatRepair~\cite{xia2024chatrepair}, CYCLE~\cite{ding2024cycle} if included) \\
+\midrule
+6 & Optimization \& Security & \tbd & Zhao et al.~\cite{zhao2025semopt} (SemOpt), Jonnala et al.~\cite{jonnala2025}, Lyu et al.~\cite{lyu2025toppass} (Top Pass), Zhang et al.~\cite{zhang2024copilot} (Copilot-in-the-Loop), Bruni et al.~\cite{bruni2025}, Nazzal et al.~\cite{nazzal2024promsec} (PromSec), Ding et al.~\cite{ding2025codingcare}*, \tbd\ (e.g., SVEN~\cite{he2023sven}, Pearce et al.~\cite{pearce2022} if included) \\
+\midrule
+\multicolumn{2}{r}{\textbf{Total category assignments:}} & \tbd & \\
+\multicolumn{2}{r}{\textbf{Total distinct studies:}} & \tbd & \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\footnotesize * indicates studies appearing in multiple categories due to their multi-faceted contributions.
+\end{flushleft}
+\end{table*}
+
+\subsection{Prompting and Reasoning Techniques Utilization}
+\label{sec:prompting_results}
+Table~\ref{tab:prompting_techniques} summarizes the utilization of prompting and reasoning techniques across the selected researches.
+
+% NOTE: counts below cover ONLY the 18 retained studies. Recount after
+% every addition (Self-Refine/Reflexion/Self-Edit will raise row 8).
+\begin{table*}[!t]
+\centering
+\caption{Prompting and reasoning techniques utilized in selected researches.}
+\label{tab:prompting_techniques}
+\small
+\begin{tabular}{@{}clcp{7cm}@{}}
+\toprule
+\textbf{\#} & \textbf{Technique} & \textbf{Count} & \textbf{Relevant Researches} \\
+\midrule
+1 & Zero-shot prompting & \tbd & \cite{chen2021humaneval,xia2023apr,wang2024intervenor,shinn2023,sun2024clover}, \tbd \\
+2 & Few-shot prompting & \tbd & \cite{austin2021mbpp,hendrycks2021apps,li2025scot,jiang2024selfplan,chen2023selfdebug,xia2023apr,madaan2023}, \tbd \\
+3 & Chain-of-Thought (CoT) & \tbd & \cite{li2025scot,jonnala2025,bruni2025,ding2025codingcare,chen2023selfdebug,shinn2023}, \tbd \\
+4 & Structured Chain-of-Thought (SCoT) & \tbd & \cite{li2025scot}, \tbd \\
+5 & Self-Planning & \tbd & \cite{jiang2024selfplan}, \tbd \\
+6 & Recursive Criticism \& Improvement (RCI) & \tbd & \cite{bruni2025,ding2025codingcare,dou2026}, \tbd \\
+7 & Retrieval-augmented prompting & \tbd & \cite{zhang2025abfcg}, \tbd \\
+8 & Self-critique prompting & \tbd & \cite{dou2026,chen2023selfdebug,madaan2023,shinn2023}, \tbd\ (expected to grow: Self-Edit) \\
+9 & Structured-output debugging prompts & 1 & \cite{zhong2024ldb} (JSON verdict schema / bracketed debug tags) \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+From Table~\ref{tab:prompting_techniques}, \tbd\ is the most frequently utilized technique, appearing in \tbd\ of \tbd\ (\tbd\%) selected studies. Overall, \tbd\ of \tbd\ studies (\tbd\%) employ at least one form of explicit reasoning scaffolding across CoT, SCoT, Self-Planning, RCI, and self-critique.
+
+\subsection{Verification and Self-Repair Mechanisms Utilization}
+\label{sec:repair_results}
+Table~\ref{tab:repair_approaches} summarizes the verification and self-repair mechanisms utilized across the selected researches, together with the iteration budget employed by each mechanism family. The iteration budget column is central to RQ3: it records whether repair proceeds for a fixed small number of iterations, a larger fixed bound, or an unbounded/convergence-based schedule.
+
+\begin{table*}[!t]
+\centering
+\caption{Verification and self-repair mechanisms in selected researches, with iteration budgets.}
+\label{tab:repair_approaches}
+\scriptsize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}clccp{5.2cm}@{}}
+\toprule
+\textbf{\#} & \textbf{Mechanism} & \textbf{Count} & \textbf{Iteration Budget} & \textbf{Relevant Researches} \\
+\midrule
+1 & Self-critique with compiler/execution feedback & \tbd & \tbd & \cite{dou2026,chen2023selfdebug,wang2024intervenor,olausson2024,zhang2023selfedit}, \tbd\ (ChatRepair, CYCLE) \\
+2 & \makecell[l]{Pure self-critique\\(no execution feedback)} & 1 & \makecell{Task-specific (3--5,\\no fixed cross-activity budget)} & \cite{madaan2023} \\
+3 & Bug-taxonomy-guided repair & \tbd & 2 (Dou et al.) & \cite{dou2026}, \tbd \\
+4 & LLM-generated test verification & \tbd & \makecell{\tbd; Reflexion trial cap not stated\\(episodic memory: 1 experience for programming)} & \cite{liu2025llm4tdg,shinn2023,ma2025saga}, \tbd\ (CodeT) \\
+5 & Runtime-trace / block-level debugging & 1 & \makecell{10 maximum; 20 in robustness check} & \cite{zhong2024ldb} \\
+6 & Learned verifier / execution-aware ranking & \tbd & N/A (post-hoc) & \cite{ni2023lever}\ (LEVER), \tbd\ (Coder-Reviewer) \\
+7 & Static analysis integration (CodeQL/Semgrep/Bandit) & \tbd & \tbd & \cite{bruni2025,ding2025codingcare,nazzal2024promsec}, \tbd \\
+8 & Constraint-based reasoning (CDG/CDCL) & \tbd & \tbd & \cite{liu2025llm4tdg} \\
+9 & Massive-sample generation with entropy/test-based ranking & \tbd & N/A (post-hoc) & \cite{xia2023apr,lyu2025toppass}, \tbd \\
+10 & Benchmark test-adequacy hardening & \tbd & N/A & \tbd\ (EvalPlus), \cite{ma2025saga}\ (CodeCompass) \\
+11 & \makecell[l]{Formal-specification consistency checking\\(deductive verification + LLM reconstruction)} & \tbd & \makecell{$k=1$/$k=10$ independent resampling\\(not feedback-conditioned)} & \cite{sun2024clover}\ (Clover) \\
+12 & Critical analysis of the self-repair paradigm & \tbd & varied & \tbd\ (Olausson et al.) \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+\tbd\ is the most frequently represented mechanism, appearing in \tbd\ of \tbd\ studies (\tbd\%). Among the constraint-based approaches, \cite{liu2025llm4tdg} stands out by combining a constraint dependency graph with conflict-driven clause learning (CDCL) to iteratively repair syntactic and semantic errors in test drivers. Their framework achieves a 47.62\% constraint understanding gain and raises the average \texttt{pass@k} of nine LLMs by 10.41\% (up to 18.66\% for CodeQwen-chat) on HUMANEVAL and HUMANEVAL+. It further demonstrates effectiveness on real-world security testing tasks, detecting malicious behavior in compromised PyPI dependency libraries by generating correct, executable test cases.
+
+\subsection{Preliminary Tools Identification}
+\label{sec:tools_prelim}
+Once the researches are classified into different categories, the next step is to identify the tools and frameworks used in the selected researches to perform the various activities. Table~\ref{tab:tools_prelim} presents the preliminary identification, grouped by primary activity.
+
+\begin{table*}[!t]
+\centering
+\caption{Preliminary tools and frameworks identified in selected researches.}
+\label{tab:tools_prelim}
+\small
+\begin{tabular}{@{}clp{7.5cm}@{}}
+\toprule
+\textbf{\#} & \textbf{Tool/Framework} & \textbf{Relevant Researches} \\
+\midrule
+\multicolumn{3}{l}{\textit{Generation Approaches (\tbd)}} \\
+\midrule
+1 & SCoT~\cite{li2025scot} & \cite{li2025scot} \\
+2 & Self-Planning~\cite{jiang2024selfplan} & \cite{jiang2024selfplan} \\
+3 & ABFCG~\cite{zhang2025abfcg} & \cite{zhang2025abfcg} \\
+4 & AlphaCodium~\cite{ridnik2024} \tbd & \tbd \\
+\midrule
+\multicolumn{3}{l}{\textit{Verification \& Test Generation Tools (\tbd)}} \\
+\midrule
+5 & LLM4TDG~\cite{liu2025llm4tdg} & \cite{liu2025llm4tdg} \\
+6 & Clover~\cite{sun2024clover} & \cite{sun2024clover} \\
+7 & CodeT~\cite{chenbei2023} \tbd & \tbd \\
+8 & EvalPlus~\cite{liu2023evalplus} \tbd & \tbd \\
+9 & LEVER~\cite{ni2023lever} & \cite{ni2023lever} \\
+10 & SAGA / TCGBench~\cite{ma2025saga} & \cite{ma2025saga} \\
+\midrule
+\multicolumn{3}{l}{\textit{Iterative Self-Repair Tools (\tbd)}} \\
+\midrule
+11 & Self-Debug~\cite{chen2023selfdebug} & \cite{chen2023selfdebug,dou2026} \\
+12 & INTERVENOR~\cite{wang2024intervenor} & \cite{wang2024intervenor,dou2026} \\
+13 & Dou et al.\ repair pipeline~\cite{dou2026} & \cite{dou2026} \\
+14 & Xia et al.~\cite{xia2023apr} & \cite{xia2023apr} \\
+15 & Self-Refine~\cite{madaan2023} \tbd & \tbd \\
+16 & Reflexion~\cite{shinn2023} & \cite{shinn2023} \\
+17 & Self-Edit~\cite{zhang2023selfedit} & \cite{zhang2023selfedit} \\
+18 & ChatRepair~\cite{xia2024chatrepair} \tbd & \tbd \\
+19 & CYCLE~\cite{ding2024cycle} \tbd & \tbd \\
+20 & Olausson et al.\ self-repair study~\cite{olausson2024} & \cite{olausson2024} \\
+21 & LDB~\cite{zhong2024ldb} & \cite{zhong2024ldb} \\
+\midrule
+\multicolumn{3}{l}{\textit{Static Analysis Tools (3)}} \\
+\midrule
+22 & CodeQL & \cite{bruni2025,ding2025codingcare} \\
+23 & Semgrep & \cite{bruni2025,zhao2025semopt} \\
+24 & Bandit & \cite{ding2025codingcare,nazzal2024promsec} \\
+\midrule
+\multicolumn{3}{l}{\textit{Optimization \& Security Tools (\tbd)}} \\
+\midrule
+25 & SemOpt~\cite{zhao2025semopt} & \cite{zhao2025semopt} \\
+26 & Top Pass~\cite{lyu2025toppass} & \cite{lyu2025toppass} \\
+27 & Copilot-in-the-Loop~\cite{zhang2024copilot} & \cite{zhang2024copilot} \\
+28 & PromSec~\cite{nazzal2024promsec} & \cite{nazzal2024promsec} \\
+29 & CodingCare~\cite{ding2025codingcare} & \cite{ding2025codingcare} \\
+30 & SVEN~\cite{he2023sven} \tbd & \tbd \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Overview of Selected Researches}
+\label{sec:overview_researches}
+We extract the important data for each selected research according to the attributes defined in Table~\ref{tab:data_extraction} in order to obtain the answers to our research questions. Due to length constraints, the complete extraction sheet for each study is maintained separately and summarized through the synthesis tables of this section.
+% NOTE: keep one extraction sheet per paper (10 attributes of Table 2).
+% The sheets are what let you fill every \tbd in this document quickly.
+
+%====================================================================
+% SECTION 4 — TOOLS AND BENCHMARKS INVESTIGATION (mirrors Rashid Sec. 4)
+%====================================================================
+\section{Tools and Benchmarks Investigation}
+\label{sec:tools_investigation}
+On the basis of the SLR, \tbd\ preliminary tools have been identified as given in Table~\ref{tab:tools_prelim}. However, the identification of the given tools is not sufficient to facilitate researchers and practitioners in particular tool selection. Therefore, we further evaluate the selected tools to provide a rational representation. First, an initial evaluation is performed, and then various important characteristics of the tools are used for evaluation.
+
+\subsection{Initial Tools Evaluation}
+\label{sec:initial_eval}
+In this phase, we perform an initial evaluation of the selected tools (Table~\ref{tab:tools_prelim}) to check the availability of sufficient information required for detailed evaluation. This includes artifact availability, license type, supported models, and documentation. Furthermore, we also search for important tools frequently used in research and industrial practice that may have been missed during the SLR. Tools lacking adequate public information are excluded from further evaluation.
+
+\subsection{Tools Characteristics}
+\label{sec:char_defined}
+Two types of tools characteristics are used in this article: general characteristics and activity-specific characteristics.
+
+\subsubsection{General characteristics}
+These characteristics are applicable to all the tools:
+\begin{itemize}[leftmargin=*]
+\item \textbf{License type:} Open-source (MIT, Apache-2.0, GPL, MPL) or proprietary; artifact availability is recorded where no formal license is stated.
+\item \textbf{Customizability:} ``Full'' (source code modifiable), ``Partial'' (configuration/extension supported), ``No'' (closed).
+\item \textbf{Supported LLMs:} Models with which the tool has been demonstrated (e.g., GPT-3.5/4, DeepSeek, CodeLlama).
+\item \textbf{Languages:} Programming languages covered by the tool's evaluation.
+\end{itemize}
+
+\subsubsection{Activity-specific characteristics}
+\begin{itemize}[leftmargin=*]
+\item \textbf{Generation approaches:} Supported prompting strategy (CoT/SCoT/Self-Planning), planning support, verification-in-the-loop.
+\item \textbf{Verification tools:} Verification signal (compiler / ground-truth tests / generated tests / runtime traces / learned verifier), oracle assumption (whether ground-truth tests are assumed available at inference time), cost per candidate.
+\item \textbf{Repair tools:} Feedback source (compiler / unit tests / static analysis / critique), iteration budget, taxonomy use.
+\item \textbf{Optimization tools:} Optimization dimension (correctness / efficiency / readability), algorithm type.
+\item \textbf{Security tools:} CWE coverage, detection method (static / dynamic / hybrid).
+\end{itemize}
+
+\subsection{Tools Evaluation Outcomes}
+\label{sec:comparison}
+
+\clearpage
+\onecolumn
+\begin{landscape}
+
+\subsubsection{Comparison of code generation approaches}
+\begin{table}[H]
+\centering
+\caption{Comparison of code generation approaches.}
+\label{tab:cmp_generation}
+\scriptsize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+\multirow{2}{*}{\textbf{Tool Name}} & \multicolumn{4}{c}{\textbf{General Characteristics}} & \multicolumn{3}{c}{\textbf{Activity-Specific Characteristics}} \\
+\cmidrule(lr){2-5} \cmidrule(lr){6-8}
+ & \textbf{License} & \textbf{Custom.} & \textbf{Supported LLMs} & \textbf{Languages} & \textbf{Prompting Strategy} & \textbf{Planning} & \textbf{Verification-in-Loop} \\
+\midrule
+SCoT~\cite{li2025scot} & N/A (prompt method) & N/A & Any LLM & Python & Structured CoT & Implicit & No \\
+Self-Planning~\cite{jiang2024selfplan} & N/A (prompt method) & N/A & Any LLM & \makecell{Python/Java/\\Go/JavaScript} & Plan-then-generate & Yes & No \\
+ABFCG~\cite{zhang2025abfcg} & N/A & Partial & Custom (RetNet) & Java & KG-based retrieval & No & No \\
+AlphaCodium~\cite{ridnik2024} \tbd & \tbd & \tbd & \tbd & \tbd & \tbd & \tbd & \tbd\ (test-based flow) \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+\clearpage
+
+\subsubsection{Comparison of verification and test generation tools}
+\begin{table}[H]
+\centering
+\caption{Comparison of verification and test generation tools.}
+\label{tab:cmp_verification}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\linewidth}{@{}p{60pt}p{70pt}p{35pt}p{100pt}p{95pt}p{110pt}p{115pt}X@{}}
+\toprule
+\multirow{2}{*}{\textbf{Tool Name}} & \multicolumn{4}{c}{\textbf{General Characteristics}} & \multicolumn{3}{c}{\textbf{Activity-Specific Characteristics}} \\
+\cmidrule(lr){2-5} \cmidrule(lr){6-8}
+ & \textbf{License} & \textbf{Custom.} & \textbf{Supported LLMs} & \textbf{Languages} & \textbf{Verification Signal} & \textbf{Oracle Assumption} & \textbf{Cost per Candidate} \\
+\midrule
+LLM4TDG~\cite{liu2025llm4tdg} & N/A & N/A & 9 LLMs & Python & Runtime + CDG constraints & No hidden tests assumed & \tbd \\
+CodeT~\cite{chenbei2023} \tbd & \tbd & \tbd & \tbd & \tbd & Generated tests + dual agreement & None (self-generated) & \tbd \\
+EvalPlus~\cite{liu2023evalplus} \tbd & \tbd & \tbd & \tbd & \tbd & Augmented test suites & Benchmark-side & \tbd \\
+LEVER~\cite{ni2023lever} & Code/data available & Full & Codex (code-davinci-002), InCoder-6B, CodeGen-16B-multi & SQL (Spider, WikiTQ), Python (GSM8k, MBPP) & Learned verifier + execution & None at inference (verifier trained offline on gold/weak labels; no hidden tests needed for new queries) & 1 verifier forward pass ($\sim$0.5\% of generator size) + 1 execution per candidate \\
+SAGA / TCGBench~\cite{ma2025saga} & Code/data available (github.com/open-compass/SAGA) & Full & DeepSeek-V3-0324, Qwen2.5-72B-Instruct, Qwen2.5-Coder-32B/7B-Instruct & Python, C++ (evaluated languages for CodeCompass); problems sourced from AtCoder/Codeforces/Nowcoder & LLM-generated tests (Input-Interpreter style) + structured human priors & Requires golden reference solution + human submission corpus (no oracle-free operation) & 1 LLM analysis call per problem (one-time) + $N$ program executions per test case \\
+Clover~\cite{sun2024clover} & Code/data available (github.com/ChuyueSun/Clover) & Full & GPT-4 (primary); CodeLlama-34b (ablation, found largely incapable) & Dafny (primary); Verus/Rust (preliminary, 41 examples) & 6-edge consistency check (5 LLM reconstruction/equivalence tests + 1 deductive Dafny/Z3 soundness proof) & No hidden test suite; requires formal (Dafny/Verus) annotations & Not reported \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\clearpage
+
+\subsubsection{Comparison of iterative self-repair tools}
+\begin{table}[H]
+\centering
+\caption{Comparison of iterative self-repair tools.}
+\label{tab:cmp_repair}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}p{62pt}p{65pt}p{35pt}p{105pt}p{70pt}p{100pt}p{35pt}p{105pt}X@{}}
+\toprule
+\multirow{2}{*}{\textbf{Tool Name}} & \multicolumn{4}{c}{\textbf{General Characteristics}} & \multicolumn{4}{c}{\textbf{Activity-Specific Characteristics}} \\
+\cmidrule(lr){2-5} \cmidrule(lr){6-9}
+ & \textbf{License} & \textbf{Custom.} & \textbf{Supported LLMs} & \textbf{Languages} & \textbf{Feedback Source} & \textbf{Iterative} & \textbf{Iteration Budget} & \textbf{Taxonomy} \\
+\midrule
+Self-Debug~\cite{chen2023selfdebug} & N/A & N/A & Any LLM & Python/SQL/C++ & Compiler + execution & Yes & \tbd & No \\
+INTERVENOR~\cite{wang2024intervenor} & Code/data available & Full & GPT-3.5, CodeLlama-7B/13B & Python, C++, Java, JavaScript & Compiler + CoR & Yes & \tbd & No \\
+Dou et al.~\cite{dou2026} & Artifact available & Partial & 9 LLMs & Python & Compiler + Taxonomy & Yes & 2 & 3 primary / 10 secondary \\
+Xia et al.~\cite{xia2023apr} & Code/data available & Full & 9 LLMs (Codex etc.) & Java/Python/C & Test-suite validation (post-hoc) & No & N/A & No \\
+Self-Refine~\cite{madaan2023} & Code/data/prompts available & Full & GPT-3.5, ChatGPT, GPT-4, Codex (code-davinci-002) & Python & Self-critique (no execution) & Yes & Task-specific, 3--5 (no fixed budget) & No \\
+Reflexion~\cite{shinn2023} & Code/demos/data available & Full & GPT-3.5, GPT-4, StarChat-beta (tested, found ineffective on weaker models) & Python, Rust (via MultiPL-E transpilation) & Self-generated unit tests (AST-filtered) + NL self-reflection & Yes & Trial cap not stated for programming; episodic memory capped at 1 experience & No \\
+Self-Edit~\cite{zhang2023selfedit} & Code available (dataset not released) & Full & PyCodeGPT-110M, GPT-Neo-125M/1.3B, CodeGen-350M/2B, InCoder-1B, GPT-J-6B, text-davinci-002 (175B) & Python & Execution results (example test case only) & Yes & 1 (2 tested in ablation, mixed/negative on APPS-test) & No \\
+ChatRepair~\cite{xia2024chatrepair} \tbd & \tbd & \tbd & \tbd & \tbd & Conversational + tests & Yes & \tbd & No \\
+CYCLE~\cite{ding2024cycle} \tbd & \tbd & \tbd & \tbd & \tbd & Execution feedback (trained) & Yes & \tbd & No \\
+LDB~\cite{zhong2024ldb} & Code/dataset available; license not stated & Full & GPT-3.5, GPT-4, GPT-4o, CodeLlama-34B & Python; C++$\rightarrow$Python & Block-level runtime traces + LLM per-block verdicts/explanations & Yes & 10 maximum (20 in robustness check) & No \\
+Olausson et al.~\cite{olausson2024} & Code/data available & Full & CodeLlama-13b-instruct, GPT-3.5, GPT-4 & Python & LLM-generated explanation from execution errors & Yes & Variable (swept as independent variable, $n_p \times n_{fr}$ grid) & No \\
+\bottomrule
+\end{tabularx}
+\end{table}
+\clearpage
+
+\subsubsection{Comparison of optimization tools}
+\begin{table}[H]
+\centering
+\caption{Comparison of code optimization tools and techniques.}
+\label{tab:cmp_optimization}
+\scriptsize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\multirow{2}{*}{\textbf{Tool Name}} & \multicolumn{3}{c}{\textbf{General Characteristics}} & \multicolumn{3}{c}{\textbf{Activity-Specific Characteristics}} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+ & \textbf{License} & \textbf{Custom.} & \textbf{Supported LLMs} & \textbf{Dimension} & \textbf{Algorithm} & \textbf{Languages} \\
+\midrule
+SemOpt~\cite{zhao2025semopt} & Artifact available & Full & DeepSeek-V3, GPT-4.1, Gemini-2.5 & Efficiency & Rule-based (Semgrep) & C/C++, Python \\
+Jonnala et al.~\cite{jonnala2025} & N/A & N/A & GPT-3.5-Turbo, GPT-4-Turbo, GPT-4o-Mini & Time + Memory & CoT + Fine-tuning & Python \\
+Top Pass~\cite{lyu2025toppass} & N/A & N/A & ChatGPT, DeepSeek-Coder & Ranking & pass@k loss & Python \\
+Copilot-in-the-Loop~\cite{zhang2024copilot} & Proprietary & No & Copilot Chat & Quality/Maintainability (code smells) & Prompt-based (name-specificity) & Python \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+\clearpage
+
+\subsubsection{Comparison of security tools}
+\begin{table}[H]
+\centering
+\caption{Comparison of security-focused tools in LLM code generation.}
+\label{tab:cmp_security}
+\scriptsize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+\multirow{2}{*}{\textbf{Tool Name}} & \multicolumn{4}{c}{\textbf{General Characteristics}} & \multicolumn{3}{c}{\textbf{Activity-Specific Characteristics}} \\
+\cmidrule(lr){2-5} \cmidrule(lr){6-8}
+ & \textbf{License} & \textbf{Custom.} & \textbf{Supported LLMs} & \textbf{Languages} & \textbf{CWE Coverage} & \textbf{Detection} & \textbf{Method} \\
+\midrule
+PromSec~\cite{nazzal2024promsec} & Demo code available & Partial & GPT-3.5/4, Bard, CodeLlama & Python/Java & High & Bandit + SpotBugs & Static \\
+CodingCare~\cite{ding2025codingcare} & N/A & N/A & DeepSeek, Mistral, CodeLlama (7B) & Python & \makecell[l]{6 types: DoS, Code Execution,\\ Buffer Overflow, Memory Corruption,\\ SQL Injection, XSS} & CodeQL + Bandit & Static \\
+Bruni et al.~\cite{bruni2025} & GPL-3.0 & Full & GPT-3.5/4o-Mini/4o & Python/C & 18+ CWEs & Semgrep + CodeQL & Static \\
+SVEN~\cite{he2023sven} \tbd & \tbd & \tbd & \tbd & \tbd & \tbd & \tbd & Training-time (prefix tuning) \\
+\bottomrule
+\end{tabular}
+}
+\begin{flushleft}
+\footnotesize \textit{CodingCare result:} $\geq$50\% reduction (up to 100\% on 2 of 5 test projects).
+\textit{PromSec result:} reduces total CWE count from 164 (ablation without gGAN) to 4 while holding 0.97 code-graph similarity; needs as few as 2 LLM queries per fix cycle vs.\ 7 for the matched baseline.
+\end{flushleft}
+\end{table}
+\clearpage
+
+\subsubsection{Comparison of benchmarks}
+\begin{table}[H]
+\centering
+\caption{Comparison of benchmarks used in LLM code generation research.}
+\label{tab:cmp_benchmarks}
+\scriptsize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Benchmark} & \textbf{Size} & \textbf{Language} & \textbf{Source} & \textbf{Focus} & \textbf{Leakage Risk} \\
+\midrule
+HumanEval/HumanEval+~\cite{chen2021humaneval} & 164 & Python & Hand-crafted / augmented tests & Correctness & High \\
+MBPP/MBPP+~\cite{austin2021mbpp} & 974 / 399 & Python & Crowd-sourced / augmented tests & Correctness & Moderate \\
+APPS/APPS+~\cite{hendrycks2021apps} & 10{,}000 / 600 & Python & Codeforces/Kattis / curated & Correctness & Moderate \\
+EffiBench~\cite{huang2024effibench} & 1{,}000 & Python & LeetCode & Efficiency & Moderate \\
+LLMSecEval~\cite{bruni2025} & 150 & Python/C & CWE-mapped & Security & Low \\
+SecurityEval & 130 & Python & Security-focused prompts & Security & Low \\
+CodeContests~\cite{lyu2025toppass} & 13{,}610 & Python (as used in this study) & AlphaCode competitive programming & Competitive correctness & Unknown \\
+SWE-bench & Variable & Python & GitHub issues & Real-world repair & Low \\
+RWPB~\cite{dou2026} & 140 & Python & GitHub 2024 & Real-world correctness & Very Low \\
+pypi\_malregistry~\cite{liu2025llm4tdg} & 5 packages & Python & Malicious PyPI packages & Security (dynamic testing) & Low \\
+Real-world web projects~\cite{ding2025codingcare} & 5 types & Python & Generated web applications & Security & Low \\
+SemOpt Benchmark~\cite{zhao2025semopt} & 151 / 150 & C/C++ / Python & GitHub commits & Efficiency/Optimization & Low (exact matches excluded) \\
+PromSec dataset~\cite{nazzal2024promsec} & 100 Py + 100 Java (test) & Python/Java & MITRE/CodeQL-doc + AixBench/CodeReval & Security & Low \\
+Copilot-in-the-Loop dataset~\cite{zhang2024copilot} & 102 smells (92--93 usable snippets) & Python & 311 GitHub-sourced files & Maintainability/code smells & Unknown \\
+HumanEval-X~\cite{wang2024intervenor} & 820 & C++, Java, JavaScript, Go, Python & Multilingual HumanEval translations & Code translation & Unknown \\
+TransCoder~\cite{zhong2024ldb} & Not stated in LDB & C++$\rightarrow$Python & TransCoder translation benchmark & Code translation/debugging & Unknown \\
+CodeError~\cite{wang2024intervenor} & 4{,}463 & Python & INTERVENOR-constructed erroneous programs & Code repair & Unknown \\
+DS-1000~\cite{wang2024intervenor} & 1{,}000 & Python & Data-science coding problems across seven libraries & Data-science correctness & Unknown \\
+Defects4J 1.2~\cite{xia2023apr} & 391 (255 single-function) & Java & Real-world open-source projects & Correctness/repair & Unknown \\
+Defects4J 2.0~\cite{xia2023apr} & 438 (228 single-function) & Java & Real-world open-source projects & Correctness/repair & Unknown \\
+QuixBugs-Java/Python~\cite{xia2023apr} & 40 per language & Java/Python & Programming-challenge programs & Multilingual repair & Unknown \\
+ManyBugs~\cite{xia2023apr} & 185 (91 reproducible used) & C & Real-world open-source projects & Correctness/repair & Unknown \\
+LeetcodeHardGym~\cite{shinn2023} & 40 & Python (19-language infrastructure) & LeetCode ``hard'' problems posted after Oct.~8, 2022 & Contamination-resistant correctness & Very Low (deliberately post-cutoff) \\
+CloverBench~\cite{sun2024clover} & 60 base $\times$ 5 variants (300) & Dafny & Hand-crafted textbook programs & Correctness/consistency & Low \\
+MBPP-DFY-50~\cite{sun2024clover} & 50 (33 in-scope) & Dafny & Hand-translated from MBPP & Correctness/consistency & Low \\
+LiveCodeBench~\cite{jain2024} \tbd & \tbd & \tbd & Contest sites (time-windowed) & Contamination-free correctness & Very Low \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\end{landscape}
+\twocolumn
+
+%====================================================================
+% SECTION 5 — ANSWERS OF RESEARCH QUESTIONS (mirrors Rashid Sec. 5)
+%====================================================================
+\section{Answers of Research Questions}
+\label{sec:answers}
+
+\subsection*{RQ1: What important researches have been reported from 2021 to 2025?}
+\textbf{Answer:} \tbd\ important researches selected from the 2021--2025 search window (including two protocol exceptions formally published in 2026) have been identified as per the selection and rejection criteria (Section~\ref{sec:criteria}). These researches are classified into six corresponding categories. The details are as follows:
+\begin{itemize}[leftmargin=*]
+\item \tbd\ researches have been identified in the \textit{General} category.
+\item \tbd\ researches have been identified in the \textit{Code Generation} category, with three being foundational benchmark papers (HumanEval, MBPP, APPS).
+\item \tbd\ researches have been identified in the \textit{Bug Detection \& Classification} category, anchored by the fine-grained three-tier/ten-category taxonomy of Dou et al.~\cite{dou2026}.
+\item \tbd\ researches have been identified in the \textit{Verification \& Test Generation} category.
+\item \tbd\ researches have been identified in the \textit{Iterative Self-Repair} category.
+\item \tbd\ researches have been identified in the \textit{Optimization \& Security} category.
+\end{itemize}
+The overview, publication year, validation method, and description of each selected technique are summarized in Table~\ref{tab:classification}.
+
+\subsection*{RQ2: Which prompting and reasoning techniques are more frequently utilized?}
+\textbf{Answer:} As analyzed in Table~\ref{tab:prompting_techniques}, \tbd\ is the most frequently utilized technique, appearing in \tbd\ of \tbd\ studies (\tbd\%). \tbd. Overall, \tbd\ of \tbd\ studies (\tbd\%) employ at least one form of explicit reasoning scaffolding across CoT, SCoT, Self-Planning, RCI, and self-critique, indicating a strong trend toward structured intermediate reasoning in modern LLM code generation research.
+
+\subsection*{RQ3: Which verification and self-repair mechanisms are more frequently utilized, and with what iteration budgets?}
+\textbf{Answer:} As shown in Table~\ref{tab:repair_approaches}, \tbd\ is the most frequently represented mechanism (\tbd\ studies, \tbd\%). Regarding iteration budgets, \tbd\ of the repair-capable studies employ a fixed small budget ($\leq$3 iterations), \tbd\ employ larger or unbounded schedules, and \tbd\ operate post-hoc without iteration. The only taxonomy-grounded fixed-budget datapoint in the reviewed literature is the two-iteration pipeline of Dou et al.~\cite{dou2026}, which achieves a 29.2\% repair success rate on GPT-4. Bug-taxonomy-guided repair, constraint-based reasoning (CDG/CDCL), and runtime-trace debugging remain represented by single studies each, indicating specialized but potentially underexplored directions. These results indicate a diversified verification-and-repair landscape in which the iteration budget is rarely treated as a first-class design variable.
+
+\subsection*{RQ4: What are the significant tools, frameworks, and benchmarks?}
+\textbf{Answer:} On the basis of the SLR, \tbd\ tools/frameworks and \tbd\ benchmarks have been identified to support LLM-based code generation across the five activity dimensions. After the comparative evaluation in Section~\ref{sec:comparison}, the following key tools are presented by activity:
+\begin{itemize}[leftmargin=*]
+\item \tbd\ \textbf{generation approaches} are presented to support structured prompting, planning, and retrieval augmentation (SCoT, Self-Planning, ABFCG, \tbd).
+\item \tbd\ \textbf{verification and test generation tools} are presented (LLM4TDG, \tbd). The oracle assumption column of Table~\ref{tab:cmp_verification} is decisive for practical deployment: tools assuming hidden ground-truth tests at inference time cannot be transferred directly to production settings.
+\item \tbd\ \textbf{iterative self-repair tools} are presented (Self-Debug, INTERVENOR, Dou et al., Xia et al., \tbd). Among these, LLM4TDG notably achieves the highest \texttt{pass@k} improvement (18.66\% on CodeQwen-chat) and validates its approach on real malicious packages.
+\item \tbd\ \textbf{optimization tools} are presented (SemOpt, Jonnala et al., Top Pass, Copilot-in-the-Loop, \tbd).
+\item \tbd\ \textbf{security tools} are presented (PromSec, CodingCare, Bruni et al., \tbd).
+\item Three \textbf{static analysis integration tools} are consistently used across security-focused works (CodeQL, Semgrep, Bandit).
+\item \tbd\ \textbf{benchmarks} span correctness and translation, repair, data-science programming, efficiency and optimization, maintainability, security, competitive programming, and real-world leakage-free evaluation (RWPB, SWE-bench, \tbd).
+\end{itemize}
+
+%====================================================================
+% SECTION 6 — DISCUSSION AND LIMITATIONS (mirrors Rashid Sec. 6)
+%====================================================================
+\section{Discussion and Limitations}
+\label{sec:discussion}
+
+\subsection{Discussion on Code Generation Techniques}
+It is analyzed that prompting and reasoning scaffolds are the core enablers of LLM-based code generation. The evolution from zero-shot prompting through CoT to SCoT and Self-Planning reveals a systematic trend: \textit{the more structured the intermediate representation, the better the downstream code quality}. Structured variants such as SCoT achieve up to 13.79\% improvement over vanilla CoT on HumanEval \cite{li2025scot}, validating this hypothesis empirically. Moreover, reasoning-specialized models (e.g., DeepSeek-R1) that internalize structured reasoning achieve even higher gains (up to 77.9\% on RWPB~\cite{dou2026}), suggesting that the trajectory of future research lies in combining explicit scaffolding with reasoning-enhanced model architectures.
+
+\subsection{Discussion on Verification}
+Verification is the hinge of the generate--verify--repair pipeline: the quality of every downstream repair action is bounded by the quality of the verification signal that triggers it. The reviewed literature exhibits a spectrum of verification signals of increasing granularity: compiler diagnostics, ground-truth test execution, LLM-generated tests \tbd~\cite{chenbei2023}, block-level runtime traces~\cite{zhong2024ldb}, which decompose programs via control-flow-graph analysis and outperform coarser line-level and function-level decompositions on both accuracy and token cost (82.9\% vs.\ 80.5\%/79.9\% on HumanEval with GPT-3.5, at lower token cost), and learned verifiers---Ni et al.'s LEVER reranks sampled candidates using a lightweight classifier (T5/RoBERTa, roughly 0.5\% of the generator's parameter count) trained to predict correctness from the natural-language input, candidate program, and its execution result, requiring no hidden ground-truth tests at inference time~\cite{ni2023lever}. Ma et al.'s SAGA takes the opposite oracle stance from LEVER: it achieves higher detection rates and verifier accuracy than existing TCG baselines by combining LLM reasoning with structured human priors from both correct and incorrect submissions, but explicitly depends on a golden reference solution as interpreter, restricting its direct applicability outside domains where such oracles exist~\cite{ma2025saga}. A decisive practical distinction is the \textit{oracle assumption}: several works implicitly assume the availability of hidden ground-truth test suites at inference time, an assumption that does not hold in production deployment; self-generated verification signals relax this assumption but remain benchmark-dependent in quality. Reflexion's self-generated test suites have a 16.3\% false-positive rate on MBPP-Python versus 1.4\% on HumanEval-Python, directly explaining why the same verification design is less reliable on MBPP~\cite{shinn2023}. This tension is acknowledged even by well-resourced self-repair studies: Olausson et al.~\cite{olausson2024} note that their reliance on full hidden test suites ``is quite different from real-world software development tasks... tests are unlikely to be available for each individual snippet'' (Sec.~5). LDB independently exposes the same deployment constraint: its limitations state that correct test cases are mandatory, with at least one visible test required to initiate debugging; moreover, all TransCoder tests are visible during repair, unlike the held-out splits used for HumanEval and MBPP~\cite{zhong2024ldb}. Benchmark-side verification has also proven consequential: \tbd~\cite{liu2023evalplus} demonstrated that augmenting the test adequacy of HumanEval/MBPP reduces reported pass rates by \tbd, indicating that a portion of claimed correctness in the literature is an artifact of weak test suites.
+% TODO: fill EvalPlus reduction figures and CodeT numbers after reading.
+
+A structurally distinct point on the verification-signal spectrum is offered by deductive-verification-based consistency checking: Clover~\cite{sun2024clover} reduces correctness checking to consistency checking among code, docstrings, and formal (Dafny) annotations, combining a deductive soundness proof with five LLM-mediated reconstruction tests, accepting up to 87\% of correct examples on its CloverBench dataset while rejecting 100\% of adversarial incorrect ones across four mutation categories.
+
+\subsection{Discussion on Iterative Self-Repair}
+Bug taxonomy construction (e.g., Dou et al.'s 3-primary/10-secondary classification) provides essential analytical infrastructure for systematic repair. Self-critique with compiler feedback, combined with bug-taxonomy-driven prompts, achieves a 29.2\% repair success rate after two iterations on GPT-4 \cite{dou2026}. However, functional bugs, which account for the highest proportion of errors, remain the hardest to repair, with transformation rates (functional $\to$ correct) lagging behind syntax and runtime bug repair. This indicates that functional correctness demands deeper semantic understanding that current LLMs, even with iterative feedback, do not fully possess.
+
+Xia et al.~\cite{xia2023apr} provide a complementary sampling-and-ranking paradigm, evaluating nine LLMs (125M--20B parameters) across five datasets, three languages, and three repair settings. On the 255 single-function bugs in Defects4J 1.2, the nine-model ensemble produces 109 correct fixes (99 from Codex alone), compared with 67 for AlphaRepair, and finds 36 fixes not previously reported by existing tools (31 after excluding exact developer-patch matches). Infilling repairs 40\% of bugs with Codex versus 28\% for full-function generation. Their leakage analysis further finds that 234 of 354 correct patches (66\%) differ from the developer patch and that only 15\% of identical patches are traceable to the models' training data, weakening a pure-memorization explanation.
+
+Self-Refine's own evaluation contains no code-correctness-repair task: its code contribution comprises Code Optimization on PIE, where the proportion of optimized programs rises from 14.8--27.3\% to 23.0--36.0\%, and Code Readability on CodeNet, making it useful as the zero-verification-signal comparison point against the execution-grounded repair papers in this review rather than as an additional repair-success-rate data point \cite{madaan2023}.
+
+Reflexion's Table~3 ablation on the 50 hardest HumanEval-Rust problems with GPT-4 shows that neither self-generated-test verification alone (0.60, no gain over the 0.60 base model) nor self-reflection without test grounding (0.52, below the base model) is sufficient; only their combination improves performance to 0.68~\cite{shinn2023}. This result directly supports Gaps~1 and~2 by showing that useful iterative repair requires both a verification signal and feedback that interprets that signal effectively.
+
+The headline programming results are correspondingly benchmark- and model-dependent. Reflexion reaches 91.0\% pass@1 on HumanEval-Python versus the reported GPT-4 state of the art of 80.1\%, but underperforms GPT-4 on MBPP-Python (77.1\% vs.\ 80.1\%), consistent with the markedly higher false-positive rate of its generated tests on MBPP. With the weaker StarChat-beta model, both the baseline and Reflexion score 0.26 on HumanEval-Python, providing independent evidence that useful self-correction depends on the underlying model's feedback and reasoning quality~\cite{shinn2023}. Results from Reflexion's AlfWorld and HotPotQA evaluations are excluded from this code-focused synthesis.
+
+LDB~\cite{zhong2024ldb} operationalizes this coupling through an iterative Profiling--Debugging--Regeneration loop: control-flow-graph blocks are instrumented to expose intermediate values, the LLM produces trace-grounded per-block verdicts and explanations, and a full refined program is regenerated until visible tests pass or the budget is exhausted. Its aggregate headline gain is 9.8 points on TransCoder with CodeLlama-34B (69.8\% to 79.6\%); the separate 9.1-point result applies only to the hard TransCoder subset with GPT-3.5 (73.3\% to 82.4\%). On HumanEval, the seed generator and debugging backbone materially change the result: GPT-3.5 seeds debugged by GPT-3.5 reach 82.9\%, Reflexion seeds debugged by GPT-3.5 reach 95.1\%, and Reflexion seeds debugged by GPT-4o reach 98.2\%. The standard cap is 10 iterations, while the 20-iteration robustness check raises HumanEval/GPT-3.5 from 82.9\% to 84.1\%, demonstrating diminishing but still positive returns beyond the main budget.
+
+INTERVENOR~\cite{wang2024intervenor} uses a Code Learner and a Code Teacher linked through a compiler-grounded Chain-of-Repair process. It reports approximately 18\% improvement over GPT-3.5 on code generation and 4.3\% on code translation, while successfully repairing roughly twice as many CodeError examples as Self-Refine and raw-error-message baselines. In contrast, LLM4TDG~\cite{liu2025llm4tdg} shows that constraint-driven iterative repair not only improves benchmark scores but also uncovers malicious code in real-world dependency libraries.
+
+Critically, the self-repair paradigm is not a guaranteed win: Olausson et al.~\cite{olausson2024} report that self-repair gains are often modest and are bottlenecked by the model's ability to produce accurate feedback on its own faulty code---self-repair beats the no-repair baseline by up to 8\% on APPS (GPT-4) and 10\% on HumanEval (Code Llama), but sometimes underperforms it entirely at small sample budgets. Boosting feedback quality with a stronger model beats both the i.i.d.\ baseline and standard self-repair at every tested budget, and substituting GPT-4's own feedback with human feedback raises repair success from 33.3\% to 52.6\% overall, a $1.58\times$ improvement. This finding is central to the present review: it implies that the leverage point for improving bounded-iteration repair is the \textit{quality and structure of the feedback}, precisely the role that a fine-grained bug taxonomy can play.
+
+\subsection{Discussion on Optimization and Security}
+Optimization research reveals that efficiency gains are hardware- and model-dependent: CoT prompting improves efficiency for smaller models but can be neutral or counterproductive for larger ones \cite{jonnala2025}. High-CPU hardware configurations consistently outperform high-memory configurations for LLM-generated code. Jonnala et al.\ further report that fine-tuning GPT-4o-Mini on a task-specific dataset degraded both correctness and efficiency, suggesting that CoT prompting is the more reliable optimization lever of the two techniques evaluated. On the security front, the finding that the security-focused prefix \textit{``You are a developer who is very security-aware''} reduces vulnerable code by up to 56\% on GPT-4o \cite{bruni2025} demonstrates the remarkable power of simple prompt engineering. However, this effect does not generalize to weaker models: on GPT-3.5-turbo, the same prefix produces a modest 7.9\% increase in vulnerable code, underscoring the importance of model-aware prompt design.
+
+SemOpt~\cite{zhao2025semopt} achieves 1.38--28 times more successful optimizations than representative baselines across three LLMs on C/C++ tasks, while its Python evaluation reports 4.60--6.33 times more successful optimizations than RAPGen. On five real-world projects per language, SemOpt improves performance metrics by 5.04\%--218.07\% for C/C++ and 61.77\%--479.90\% for Python. Top Pass~\cite{lyu2025toppass} complements transformation-based optimization by reranking unmodified candidate programs with a pass@k-maximized loss, achieving a 32.9\% relative improvement in pass@1 on CodeContests compared with CodeRanker. Copilot-in-the-Loop~\cite{zhang2024copilot} demonstrates that prompt specificity strongly affects maintainability improvement: the code-smell fixing rate rises from 34.4\% with a generic prompt to 87.1\% when the smell name is stated explicitly.
+
+CodingCare~\cite{ding2025codingcare} reports CVE reductions ranging from 50\% to 100\% across five real-world web-application types, with complete elimination of detected vulnerabilities in two projects. PromSec~\cite{nazzal2024promsec} takes a complementary approach: a graph generative adversarial network (gGAN), trained with a contrastive loss, iteratively rewrites a code's graph representation to lower its CWE count, while a companion LLM reverse-engineers each improved graph into a refined prompt, closing the loop until vulnerabilities converge. Reported experiments drive per-codebase CWE counts close to zero within roughly two iterations on average, and the resulting prompt fixes transfer across unseen CWEs, across LLMs, and across programming languages.
+
+\subsection{Discussion on Paradigm Selection: Single-Agent versus Multi-Agent}
+\label{sec:paradigm_discussion}
+Although multi-agent frameworks lie outside the primary study set of this review, their published results provide an informative cost--quality contrast. MetaGPT~\cite{hong2023metagpt} reports 85.9\% Pass@1 on HumanEval via SOP-encoded role specialization; notably, however, its own ablations attribute a substantial share of the gain to its \textit{executable feedback loop} -- an Engineer agent that iteratively runs generated unit tests and self-corrects for up to three retries, independently improving Pass@1 by 4.2\% (HumanEval) and 5.4\% (MBPP). These gains are directly comparable to the compiler-feedback repair results reported for the single-agent Self-Debug~\cite{chen2023selfdebug} and INTERVENOR~\cite{wang2024intervenor}. Meanwhile, the head-to-head comparison between MetaGPT and ChatDev~\cite{qian2023chatdev} documents token costs of 124.3 versus 248.9 per line of produced code, illustrating the overhead of dialogue-based multi-agent communication. Taken together, the evidence suggests that a substantial portion of multi-agent quality gains is attributable to \textit{verification-driven iteration} rather than to agent multiplicity itself -- a hypothesis further supported by test-based single-flow results reported outside this review's primary study set. Ridnik et al.'s AlphaCodium~\cite{ridnik2024} combines structured problem reflection, AI-generated test enrichment, and regression-protected (``test-anchored'') run-fix iteration on public and AI-generated tests in a purely single-agent flow, raising GPT-4's pass@5 accuracy on the competitive-programming benchmark CodeContests from 19\% with a single direct prompt to 44\%, at a reported cost of roughly 15--20 LLM calls per solution and with no multi-agent orchestration involved. AlphaCodium is cited here as corroborating evidence for the paradigm rather than as a primary study of this review: despite substantial citation uptake, it remains, at the time of writing, an unrefereed arXiv preprint that does not satisfy this review's Criterion 3 (Section~\ref{sec:criteria}). Notably, its own design also illustrates the gap this framework targets -- its run-fix iteration is neither guided by a bug taxonomy nor bounded to a small, fixed, reported budget, unlike the two-iteration pipeline of Dou et al.~\cite{dou2026} that anchors the present framework (Section~\ref{sec:research_gap}). A disciplined single-agent generate--verify--repair pipeline with a fixed iteration budget therefore occupies a cost-effective and largely unexamined point on the quality--cost frontier.
+
+\subsection{Research Gap and Framework Justification}
+\label{sec:research_gap}
+The synthesis of \tbd\ primary studies reveals several critical research gaps that collectively motivate the development of a single-agent, taxonomy-guided generate--verify--repair framework.
+
+\textbf{Gap 1: Taxonomy-aware feedback is decoupled from verification-driven repair.} Dou et al.~\cite{dou2026} introduced a rigorous bug taxonomy, and iterative self-repair grounded in execution feedback is well established \cite{chen2023selfdebug,wang2024intervenor}; meanwhile, Clover~\cite{sun2024clover} provides strong formal consistency checks but explicitly stops at verification rather than performing repair. No existing work fuses \textit{fine-grained bug-taxonomy-guided feedback} into a \textit{verification-driven, bounded-iteration} single-agent repair loop. This is the headline gap addressed by the proposed framework.
+
+\textbf{Gap 2: Feedback quality is the proven bottleneck of self-repair.} Olausson et al.~\cite{olausson2024} demonstrate that self-repair effectiveness is limited primarily by the model's ability to generate accurate feedback on its own faulty code---and that, given a fixed sampling budget, allocating more of it to diverse initial generations consistently outperforms allocating more of it to additional repair iterations. Reflexion supplies independent evidence: it yields no HumanEval-Python improvement with StarChat-beta (0.26 vs.\ 0.26), while its generated-test false-positive rate varies from 1.4\% on HumanEval-Python to 16.3\% on MBPP-Python~\cite{shinn2023}. Structured, taxonomy-derived feedback is an unexplored remedy to precisely this bottleneck.
+
+\textbf{Gap 3: The iteration budget is not treated as a design variable.} Across the reviewed repair literature, iteration schedules are typically fixed a priori rather than tuned. Olausson et al.~\cite{olausson2024} is a partial exception, showing that budget spent on initial-sample diversity outperforms budget spent on repair depth; LDB~\cite{zhong2024ldb} provides a complementary depth curve, with HumanEval/GPT-3.5 increasing from 82.9\% at 10 iterations to 84.1\% at 20, but neither work couples budget allocation with a structured, taxonomy-guided feedback signal---the gap this framework addresses. The only taxonomy-grounded fixed-budget datapoint is Dou et al.'s 29.2\% repair success at two iterations \cite{dou2026}, and no work systematically optimizes \textit{what happens inside} each iteration under a fixed budget. The proposed framework adopts the two-iteration budget as its baseline to enable direct head-to-head comparison.
+
+\textbf{Gap 4: The single-agent point on the quality--cost frontier is unoccupied.} As discussed in Section~\ref{sec:paradigm_discussion}, published multi-agent results indicate that verification-driven iteration, not agent multiplicity, drives much of the quality gain, while multi-agent communication multiplies token cost. A disciplined single-agent pipeline with explicit verification and a bounded budget remains unexamined as a deliberate design choice. Even where single-agent, test-based iterative flows exist in the literature (e.g., AlphaCodium~\cite{ridnik2024}, Section~\ref{sec:paradigm_discussion}), none couples the iteration to a fine-grained bug taxonomy or treats a small, fixed budget as a first-class design variable -- the combination this framework proposes.
+
+\textbf{Gap 5: Insufficient real-world, leakage-free benchmark coverage.} Of the \tbd\ identified benchmarks, only RWPB, SWE-bench, pypi\_malregistry, the real-world web projects, the SemOpt Benchmark, LeetcodeHardGym~\cite{shinn2023}, and \tbd\ (LiveCodeBench) target real-world or deliberately post-cutoff scenarios with low data-leakage risk. The field remains heavily dependent on HumanEval/MBPP/APPS, which have demonstrable leakage risks \cite{dou2026}. Evaluating on RWPB enables a direct comparison with Dou et al.
+
+\subsubsection*{The proposed framework as a unified response}
+A single-agent generate--verify--repair framework directly addresses Gaps 1--4 by integrating, within one model-orchestrated pipeline:
+\begin{itemize}[leftmargin=*]
+\item A \textbf{planning stage} employing SCoT/Self-Planning for structured decomposition \cite{li2025scot,jiang2024selfplan} (generation dimension).
+\item A \textbf{generation stage} producing candidate code from the structured plan.
+\item A \textbf{verification stage} combining compiler checks, test execution, and \tbd\ (self-generated tests, following~\cite{chenbei2023}) to produce a verification signal without assuming hidden ground-truth oracles (Gap 1, verification dimension).
+\item A \textbf{taxonomy-guided repair stage} that maps verification failures onto Dou et al.'s three-tier/ten-category taxonomy \cite{dou2026} and constructs structured repair feedback accordingly, directly targeting the feedback-quality bottleneck (Gaps 1, 2).
+\item A \textbf{bounded iteration budget of two repair cycles}, adopted from and directly comparable to the strongest published baseline \cite{dou2026} (Gap 3).
+\item \textbf{Evaluation on RWPB} alongside HumanEval+/MBPP+ for leakage-aware measurement (Gap 5).
+\end{itemize}
+Such a framework would represent the first unified single-agent response to the verification-and-repair demands identified across the \tbd\ reviewed studies, targeting repair success beyond the 29.2\% two-iteration baseline at a fraction of the token cost documented for multi-agent alternatives.
+
+\subsection{Limitations of Research}
+Although we have completely followed the guidelines of SLR and strictly observed the developed review protocol, there are still certain limitations:
+\begin{itemize}[leftmargin=*]
+\item We have used appropriate search terms and thoroughly scanned the search results. However, a few search terms returned thousands of results that cannot be scanned exhaustively. Furthermore, we have rejected a number of researches based on their titles, and there is a possibility that the contents of such researches are not properly reflected in the titles. Consequently, we do not claim the exhaustiveness of our research.
+\item We have used five sources (four renowned scientific databases plus arXiv). These sources provide a large amount of journal and conference publications. However, some relevant research work may be provided by other sources (e.g., OpenReview). Therefore, there is a fair chance that we have missed some relevant researches. However, we believe that the ultimate findings of this SLR are not affected significantly because the selected sources provide high-quality recent research literature.
+\item The field of LLM-based code generation is evolving extraordinarily rapidly, with new techniques emerging on a monthly basis. Our cutoff of 2025 may therefore exclude very recent developments. Future SLR updates will be required to maintain currency.
+\item The primary study set deliberately excludes works whose principal contribution is multi-agent orchestration, treating them as contrast literature instead. Findings regarding the single-agent paradigm should therefore not be read as evidence against multi-agent approaches in general.
+\end{itemize}
+
+%====================================================================
+% SECTION 7 — CONCLUSIONS (mirrors Rashid Sec. 7)
+%====================================================================
+\section{Conclusions}
+\label{sec:conclusions}
+This Systematic Literature Review has rigorously identified, classified, and analyzed \tbd\ primary studies on LLM-based code generation selected from the 2021--2025 search window, including two studies retained under the search protocol and formally published in 2026. Following a structured review protocol encompassing precise research questions, six concrete selection criteria, a multi-stage filtering process yielding \tbd\ primary studies from an initial pool of \tbd\ candidates, and a comprehensive data extraction framework, the review provides an evidence-based synthesis of contemporary techniques, tools, and benchmarks.
+
+The key findings are fourfold. First, explicit reasoning scaffolding is prevalent in contemporary research, with \tbd\ of \tbd\ studies (\tbd\%) employing at least one of CoT, SCoT, Self-Planning, RCI, or self-critique. Second, verification signals span a spectrum from compiler diagnostics to LLM-generated tests, runtime traces, and learned verifiers, with the oracle assumption emerging as the decisive practical differentiator; iterative self-critique with execution feedback achieves up to 29.2\% repair success in two iterations \cite{dou2026}, while the feedback-quality bottleneck identified by \tbd~\cite{olausson2024} bounds further gains. Third, iteration budgets are ad hoc across the literature and are rarely treated as a first-class design variable. Fourth, significant research gaps remain in the integration of taxonomy-guided feedback with verification-driven bounded repair, the occupation of the single-agent point on the quality--cost frontier, and the availability of leakage-free real-world benchmarks.
+
+These findings directly motivate the development of a single-agent generate--verify--repair framework that fuses fine-grained bug-taxonomy-guided feedback with verification-driven repair under a bounded two-iteration budget. By extending and directly comparing against the empirical baseline of Dou et al.~\cite{dou2026}, such a framework promises to deliver code that is correct, efficient, and secure, thereby narrowing the gap between laboratory benchmarks and real-world deployment requirements at a fraction of the computational cost of collaborative multi-agent alternatives.
+
+%====================================================================
+% REFERENCES
+%====================================================================
+\begin{thebibliography}{99}
+\footnotesize
+
+% -------------------- RETAINED PRIMARY STUDIES (18) --------------------
+\bibitem{dou2026}
+S. Dou, H. Jia, S. Wu, H. Zheng, M. Wu et al., ``What is wrong with your code generated by large language models? An extensive study,'' \textit{Science China Information Sciences}, vol. 69, no. 1, p. 112107, 2026.
+
+\bibitem{chen2021humaneval}
+M. Chen, J. Tworek, H. Jun, Q. Yuan et al., ``Evaluating large language models trained on code,'' \textit{arXiv preprint arXiv:2107.03374}, 2021.
+
+\bibitem{austin2021mbpp}
+J. Austin, A. Odena, M. Nye, M. Bosma et al., ``Program synthesis with large language models,'' \textit{arXiv preprint arXiv:2108.07732}, 2021.
+
+\bibitem{hendrycks2021apps}
+D. Hendrycks, S. Basart, S. Kadavath, M. Mazeika et al., ``Measuring coding challenge competence with APPS,'' in \textit{Proceedings of the 35th Conference on Neural Information Processing Systems (NeurIPS 2021) Track on Datasets and Benchmarks}, 2021.
+
+\bibitem{li2025scot}
+J. Li, G. Li, Y. Li, and Z. Jin, ``Structured chain-of-thought prompting for code generation,'' \textit{ACM Transactions on Software Engineering and Methodology}, vol. 34, no. 2, Article 37, 2025.
+
+\bibitem{jiang2024selfplan}
+X. Jiang, Y. Dong, L. Wang, Z. Fang, Q. Shang, G. Li, Z. Jin, and W. Jiao, ``Self-planning code generation with large language models,'' \textit{ACM Transactions on Software Engineering and Methodology}, vol. 33, pp. 1--30, 2024.
+
+\bibitem{zhang2025abfcg}
+F. Zhang, H. Chen, Q. Chen, and J. Liu, ``Cloud software code generation via knowledge graphs and multi-modal learning,'' \textit{Journal of Cloud Computing}, vol. 14, Art. 37, 2025.
+
+\bibitem{xia2023apr}
+C. S. Xia, Y. Wei, and L. Zhang, ``Automated program repair in the era of large pre-trained language models,'' in \textit{Proceedings of the 45th International Conference on Software Engineering (ICSE)}, 2023, pp. 1482--1494.
+
+\bibitem{chen2023selfdebug}
+X. Chen, M. Lin, N. Sch{\"a}rli, and D. Zhou, ``Teaching large language models to self-debug,'' \textit{arXiv preprint arXiv:2304.05128}, 2023.
+
+\bibitem{wang2024intervenor}
+H. Wang, Z. Liu, S. Wang, G. Cui, N. Ding, Z. Liu, and G. Yu, ``INTERVENOR: Prompting the coding ability of large language models with the interactive chain of repair,'' in \textit{Findings of the Association for Computational Linguistics: ACL 2024}, Bangkok, Thailand, pp. 2081--2107, 2024.
+
+\bibitem{liu2025llm4tdg}
+J. Liu, R. Liang, X. Zhu, Y. Zhang, Y. Liu, and Q. Liu, ``LLM4TDG: Test-driven generation of large language models based on enhanced constraint reasoning,'' \textit{Cybersecurity}, vol. 8, no. 32, 2025.
+
+\bibitem{zhao2025semopt}
+Y. Zhao, Y.-A. Xiao, Q. Xiao, Z. Zhang, and Y. Xiong, ``SemOpt: LLM-driven code optimization via rule-based analysis,'' \textit{ACM Transactions on Software Engineering and Methodology}, 2026, doi: \url{https://doi.org/10.1145/3820167}.
+
+\bibitem{jonnala2025}
+R. Jonnala, J. Yang, Y. Lee, G. Liang, and Z. Cao, ``Measuring and improving the efficiency of Python code generated by LLMs using CoT prompting and fine-tuning,'' \textit{IEEE Access}, vol. 13, pp. 119657--119681, 2025.
+
+\bibitem{lyu2025toppass}
+Z. Lyu, X. Li, Z. Xie, and M. Li, ``Top Pass: improve code generation by pass@k-maximized code ranking,'' \textit{Frontiers of Computer Science}, vol. 19, no. 8, art. 198341, 2025, doi: \url{https://doi.org/10.1007/s11704-024-40415-9}.
+
+\bibitem{zhang2024copilot}
+B. Zhang, P. Liang, Q. Feng, Y. Fu, and Z. Li, ``Copilot-in-the-loop: Fixing code smells in Copilot-generated Python code using Copilot,'' in \textit{Proceedings of the 39th IEEE/ACM International Conference on Automated Software Engineering (ASE '24)}, 2024, pp. 2230--2234.
+
+\bibitem{bruni2025}
+M. Bruni, F. Gabrielli, M. Ghafari, and M. Kropp, ``Benchmarking prompt engineering techniques for secure code generation with GPT models,'' \textit{arXiv preprint arXiv:2502.06039}, 2025.
+
+\bibitem{nazzal2024promsec}
+M. Nazzal, I. M. Khalil, A. A. Khreishah, and N. Phan, ``PromSec: Prompt optimization for secure generation of functional source code with large language models,'' in \textit{Proceedings of the 2024 ACM SIGSAC Conference on Computer and Communications Security (CCS '24)}, Salt Lake City, UT, USA, pp. 2266--2280, 2024.
+
+\bibitem{ding2025codingcare}
+Z. Ding, S. Wu, Y. Zhang, T. Yang, Y. Li, Z. Li, H. Shao, and Y. Shi, ``CodingCare: AI code generation security framework for common vulnerability mitigation,'' in \textit{Proceedings of ISCCN 2025}, Nanjing, China, ACM, 2025.
+
+% -------------------- NEW CANDIDATE STUDIES (verify every entry before use) --------------------
+% TODO-verify: authors, venue, pages for ALL entries in this block.
+
+\bibitem{madaan2023}
+A. Madaan, N. Tandon, P. Gupta, S. Hallinan et al., ``Self-Refine: Iterative refinement with self-feedback,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol. 36, 2023, pp. 46534--46594.
+
+\bibitem{shinn2023}
+N. Shinn, F. Cassano, A. Gopinath, K. Narasimhan, and S. Yao, ``Reflexion: Language agents with verbal reinforcement learning,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol. 36, pp. 8634--8652, 2023.
+
+\bibitem{olausson2024}
+T. X. Olausson, J. P. Inala, C. Wang, J. Gao, and A. Solar-Lezama, ``Is self-repair a silver bullet for code generation?'' in \textit{The Twelfth International Conference on Learning Representations (ICLR)}, 2024.
+
+\bibitem{chenbei2023}
+B. Chen, F. Zhang, A. Nguyen, D. Zan, Z. Lin, J.-G. Lou, and W. Chen, ``CodeT: Code generation with generated tests,'' in \textit{The Eleventh International Conference on Learning Representations (ICLR)}, 2023. % TODO-verify
+
+\bibitem{zhong2024ldb}
+L. Zhong, Z. Wang, and J. Shang, ``Debug like a human: A large language model debugger via verifying runtime execution step by step,'' in \textit{Findings of the Association for Computational Linguistics: ACL 2024}, Bangkok, Thailand, pp. 851--870, 2024, doi: \url{https://doi.org/10.18653/v1/2024.findings-acl.49}.
+
+\bibitem{zhang2023selfedit}
+K. Zhang, Z. Li, J. Li, G. Li, and Z. Jin, ``Self-Edit: Fault-aware code editor for code generation,'' in \textit{Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)}, Toronto, Canada, pp. 769--787, 2023.
+
+\bibitem{ridnik2024}
+T. Ridnik, D. Kredo, and I. Friedman, ``Code generation with AlphaCodium: From prompt engineering to flow engineering,'' \textit{arXiv preprint arXiv:2401.08500}, 2024. % TODO-verify
+
+\bibitem{liu2023evalplus}
+J. Liu, C. S. Xia, Y. Wang, and L. Zhang, ``Is your code generated by ChatGPT really correct? Rigorous evaluation of large language models for code generation,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol. 36, 2023. % TODO-verify
+
+\bibitem{xia2024chatrepair}
+C. S. Xia and L. Zhang, ``Automated program repair via conversation: Fixing 162 out of 337 bugs for \$0.42 each using ChatGPT,'' in \textit{Proceedings of the 33rd ACM SIGSOFT International Symposium on Software Testing and Analysis (ISSTA)}, 2024. % TODO-verify
+
+\bibitem{ding2024cycle}
+Y. Ding, M. J. Min, G. Kaiser, and B. Ray, ``CYCLE: Learning to self-refine the code generation,'' \textit{Proceedings of the ACM on Programming Languages (OOPSLA)}, 2024. % TODO-verify
+
+\bibitem{ni2023lever}
+A. Ni, S. Iyer, D. Radev, V. Stoyanov, W. Yih, S. I. Wang, and X. V. Lin, ``LEVER: Learning to verify language-to-code generation with execution,'' in \textit{Proceedings of the 40th International Conference on Machine Learning (ICML)}, PMLR 202, Honolulu, Hawaii, USA, 2023.
+
+\bibitem{ma2025saga}
+Z. Ma, T. Zhang, M. Cao, J. Liu, W. Zhang, M. Luo, S. Zhang, and K. Chen, ``Rethinking verification for LLM code generation: From generation to testing,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, 2025. % TODO: confirm proceedings volume number
+
+\bibitem{sun2024clover}
+C. Sun, Y. Sheng, O. Padon, and C. Barrett, ``Clover: Closed-loop verifiable code generation,'' in \textit{AI Verification -- 1st International Symposium (SAIV 2024)}, Montreal, QC, Canada, LNCS vol. 14846, pp. 134--155, Springer, 2024, doi: \url{https://doi.org/10.1007/978-3-031-65112-0_7}.
+
+\bibitem{zhangt2023coderreviewer}
+T. Zhang, T. Yu, T. Hashimoto, M. Lewis, W. Yih, D. Fried, and S. I. Wang, ``Coder reviewer reranking for code generation,'' in \textit{Proceedings of the 40th International Conference on Machine Learning (ICML)}, 2023. % TODO-verify
+
+\bibitem{le2022coderl}
+H. Le, Y. Wang, A. D. Gotmare, S. Savarese, and S. C. H. Hoi, ``CodeRL: Mastering code generation through pretrained models and deep reinforcement learning,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol. 35, 2022. % TODO-verify
+
+\bibitem{tambon2025}
+F. Tambon, A. M. Dakhel, A. Nikanjam, F. Khomh, M. C. Desmarais, and G. Antoniol, ``Bugs in large language models generated code: An empirical study,'' \textit{Empirical Software Engineering}, 2025. % TODO-verify
+
+\bibitem{pearce2022}
+H. Pearce, B. Ahmad, B. Tan, B. Dolan-Gavitt, and R. Karri, ``Asleep at the keyboard? Assessing the security of GitHub Copilot's code contributions,'' in \textit{Proceedings of the 2022 IEEE Symposium on Security and Privacy (S\&P)}, 2022, pp. 754--768. % TODO-verify
+
+\bibitem{he2023sven}
+J. He and M. Vechev, ``Large language models for code: Security hardening and adversarial testing,'' in \textit{Proceedings of the 2023 ACM SIGSAC Conference on Computer and Communications Security (CCS)}, 2023. % TODO-verify
+
+\bibitem{jain2024}
+N. Jain, K. Han, A. Gu, W.-D. Li, F. Yan, T. Zhang, S. Wang, A. Solar-Lezama, K. Sen, and I. Stoica, ``LiveCodeBench: Holistic and contamination free evaluation of large language models for code,'' \textit{arXiv preprint arXiv:2403.07974}, 2024. % TODO-verify
+
+% -------------------- CONTRAST LITERATURE (multi-agent; NOT primary studies) --------------------
+\bibitem{qian2023chatdev}
+C. Qian, W. Liu, H. Liu, N. Chen et al., ``ChatDev: Communicative agents for software development,'' in \textit{Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (ACL)}, pp. 15174--15186, 2024.
+
+\bibitem{hong2023metagpt}
+S. Hong, M. Zhuge, J. Chen, X. Zheng et al., ``MetaGPT: Meta programming for a multi-agent collaborative framework,'' in \textit{The Twelfth International Conference on Learning Representations (ICLR)}, 2024.
+
+\bibitem{wu2023autogen}
+Q. Wu, G. Bansal, J. Zhang, Y. Wu et al., ``AutoGen: Enabling next-gen LLM applications via multi-agent conversation framework,'' \textit{arXiv preprint arXiv:2308.08155}, 2023.
+
+% -------------------- BACKGROUND, BENCHMARKS, METHODOLOGY --------------------
+\bibitem{wei2022cot}
+J. Wei, X. Wang, D. Schuurmans, M. Bosma et al., ``Chain-of-thought prompting elicits reasoning in large language models,'' \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol. 35, pp. 24824--24837, 2022.
+
+\bibitem{huang2024effibench}
+D. Huang, Y. Qing, W. Shang, H. Cui, and J. M. Zhang, ``EffiBench: Benchmarking the efficiency of automatically generated code,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol. 37, 2024, pp. 11506--11544.
+
+\bibitem{kitchenham2004}
+B. Kitchenham, ``Procedures for performing systematic reviews,'' \textit{Keele University Technical Report TR/SE-0401}, NICTA Technical Report 0400011T, 2004.
+
+\bibitem{rashid2015}
+M. Rashid, M. W. Anwar, and A. M. Khan, ``Toward the tools selection in model based system engineering for embedded systems --- A systematic literature review,'' \textit{Journal of Systems and Software}, vol. 106, pp. 150--163, 2015.
+
+\end{thebibliography}
+\end{document}
