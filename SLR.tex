@@ -6,18 +6,17 @@
 %  1) Every red [TBD] marker must be replaced with REAL data.
 %  2) Search-result counts (Table 1) and ALL PRISMA numbers (Fig. 3)
 %     must come from actually re-running the searches with the new
-%     single-agent search terms. Do NOT reuse the old counts.
-%  3) The primary-study set is frozen at 37 distinct studies.
-%     Citation details still requiring checks are flagged individually.
-%  4) After adding each new study, update: Table 3 (classification),
+%     single-agent search terms. Do NOT reuse the old counts..
+%  3) After adding each new study, update: Table 3 (classification),
 %     Table 4 (techniques), Table 5 (mechanisms), Table 6 (tools),
 %     the matching comparison table (7-11), Table 12 (benchmarks),
 %     Fig. 4 (year counts), and every percentage in Sections 3, 5-7.
-%  5) Multi-agent papers (ChatDev, MetaGPT, AutoGen, AnnCoder, Bai)
+%  4) Multi-agent papers (ChatDev, MetaGPT, AutoGen, AnnCoder, Bai)
 %     are NOT primary studies anymore. They remain cited ONLY as
-%     contrast literature in Sections 1 and 6.5.
+%     contrast literature in Sections 1 and 6.5, this paper was first multi % agentic not anymore
+%  5) The main goal is to add more correct studies according to category and finish this paper.
 %====================================================================
-\documentclass[10pt,a4paper]{article}
+\documentclass[10pt,a4paper]{article}   
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[top=0.68in,bottom=0.68in,left=0.70in,right=0.70in]{geometry}
@@ -152,7 +151,7 @@ This Systematic Literature Review (SLR) aims to identify, classify, and analyze 
 \noindent
 Systematic Literature Review methodology has been adopted following the guidelines proposed by Kitchenham, as operationalized by Rashid et al. A comprehensive review protocol was developed incorporating six concrete selection criteria, a structured search process across four renowned scientific databases (IEEE, ACM, Springer, Elsevier, supplemented by arXiv), quality assessment procedures, and a formal data extraction and synthesis framework. Six predefined categories guided the classification of selected research works.
 \noindent
-From an initial pool of \tbd\ candidate studies, 37 primary research works were selected through a rigorous multi-stage filtering process. The selected studies were classified into six categories: General, Code Generation, Bug Detection \& Classification, Verification \& Test Generation, Iterative Self-Repair, and Optimization \& Security. The analysis identified \tbd\ as the most prevalent prompting technique family (\tbd\% of studies), \tbd\ as the leading verification signal, and \tbd\ as the dominant repair feedback source, while iteration budgets across the literature were found to be \tbd. HumanEval/MBPP/APPS were the most widely used benchmarks. A comprehensive comparative evaluation of \tbd\ tools and frameworks was performed using both general and activity-specific characteristics, including feedback source, verification signal, oracle assumption, and iteration budget.
+From an initial pool of \tbd\ candidate studies, 40 primary research works were selected through a rigorous multi-stage filtering process. The selected studies were classified into six categories: General, Code Generation, Bug Detection \& Classification, Verification \& Test Generation, Iterative Self-Repair, and Optimization \& Security. The bug-taxonomy synthesis is anchored by the fine-grained taxonomies of Dou et al.~\cite{dou2026}, Tambon et al.~\cite{tambon2025}, Wang et al.~\cite{wang2025where}, and Pan et al.~\cite{pan2024lost}. The analysis identified \tbd\ as the most prevalent prompting technique family (\tbd\% of studies), \tbd\ as the leading verification signal, and \tbd\ as the dominant repair feedback source, while iteration budgets across the literature were found to be \tbd. HumanEval/MBPP/APPS were the most widely used benchmarks. A comprehensive comparative evaluation of \tbd\ tools and frameworks was performed using both general and activity-specific characteristics, including feedback source, verification signal, oracle assumption, and iteration budget.
 \noindent
 The SLR reveals that contemporary research treats verification and repair as separable concerns, with bug-taxonomy knowledge, verification signals, and iteration budgets rarely integrated into one repair loop. A significant research gap exists in single-agent frameworks that couple fine-grained bug-taxonomy-guided feedback with verification-driven, bounded-iteration self-repair. This gap justifies the development of a generate--verify--repair pipeline that targets higher repair success than the two-iteration baseline reported by Dou et al., at a fraction of the computational cost documented for multi-agent alternatives.
 }
@@ -224,7 +223,7 @@ Keeping in view the current state of affairs, the objective of this systematic l
 
 The answers to all research questions are given in Section~\ref{sec:answers}. A review protocol, incorporating selection and rejection criteria, has been developed to perform this SLR. We have defined six categories (Section~\ref{sec:categories}) for the selected researches in order to obtain the answers to our research questions. A complete overview of this research work is presented in Fig.~\ref{fig:overview}.
 
-A review protocol is developed (Section~\ref{sec:protocol}) that contains the selection and rejection criteria (Section~\ref{sec:criteria}). As shown in Fig.~\ref{fig:overview}, four scientific databases plus arXiv are selected for the search process (Section~\ref{sec:search_process}) and six categories are defined (Section~\ref{sec:categories}) to classify the 37 selected researches. Similarly, data extraction elements (Section~\ref{sec:data_extraction}) are defined to perform comprehensive analysis and synthesis of the selected researches. Consequently, the major findings of the SLR are summarized in Section~\ref{sec:results}. On the basis of the SLR, we preliminarily identify 32 tools (Section~\ref{sec:tools_prelim}) that have been used in the selected researches to perform particular activities. In Section~\ref{sec:tools_investigation}, various tools characteristics (Section~\ref{sec:char_defined}) are defined for further evaluation. Results in Sections~\ref{sec:results} and \ref{sec:tools_investigation} provide the answers to the research questions, which are discussed in Section~\ref{sec:answers}. Further important aspects, the research gap, and certain limitations are discussed in Section~\ref{sec:discussion}. Finally, Section~\ref{sec:conclusions} concludes the article.
+A review protocol is developed (Section~\ref{sec:protocol}) that contains the selection and rejection criteria (Section~\ref{sec:criteria}). As shown in Fig.~\ref{fig:overview}, four scientific databases plus arXiv are selected for the search process (Section~\ref{sec:search_process}) and six categories are defined (Section~\ref{sec:categories}) to classify the 40 selected researches. Similarly, data extraction elements (Section~\ref{sec:data_extraction}) are defined to perform comprehensive analysis and synthesis of the selected researches. Consequently, the major findings of the SLR are summarized in Section~\ref{sec:results}. On the basis of the SLR, we preliminarily identify 33 tools (Section~\ref{sec:tools_prelim}) that have been used in the selected researches to perform particular activities. In Section~\ref{sec:tools_investigation}, various tools characteristics (Section~\ref{sec:char_defined}) are defined for further evaluation. Results in Sections~\ref{sec:results} and \ref{sec:tools_investigation} provide the answers to the research questions, which are discussed in Section~\ref{sec:answers}. Further important aspects, the research gap, and certain limitations are discussed in Section~\ref{sec:discussion}. Finally, Section~\ref{sec:conclusions} concludes the article.
 
 % ------- Fig 2: Overview of research (Rashid Fig. 2 analog) -------
 \begin{figure*}[!t]
@@ -251,9 +250,9 @@ A review protocol is developed (Section~\ref{sec:protocol}) that contains the se
 % criterion bar
 \node[bar] (crit) at (0,-1.6) {Selection and Rejection Criteria for Researches};
 % category row
-\node[cat] (c1) at (-6.1,-3.3) {General\\ 2 papers};
+\node[cat] (c1) at (-6.1,-3.3) {General\\ 3 papers};
 \node[cat] (c2) at (-3.65,-3.3) {Code\\Generation\\ 9 papers};
-\node[cat] (c3) at (-1.2,-3.3) {Bug Detection\\\& Classification\\ 2 papers};
+\node[cat] (c3) at (-1.2,-3.3) {Bug Detection\\\& Classification\\ 4 papers};
 \node[cat] (c4) at (1.25,-3.3) {Verification \&\\Test Generation\\ 8 papers};
 \node[cat] (c5) at (3.7,-3.3) {Iterative\\Self-Repair\\ 10 papers};
 \node[cat] (c6) at (6.15,-3.3) {Optimization\\\& Security\\ 9 papers};
@@ -261,14 +260,14 @@ A review protocol is developed (Section~\ref{sec:protocol}) that contains the se
 \node[bar] (syn) at (0,-5.0) {Synthesis of qualitative and quantitative analysis};
 % outcomes row
 \node[outbox] (o1) at (-5.0,-6.6) {Prompting \& Reasoning\\Approaches (CoT/SCoT/Planning)};
-\node[outbox] (o2) at (0,-6.6)    {Preliminary Tools\\Identification: 32};
+\node[outbox] (o2) at (0,-6.6)    {Preliminary Tools\\Identification: 33};
 \node[outbox] (o3) at (5.0,-6.6)  {Verification \& Repair Mechanisms\\(incl.\ iteration budgets)};
 % classification bar
 \node[bar] (cls) at (0,-8.2) {Tools and Benchmarks Classification and Investigation};
 % tool categories row
 \node[tool] (t1) at (-5.9,-9.8) {Generation\\Approaches\\ 4};
 \node[tool] (t2) at (-2.95,-9.8) {Verification\\Tools\\ 7};
-\node[tool] (t3) at (0,-9.8)    {Repair\\Tools\\ 11};
+\node[tool] (t3) at (0,-9.8)    {Repair\\Tools\\ 12};
 \node[tool] (t4) at (2.95,-9.8) {Optimization\\Tools\\ 3};
 \node[tool] (t5) at (5.9,-9.8)  {Security\\Tools\\ 4};
 % arrows
@@ -427,11 +426,11 @@ A quality criterion has been developed to understand the important outcomes of t
 \item The data appraisal of the research is based on concrete facts and theoretical perspective without any vague statements.
 \item The validation of research has been performed through proper validation methods (e.g., benchmark evaluation, human assessment, ablation studies).
 \item The research provides information about the tools, models, and datasets used in its work, enabling reproducibility.
-\item The objective is to include the most recent researches as much as possible. Therefore, 86.5\% of the selected researches were published from 2023 to 2026, as shown in Fig.~\ref{fig:year_distribution}.
+\item The objective is to include the most recent researches as much as possible. Therefore, 87.5\% of the selected researches were published from 2023 to 2026, as shown in Fig.~\ref{fig:year_distribution}.
 \item Originality of the research is another important factor. Therefore, only researches published in at least one of the four renowned scientific databases (IEEE, Springer, Elsevier, ACM) or highly-cited preprints accepted at top venues are included.
 \end{enumerate}
 
-% Bar values reflect the final frozen set of 37 primary studies.
+% Bar values reflect the current set of 40 primary studies.
 \begin{figure*}[!t]
 \centering
 \begin{tikzpicture}
@@ -448,7 +447,7 @@ A quality criterion has been developed to understand the important outcomes of t
     enlarge x limits=0.15
 ]
 \addplot[fill=headerblue!70,draw=headerblue] coordinates {
-    (2021,3) (2022,2) (2023,10) (2024,11) (2025,9) (2026,2)
+    (2021,3) (2022,2) (2023,10) (2024,12) (2025,11) (2026,2)
 };
 \end{axis}
 \end{tikzpicture}
@@ -491,6 +490,13 @@ Data extraction and synthesis, as shown in Table~\ref{tab:data_extraction}, were
 8 & Techniques utilized & Empirical analysis, open coding, stratified sampling, practitioner survey \\
 9 & Verification/Repair mechanism & None (observational study; no repair mechanism) \\
 10 & Tools/Benchmarks identification & CoderEval \\
+\midrule
+\multicolumn{3}{l}{\textit{Extracted synthesis record: Wang et al.~\cite{wang2025where}}} \\
+\midrule
+7 & Classification & Bug Detection \& Classification \\
+8 & Techniques utilized & Open coding, thematic analysis, Jaccard similarity, Levenshtein-distance repair-effort analysis \\
+9 & Verification/Repair mechanism & None (observational taxonomy study; no automated repair mechanism) \\
+10 & Tools/Benchmarks identification & HumanEval \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -500,26 +506,26 @@ Data extraction and synthesis, as shown in Table~\ref{tab:data_extraction}, were
 %====================================================================
 \section{Results}
 \label{sec:results}
-37 primary studies were identified and classified across the six categories. The results are presented through structured synthesis tables, following the methodological guidelines that favor quantitative classification over paragraph-based summaries.
+40 primary studies were identified and classified across the six categories. The results are presented through structured synthesis tables, following the methodological guidelines that favor quantitative classification over paragraph-based summaries.
 
 \subsection{Classification of Selected Researches}
 \label{sec:classification}
-Table~\ref{tab:classification} summarizes the classification of the 37 selected researches into the six predefined categories.
+Table~\ref{tab:classification} summarizes the classification of the 40 selected researches into the six predefined categories.
 
 \begin{table*}[!t]
 \centering
-\caption{Classification of 37 selected researches across the six predefined categories.}
+\caption{Classification of 40 selected researches across the six predefined categories.}
 \label{tab:classification}
 \small
 \begin{tabular}{@{}clcp{7.5cm}@{}}
 \toprule
 \textbf{\#} & \textbf{Category} & \textbf{Count} & \textbf{Research Identification} \\
 \midrule
-1 & General & 2 & Dou et al.~\cite{dou2026}, Ding et al.~\cite{ding2025codingcare} (CodingCare) \\
+1 & General & 3 & Dou et al.~\cite{dou2026}, Ding et al.~\cite{ding2025codingcare} (CodingCare), Xia et al.~\cite{xia2025agentless} (Agentless) \\
 \midrule
 2 & Code Generation & 9 & Li et al.~\cite{li2025scot} (SCoT), Jiang et al.~\cite{jiang2024selfplan} (Self-Planning), Chen et al.~\cite{chen2021humaneval} (HumanEval), Austin et al.~\cite{austin2021mbpp} (MBPP), Hendrycks et al.~\cite{hendrycks2021apps} (APPS), Zhang et al.~\cite{zhang2025abfcg} (ABFCG), Jimenez et al.~\cite{jimenez2024swebench} (SWE-bench), Le et al.~\cite{le2022coderl} (CodeRL), Jain et al.~\cite{jain2024} (LiveCodeBench) \\
 \midrule
-3 & Bug Detection \& Classification & 2 & Dou et al.~\cite{dou2026}*, Tambon et al.~\cite{tambon2025} \\
+3 & Bug Detection \& Classification & 4 & Dou et al.~\cite{dou2026}*, Tambon et al.~\cite{tambon2025}, Wang et al.~\cite{wang2025where}, Pan et al.~\cite{pan2024lost} \\
 \midrule
 4 & Verification \& Test Generation & 8 & Liu et al.~\cite{liu2025llm4tdg} (LLM4TDG), Chen et al.~\cite{chenbei2023} (CodeT), Ni et al.~\cite{ni2023lever} (LEVER), Ma et al.~\cite{ma2025saga} (SAGA), Sun et al.~\cite{sun2024clover} (Clover), Zhong et al.~\cite{zhong2024ldb} (LDB)*, Liu et al.~\cite{liu2023evalplus} (EvalPlus), Zhang et al.~\cite{zhangt2023coderreviewer} (Coder-Reviewer reranking) \\
 \midrule
@@ -527,14 +533,20 @@ Table~\ref{tab:classification} summarizes the classification of the 37 selected 
 \midrule
 6 & Optimization \& Security & 9 & Zhao et al.~\cite{zhao2025semopt} (SemOpt), Jonnala et al.~\cite{jonnala2025}, Lyu et al.~\cite{lyu2025toppass} (Top Pass), Zhang et al.~\cite{zhang2024copilot} (Copilot-in-the-Loop), Bruni et al.~\cite{bruni2025}, Nazzal et al.~\cite{nazzal2024promsec} (PromSec), Ding et al.~\cite{ding2025codingcare}*, Pearce et al.~\cite{pearce2022}, He \& Vechev~\cite{he2023sven} (SVEN) \\
 \midrule
-\multicolumn{2}{r}{\textbf{Total category assignments:}} & 40 & \\
-\multicolumn{2}{r}{\textbf{Total distinct studies:}} & 37 & \\
+\multicolumn{2}{r}{\textbf{Total category assignments:}} & 43 & \\
+\multicolumn{2}{r}{\textbf{Total distinct studies:}} & 40 & \\
 \bottomrule
 \end{tabular}
 \begin{flushleft}
 \footnotesize * indicates studies appearing in multiple categories due to their multi-faceted contributions.
 \end{flushleft}
 \end{table*}
+
+Within the General category, Dou et al.~\cite{dou2026} integrate bug characterization with repair evaluation, while Ding et al.'s CodingCare~\cite{ding2025codingcare} spans generation and security assurance. Xia et al.'s Agentless~\cite{xia2025agentless} provides a disciplined single-agent pipeline for repository-level issue resolution, combining hierarchical fault localization, search/replace patch generation, and regression-plus-reproduction-test validation, achieving 32.00\% on SWE-bench Lite at \$0.70 per issue.
+
+Within the Bug Detection \& Classification category, the four retained taxonomic studies provide complementary perspectives. Dou et al.~\cite{dou2026} develop a repair-oriented three-tier/ten-category transformation taxonomy, while Tambon et al.~\cite{tambon2025} derive a practitioner-validated taxonomy of ten bug patterns from real-world CoderEval tasks. Wang et al.~\cite{wang2025where} complement these taxonomies with a two-dimensional empirical characterization of 558 incorrect code snippets generated by six LLMs on the HumanEval benchmark. Through open coding and thematic analysis (Fleiss' $\kappa=0.84$ for semantic characteristics), they identify 13 semantic and 14 syntactic error types. Their analysis reveals that over 40\% of LLM-generated faults manifest as block-level errors (missing or incorrect code blocks) rather than single-token mistakes, and that 84.89\% of incorrect snippets deviate from ground truth by more than 50 Levenshtein edits. Crucially, they demonstrate that different LLMs produce distinct error distributions for the same task, implying that model-agnostic repair strategies may be suboptimal.
+
+Pan et al.~\cite{pan2024lost} extend taxonomic coverage to the code-translation domain, manually analyzing 1,748 bugs across 6,197 translation attempts among five programming languages (C, C++, Go, Java, Python) and seven LLMs. Their taxonomy comprises 15 categories organized into five groups: syntactic and semantic differences between languages (30.5\%), dependency and logic bugs (24.2\%), data-related bugs (33.5\%), model-specific constraints (6.6\%), and others. Notably, they demonstrate that translation bugs differ structurally from generation bugs---for example, 33.5\% of translation bugs are data-related (incorrect data types, input parsing, output formatting), whereas generation taxonomies emphasize block-level logic errors. They further show that iterative prompt crafting with execution-feedback context can improve GPT-4 translation success by 12.33\% in one iteration, with diminishing returns thereafter.
 
 \subsection{Prompting and Reasoning Techniques Utilization}
 \label{sec:prompting_results}
@@ -580,7 +592,7 @@ Table~\ref{tab:repair_approaches} summarizes the verification and self-repair me
 \toprule
 \textbf{\#} & \textbf{Mechanism} & \textbf{Count} & \textbf{Iteration Budget} & \textbf{Relevant Researches} \\
 \midrule
-1 & Self-critique with compiler/execution feedback & \tbd & \makecell[l]{Varied: 2 (Dou et al.); 3 conversation turns\\(ChatRepair default); 1--2 (Self-Edit);\\unbounded/varied (Olausson et al.)} & \cite{dou2026,chen2023selfdebug,wang2024intervenor,olausson2024,zhang2023selfedit,xia2024chatrepair}, \tbd\ (CYCLE) \\
+1 & Self-critique with compiler/execution feedback & \tbd & \makecell[l]{Varied: 2 (Dou et al.); 3 conversation turns (ChatRepair);\\max 4 refinement steps (CYCLE); 1--2 (Self-Edit);\\unbounded/varied (Olausson et al.)} & \cite{dou2026,chen2023selfdebug,wang2024intervenor,olausson2024,zhang2023selfedit,xia2024chatrepair,ding2024cycle} \\
 2 & \makecell[l]{Pure self-critique\\(no execution feedback)} & 1 & \makecell{Task-specific (3--5,\\no fixed cross-activity budget)} & \cite{madaan2023} \\
 3 & Bug-taxonomy-guided repair & \tbd & 2 (Dou et al.) & \cite{dou2026}, \tbd \\
 4 & LLM-generated test verification & \tbd & \makecell{CodeT: N/A (post-hoc, no iteration);\\Reflexion trial cap not stated\\(episodic memory: 1 experience for programming)} & \cite{liu2025llm4tdg,shinn2023,ma2025saga,chenbei2023} \\
@@ -632,7 +644,7 @@ Once the researches are classified into different categories, the next step is t
 10 & LEVER~\cite{ni2023lever} & \cite{ni2023lever} \\
 11 & SAGA / TCGBench~\cite{ma2025saga} & \cite{ma2025saga} \\
 \midrule
-\multicolumn{3}{l}{\textit{Iterative Self-Repair Tools (11)}} \\
+\multicolumn{3}{l}{\textit{Iterative Self-Repair Tools (12)}} \\
 \midrule
 12 & Self-Debug~\cite{chen2023selfdebug} & \cite{chen2023selfdebug,dou2026} \\
 13 & INTERVENOR~\cite{wang2024intervenor} & \cite{wang2024intervenor,dou2026} \\
@@ -645,22 +657,23 @@ Once the researches are classified into different categories, the next step is t
 20 & CYCLE~\cite{ding2024cycle} & \cite{ding2024cycle} \\
 21 & Olausson et al.\ self-repair study~\cite{olausson2024} & \cite{olausson2024} \\
 22 & LDB~\cite{zhong2024ldb} & \cite{zhong2024ldb} \\
+23 & Agentless~\cite{xia2025agentless} & \cite{xia2025agentless} \\
 \midrule
 \multicolumn{3}{l}{\textit{Static Analysis Tools (3)}} \\
 \midrule
-23 & CodeQL & \cite{bruni2025,ding2025codingcare} \\
-24 & Semgrep & \cite{bruni2025,zhao2025semopt} \\
-25 & Bandit & \cite{ding2025codingcare,nazzal2024promsec} \\
+24 & CodeQL & \cite{bruni2025,ding2025codingcare} \\
+25 & Semgrep & \cite{bruni2025,zhao2025semopt} \\
+26 & Bandit & \cite{ding2025codingcare,nazzal2024promsec} \\
 \midrule
 \multicolumn{3}{l}{\textit{Optimization \& Security Tools (7)}} \\
 \midrule
-26 & SemOpt~\cite{zhao2025semopt} & \cite{zhao2025semopt} \\
-27 & Top Pass~\cite{lyu2025toppass} & \cite{lyu2025toppass} \\
-28 & Copilot-in-the-Loop~\cite{zhang2024copilot} & \cite{zhang2024copilot} \\
-29 & PromSec~\cite{nazzal2024promsec} & \cite{nazzal2024promsec} \\
-30 & CodingCare~\cite{ding2025codingcare} & \cite{ding2025codingcare} \\
-31 & SVEN~\cite{he2023sven} & \cite{he2023sven} \\
-32 & Pearce et al.~\cite{pearce2022} & \cite{pearce2022} \\
+27 & SemOpt~\cite{zhao2025semopt} & \cite{zhao2025semopt} \\
+28 & Top Pass~\cite{lyu2025toppass} & \cite{lyu2025toppass} \\
+29 & Copilot-in-the-Loop~\cite{zhang2024copilot} & \cite{zhang2024copilot} \\
+30 & PromSec~\cite{nazzal2024promsec} & \cite{nazzal2024promsec} \\
+31 & CodingCare~\cite{ding2025codingcare} & \cite{ding2025codingcare} \\
+32 & SVEN~\cite{he2023sven} & \cite{he2023sven} \\
+33 & Pearce et al.~\cite{pearce2022} & \cite{pearce2022} \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -676,7 +689,7 @@ We extract the important data for each selected research according to the attrib
 %====================================================================
 \section{Tools and Benchmarks Investigation}
 \label{sec:tools_investigation}
-On the basis of the SLR, 32 preliminary tools have been identified as given in Table~\ref{tab:tools_prelim}. However, the identification of the given tools is not sufficient to facilitate researchers and practitioners in particular tool selection. Therefore, we further evaluate the selected tools to provide a rational representation. First, an initial evaluation is performed, and then various important characteristics of the tools are used for evaluation.
+On the basis of the SLR, 33 preliminary tools have been identified as given in Table~\ref{tab:tools_prelim}. However, the identification of the given tools is not sufficient to facilitate researchers and practitioners in particular tool selection. Therefore, we further evaluate the selected tools to provide a rational representation. First, an initial evaluation is performed, and then various important characteristics of the tools are used for evaluation.
 
 \subsection{Initial Tools Evaluation}
 \label{sec:initial_eval}
@@ -724,7 +737,7 @@ These characteristics are applicable to all the tools:
 SCoT~\cite{li2025scot} & N/A (prompt method) & N/A & Any LLM & Python & Structured CoT & Implicit & No \\
 Self-Planning~\cite{jiang2024selfplan} & N/A (prompt method) & N/A & Any LLM & \makecell{Python/Java/\\Go/JavaScript} & Plan-then-generate & Yes & No \\
 ABFCG~\cite{zhang2025abfcg} & N/A & Partial & Custom (RetNet) & Java & KG-based retrieval & No & No \\
-CodeRL~\cite{le2022coderl} & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] & RL fine-tuning + critic-based repair & [VERIFY] & [VERIFY] \\
+CodeRL~\cite{le2022coderl} & BSD-3-Clause (Salesforce GitHub) & Full & CodeT5-large (770M, primary); GPT-J, GPT-Neo (ablation) & Python & RL fine-tuning + critic-based repair & Yes & Yes (max 1 repair+refine round) \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -746,8 +759,8 @@ CodeRL~\cite{le2022coderl} & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] & RL fine
 LLM4TDG~\cite{liu2025llm4tdg} & N/A & N/A & 9 LLMs & Python & Runtime + CDG constraints & No hidden tests assumed & \tbd \\
 CodeT~\cite{chenbei2023} & Code available (\url{github.com/microsoft/CodeT}); no formal license stated & Full & Codex (code-cushman-001, code-davinci-001, code-davinci-002), INCODER-6B, CODEGEN-MONO-16B & Python & LLM-generated input--output tests + candidate execution + dual execution agreement over consensus sets & No ground-truth tests used for selection; hidden benchmark tests used only for final pass@k evaluation & Higher than pure generation---requires both code and test sampling (up to $2\times$ generation calls); tunable down to 10 test samples with modest performance loss \\
 EvalPlus~\cite{liu2023evalplus} & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] & Augmented test suites & Benchmark-side & [VERIFY] \\
-Coder-Reviewer reranking~\cite{zhangt2023coderreviewer} & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] & Coder-reviewer reranking & [VERIFY] & [VERIFY] \\
-LEVER~\cite{ni2023lever} & Code/data available & Full & Codex (code-davinci-002), InCoder-6B, CodeGen-16B-multi & SQL (Spider, WikiTQ), Python (GSM8k, MBPP) & Learned verifier + execution & None at inference (verifier trained offline on gold/weak labels; no hidden tests needed for new queries) & 1 verifier forward pass ($\sim$0.5\% of generator size) + 1 execution per candidate \\
+Coder-Reviewer reranking~\cite{zhangt2023coderreviewer} & CC BY-NC-SA 4.0 & Full [INFERRED] & Codex-002/001/Cushman; InCoder-6B/1B; CodeGen-16B/6B/2B & Python, SQL, Bash & Coder-reviewer likelihood reranking; optional executability filtering & None for reranking [INFERRED]; execution environment needed for optional filtering & One additional Reviewer likelihood-scoring pass per candidate [INFERRED]; optional execution \\
+LEVER~\cite{ni2023lever} & MIT; code/data/checkpoints available & Full & Codex (code-davinci-002), InCoder-6B, CodeGen-16B-multi & SQL (Spider, WikiTQ), Python (GSM8k, MBPP) & Learned verifier + execution & No hidden correctness tests at inference [INFERRED]; execution inputs/context required & One execution + one verifier forward pass per candidate [INFERRED]; verifier $\sim$0.5\% of generator size \\
 SAGA / TCGBench~\cite{ma2025saga} & Code/data available (github.com/open-compass/SAGA) & Full & DeepSeek-V3-0324, Qwen2.5-72B-Instruct, Qwen2.5-Coder-32B/7B-Instruct & Python, C++ (evaluated languages for CodeCompass); problems sourced from AtCoder/Codeforces/Nowcoder & LLM-generated tests (Input-Interpreter style) + structured human priors & Requires golden reference solution + human submission corpus (no oracle-free operation) & 1 LLM analysis call per problem (one-time) + $N$ program executions per test case \\
 Clover~\cite{sun2024clover} & Code/data available (github.com/ChuyueSun/Clover) & Full & GPT-4 (primary); CodeLlama-34b (ablation, found largely incapable) & Dafny (primary); Verus/Rust (preliminary, 41 examples) & 6-edge consistency check (5 LLM reconstruction/equivalence tests + 1 deductive Dafny/Z3 soundness proof) & No hidden test suite; requires formal (Dafny/Verus) annotations & Not reported \\
 LDB~\cite{zhong2024ldb} & Code available (GitHub: FloridSleeves/LLMDebugger) & Full & GPT-3.5, CodeLlama-34B, StarCoder-15B (+GPT-4, GPT-4o backbone ablation) & Python; C++$\to$Python (TransCoder) & Runtime traces (block-level) & Partial (visible test needed to trigger debugging; TransCoder uses all tests as visible, no held-out oracle there) & $\sim$23K tokens/program; 17.23s vs.\ 17.08s for Self-Debugging \\
@@ -769,17 +782,18 @@ LDB~\cite{zhong2024ldb} & Code available (GitHub: FloridSleeves/LLMDebugger) & F
 \cmidrule(lr){2-5} \cmidrule(lr){6-9}
  & \textbf{License} & \textbf{Custom.} & \textbf{Supported LLMs} & \textbf{Languages} & \textbf{Feedback Source} & \textbf{Iterative} & \textbf{Iteration Budget} & \textbf{Taxonomy} \\
 \midrule
-Self-Debug~\cite{chen2023selfdebug} & N/A & N/A & Any LLM & Python/SQL/C++ & Compiler + execution & Yes & \tbd & No \\
-INTERVENOR~\cite{wang2024intervenor} & Code/data available & Full & GPT-3.5, CodeLlama-7B/13B & Python, C++, Java, JavaScript & Compiler + CoR & Yes & \tbd & No \\
+Self-Debug~\cite{chen2023selfdebug} & N/A & N/A & Any LLM & Python/SQL/C++ & Compiler + execution & Yes & Up to 10 rounds (default) & No \\
+INTERVENOR~\cite{wang2024intervenor} & Code/data available & Full & GPT-3.5, CodeLlama-7B/13B & Python, C++, Java, JavaScript & Compiler + CoR & Yes & Max 5 conversation turns (Chain-of-Repair) & No \\
 Dou et al.~\cite{dou2026} & Artifact available & Partial & 9 LLMs & Python & Compiler + Taxonomy & Yes & 2 & 3 primary / 10 secondary \\
 Xia et al.~\cite{xia2023apr} & Code/data available & Full & 9 LLMs (Codex etc.) & Java/Python/C & Test-suite validation (post-hoc) & No & N/A & No \\
 Self-Refine~\cite{madaan2023} & Code/data/prompts available & Full & GPT-3.5, ChatGPT, GPT-4, Codex (code-davinci-002) & Python & Self-critique (no execution) & Yes & Task-specific, 3--5 (no fixed budget) & No \\
 Reflexion~\cite{shinn2023} & Code/demos/datasets available & Full & GPT-3.5/4, CodeLlama-34B (seed gen.\ via HumanEval-X), starchat-beta (ablation) & Python; Rust (via MultiPL-E) & Self-generated tests + verbal self-reflection (episodic memory) & Yes & Not stated for programming in-paper & No \\
 Self-Edit~\cite{zhang2023selfedit} & Code available (dataset not released) & Full & PyCodeGPT-110M, GPT-Neo-125M/1.3B, CodeGen-350M/2B, InCoder-1B, GPT-J-6B, text-davinci-002 (175B) & Python & Execution results (example test case only) & Yes & 1 (2 tested in ablation, mixed/negative on APPS-test) & No \\
 ChatRepair~\cite{xia2024chatrepair} & Code available (artifact released with paper) & Full & ChatGPT (gpt-3.5-turbo-0301) & Java, Python & Test execution + compilation errors + conversational history & Yes & Max conversation length 3 (default); up to 200 total queries per bug & No \\
-CYCLE~\cite{ding2024cycle} & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] & Execution feedback (trained) & Yes & [VERIFY] & No \\
+CYCLE~\cite{ding2024cycle} & Code/data/checkpoints available (\url{github.com/ARiSE-Lab/CYCLE_OOPSLA_24}) & Full & CodeGen-350M/2.7B, StarCoder-1B/3B (fine-tuned) & Python & Execution results (test-suite failures, error messages) + past faulty generation & Yes & Max 4 refinement steps (inference default) & No \\
 LDB~\cite{zhong2024ldb} & Code available (GitHub: FloridSleeves/LLMDebugger) & Full & GPT-3.5, CodeLlama-34B, StarCoder-15B (+GPT-4, GPT-4o backbone ablation) & Python; C++$\to$Python (TransCoder) & Block-level runtime traces + LLM verdicts & Yes & Max 10 (extends to 20 in ablation: 82.9\%$\to$84.1\%, diminishing returns) & No \\
 Olausson et al.~\cite{olausson2024} & Code/data available & Full & CodeLlama-13b-instruct, GPT-3.5, GPT-4 & Python & LLM-generated explanation from execution errors & Yes & Variable (swept as independent variable, $n_p \times n_{fr}$ grid) & No \\
+Agentless~\cite{xia2025agentless} & Open-source (MIT) & Full & GPT-4o (primary); GPT-4 (ablation) & Python & Regression + generated reproduction tests & No & N/A (40 candidate patches via 4$\times$10 sampling; majority-vote selection) & No \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -823,8 +837,8 @@ Copilot-in-the-Loop~\cite{zhang2024copilot} & Proprietary & No & Copilot Chat & 
 PromSec~\cite{nazzal2024promsec} & Demo code available & Partial & GPT-3.5/4, Bard, CodeLlama & Python/Java & High & Bandit + SpotBugs & Static \\
 CodingCare~\cite{ding2025codingcare} & N/A & N/A & DeepSeek, Mistral, CodeLlama (7B) & Python & \makecell[l]{6 types: DoS, Code Execution,\\ Buffer Overflow, Memory Corruption,\\ SQL Injection, XSS} & CodeQL + Bandit & Static \\
 Bruni et al.~\cite{bruni2025} & GPL-3.0 & Full & GPT-3.5/4o-Mini/4o & Python/C & 18+ CWEs & Semgrep + CodeQL & Static \\
-SVEN~\cite{he2023sven} & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] & Training-time (prefix tuning) \\
-Pearce et al.~\cite{pearce2022} & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] & [VERIFY] \\
+SVEN~\cite{he2023sven} & Code available (eth-sri/sven) & Full & CodeGen-350M/2.7B/6.1B (primary); InCoder, SantaCoder (gen.) & Python, C/C++ & 9 training + 17 transfer (26 eval.) & Training-time (prefix tuning) & Prefix tuning \\
+Pearce et al.~\cite{pearce2022} & Dataset available (Zenodo) & N/A & GitHub Copilot (Codex) & Python, C, Verilog & 18 CWEs (MITRE Top 25) & CodeQL + Manual & Empirical study \\
 \bottomrule
 \end{tabularx}
 \begin{flushleft}
@@ -870,7 +884,7 @@ ManyBugs~\cite{xia2023apr} & 185 (91 reproducible used) & C & Real-world open-so
 LeetcodeHardGym~\cite{shinn2023} & 40 & Python (infra.\ supports 19 langs) & Post-Oct-2022 Leetcode Hard problems & Contamination-resistant correctness & Very Low (deliberately post-cutoff) \\
 CloverBench~\cite{sun2024clover} & 60 base $\times$ 5 variants (300) & Dafny & Hand-crafted textbook programs & Correctness/consistency & Low \\
 MBPP-DFY-50~\cite{sun2024clover} & 50 (33 in-scope) & Dafny & Hand-translated from MBPP & Correctness/consistency & Low \\
-LiveCodeBench~\cite{jain2024} & [VERIFY] & [VERIFY] & [VERIFY] & Contamination-free correctness & Very Low \\
+LiveCodeBench~\cite{jain2024} & 511 (May'23--May'24) & Python & LeetCode, AtCoder, CodeForces contests & Holistic: generation, self-repair, execution, test prediction & Very Low (time-segmented) \\
 CoderEval~\cite{tambon2025} & 230 functions & Python & 43 real-world GitHub projects & Real-world LLM bug characterization & Low \\
 ConDefect~\cite{xia2024chatrepair} & 651 (321 Java, 330 Python) & Java, Python & Programming contest bugs after Oct 2021 & Correctness/repair (leakage-free) & Very Low \\
 \bottomrule
@@ -884,11 +898,11 @@ ConDefect~\cite{xia2024chatrepair} & 651 (321 Java, 330 Python) & Java, Python &
 \label{sec:answers}
 
 \subsection*{RQ1: What important researches have been reported from 2021 to 2025?}
-\textbf{Answer:} 37 important researches selected from the 2021--2025 search window (including two protocol exceptions formally published in 2026) have been identified as per the selection and rejection criteria (Section~\ref{sec:criteria}). These researches are classified into six corresponding categories. The details are as follows:
+\textbf{Answer:} 40 important researches selected from the 2021--2025 search window (including two protocol exceptions formally published in 2026) have been identified as per the selection and rejection criteria (Section~\ref{sec:criteria}). These researches are classified into six corresponding categories. The details are as follows:
 \begin{itemize}[leftmargin=*]
-\item 2 researches have been identified in the \textit{General} category.
+\item 3 researches have been identified in the \textit{General} category.
 \item 9 researches have been identified in the \textit{Code Generation} category, with three being foundational benchmark papers (HumanEval, MBPP, APPS).
-\item 2 researches have been identified in the \textit{Bug Detection \& Classification} category, anchored by the fine-grained three-tier/ten-category taxonomy of Dou et al.~\cite{dou2026}.
+\item 4 researches have been identified in the \textit{Bug Detection \& Classification} category, anchored by the complementary taxonomies of Dou et al.~\cite{dou2026}, Tambon et al.~\cite{tambon2025}, Wang et al.~\cite{wang2025where}, and Pan et al.~\cite{pan2024lost}.
 \item 8 researches have been identified in the \textit{Verification \& Test Generation} category.
 \item 10 researches have been identified in the \textit{Iterative Self-Repair} category.
 \item 9 researches have been identified in the \textit{Optimization \& Security} category.
@@ -903,12 +917,14 @@ The overview, publication year, validation method, and description of each selec
 
 ChatRepair~\cite{xia2024chatrepair} demonstrates that conversational repair with detailed test-failure feedback achieves 114 correct fixes on Defects4J 1.2 under a default conversation budget of 3 turns, at an average cost of \$0.42 per bug. It relies on ground-truth test suites and perfect fault localization.
 
+Ding et al.'s CYCLE~\cite{ding2024cycle} continues training code LMs on (problem description, faulty generation, execution feedback) tuples to learn self-refinement end-to-end. With a fixed inference budget of 4 refinement steps, CYCLE-350M achieves 47.9\% relative improvement on HumanEval and 63.5\% on MBPP-S over one-time generation, matching models with 3$\times$ more parameters. A Past Generation Mask (PGM) at 5\% masking ratio prevents copy-pasting faulty code.
+
 \subsection*{RQ4: What are the significant tools, frameworks, and benchmarks?}
-\textbf{Answer:} On the basis of the SLR, 32 tools/frameworks and 28 benchmarks have been identified to support LLM-based code generation across the five activity dimensions. After the comparative evaluation in Section~\ref{sec:comparison}, the following key tools are presented by activity:
+\textbf{Answer:} On the basis of the SLR, 33 tools/frameworks and 28 benchmarks have been identified to support LLM-based code generation across the five activity dimensions. After the comparative evaluation in Section~\ref{sec:comparison}, the following key tools are presented by activity:
 \begin{itemize}[leftmargin=*]
 \item 4 \textbf{generation approaches} are presented to support structured prompting, planning, and retrieval augmentation (SCoT, Self-Planning, ABFCG, \tbd).
 \item 7 \textbf{verification and test generation tools} are presented (LLM4TDG, CodeT, \tbd). CodeT is a post-hoc selector rather than a repair tool: it generates tests, executes sampled candidates, and ranks consensus sets through dual execution agreement~\cite{chenbei2023}. The oracle assumption column of Table~\ref{tab:cmp_verification} is decisive for practical deployment: tools assuming hidden ground-truth tests at inference time cannot be transferred directly to production settings.
-\item 11 \textbf{iterative self-repair tools} are presented (Self-Debug, INTERVENOR, Dou et al., Xia et al., \tbd). Among these, LLM4TDG notably achieves the highest \texttt{pass@k} improvement (18.66\% on CodeQwen-chat) and validates its approach on real malicious packages.
+\item 12 \textbf{repair tools} are presented (Self-Debug, INTERVENOR, Dou et al., Xia et al., Agentless, \tbd). Among these, LLM4TDG notably achieves the highest \texttt{pass@k} improvement (18.66\% on CodeQwen-chat) and validates its approach on real malicious packages.
 \item 3 \textbf{optimization tools} are presented (SemOpt, Jonnala et al., Top Pass, Copilot-in-the-Loop, \tbd).
 \item 4 \textbf{security tools} are presented (PromSec, CodingCare, Bruni et al., \tbd).
 \item Three \textbf{static analysis integration tools} are consistently used across security-focused works (CodeQL, Semgrep, Bandit).
@@ -927,7 +943,7 @@ It is analyzed that prompting and reasoning scaffolds are the core enablers of L
 This generation-repair dependency is further emphasized by Tambon et al.~\cite{tambon2025}, who show that switching from docstring-based to human-labeled prompts significantly shifts the distribution of bug patterns (Fisher-exact $p<0.05$), with human-labeled prompts reducing trivial errors (Syntax Error, Silly Mistake) while increasing semantic misinterpretations---precisely the fault class that is hardest to repair automatically.
 
 \subsection{Discussion on Verification}
-Verification is the hinge of the generate--verify--repair pipeline: the quality of every downstream repair action is bounded by the quality of the verification signal that triggers it. The reviewed literature exhibits a spectrum of verification signals of increasing granularity: compiler diagnostics, ground-truth test execution, LLM-generated tests---exemplified by CodeT's candidate execution and consensus-set-based dual execution agreement~\cite{chenbei2023}---block-level runtime traces~\cite{zhong2024ldb}, which decompose programs via control-flow-graph analysis and outperform coarser line-level and function-level decompositions on both accuracy and token cost (82.9\% vs.\ 80.5\%/79.9\% on HumanEval with GPT-3.5, at lower token cost), and learned verifiers---Ni et al.'s LEVER reranks sampled candidates using a lightweight classifier (T5/RoBERTa, roughly 0.5\% of the generator's parameter count) trained to predict correctness from the natural-language input, candidate program, and its execution result, requiring no hidden ground-truth tests at inference time~\cite{ni2023lever}. CodeT performs no iteration or repair: it is a single-shot generate-many-then-select method, structurally distinct from every study in the Iterative Self-Repair category. Ma et al.'s SAGA takes the opposite oracle stance from LEVER: it achieves higher detection rates and verifier accuracy than existing TCG baselines by combining LLM reasoning with structured human priors from both correct and incorrect submissions, but explicitly depends on a golden reference solution as interpreter, restricting its direct applicability outside domains where such oracles exist~\cite{ma2025saga}. A decisive practical distinction is the \textit{oracle assumption}: several works implicitly assume the availability of hidden ground-truth test suites at inference time, an assumption that does not hold in production deployment; self-generated verification signals relax this assumption but remain benchmark-dependent in quality. CodeT's test-case toxicity rate and Reflexion's false-positive-rate analysis independently show that the reliability of self-generated verification signals is non-uniform and benchmark-dependent. Reflexion's self-generated test suites have a 16.3\% false-positive rate on MBPP-Python versus 1.4\% on HumanEval-Python, directly explaining why the same verification design is less reliable on MBPP~\cite{chenbei2023,shinn2023}. This tension is acknowledged even by well-resourced self-repair studies: Olausson et al.~\cite{olausson2024} note that their reliance on full hidden test suites ``is quite different from real-world software development tasks... tests are unlikely to be available for each individual snippet'' (Sec.~5). LDB independently exposes the same deployment constraint: its limitations state that correct test cases are mandatory, with at least one visible test required to initiate debugging; moreover, all TransCoder tests are visible during repair, unlike the held-out splits used for HumanEval and MBPP~\cite{zhong2024ldb}. Benchmark-side verification has also proven consequential: \tbd~\cite{liu2023evalplus} demonstrated that augmenting the test adequacy of HumanEval/MBPP reduces reported pass rates by \tbd, indicating that a portion of claimed correctness in the literature is an artifact of weak test suites.
+Verification is the hinge of the generate--verify--repair pipeline: the quality of every downstream repair action is bounded by the quality of the verification signal that triggers it. The reviewed literature exhibits a spectrum of verification signals of increasing granularity: compiler diagnostics, ground-truth test execution, LLM-generated tests---exemplified by CodeT's candidate execution and consensus-set-based dual execution agreement~\cite{chenbei2023}---block-level runtime traces~\cite{zhong2024ldb}, which decompose programs via control-flow-graph analysis and outperform coarser line-level and function-level decompositions on both accuracy and token cost (82.9\% vs.\ 80.5\%/79.9\% on HumanEval with GPT-3.5, at lower token cost), and learned verifiers---Ni et al.'s LEVER reranks sampled candidates using a lightweight classifier (T5/RoBERTa, roughly 0.5\% of the generator's parameter count) trained to predict correctness from the natural-language input, candidate program, and its execution result, requiring no hidden ground-truth tests at inference time~\cite{ni2023lever}. CodeT performs no iteration or repair: it is a single-shot generate-many-then-select method, structurally distinct from every study in the Iterative Self-Repair category. Ma et al.'s SAGA takes the opposite oracle stance from LEVER: it achieves higher detection rates and verifier accuracy than existing TCG baselines by combining LLM reasoning with structured human priors from both correct and incorrect submissions, but explicitly depends on a golden reference solution as interpreter, restricting its direct applicability outside domains where such oracles exist~\cite{ma2025saga}. A decisive practical distinction is the \textit{oracle assumption}: several works implicitly assume the availability of hidden ground-truth test suites at inference time, an assumption that does not hold in production deployment; self-generated verification signals relax this assumption but remain benchmark-dependent in quality. CodeT's test-case toxicity rate and Reflexion's false-positive-rate analysis independently show that the reliability of self-generated verification signals is non-uniform and benchmark-dependent. Reflexion's self-generated test suites have a 16.3\% false-positive rate on MBPP-Python versus 1.4\% on HumanEval-Python, directly explaining why the same verification design is less reliable on MBPP~\cite{chenbei2023,shinn2023}. This tension is acknowledged even by well-resourced self-repair studies: Olausson et al.~\cite{olausson2024} note that their reliance on full hidden test suites ``is quite different from real-world software development tasks... tests are unlikely to be available for each individual snippet'' (Sec.~5). LDB independently exposes the same deployment constraint: its limitations state that correct test cases are mandatory, with at least one visible test required to initiate debugging; moreover, all TransCoder tests are visible during repair, unlike the held-out splits used for HumanEval and MBPP~\cite{zhong2024ldb}. Benchmark-side verification has also proven consequential: EvalPlus~\cite{liu2023evalplus} demonstrated that augmenting HumanEval into HumanEval+ reduces reported pass@k by up to 19.3--28.9\%, depending on $k$, indicating that a portion of claimed correctness in the literature is an artifact of weak test suites. The NeurIPS 2023 paper reports this reduction for HumanEval+; it does not report a single combined HumanEval/MBPP reduction percentage.
 
 CodeT evaluates five models---code-cushman-001, code-davinci-001, code-davinci-002, InCoder-6B, and CodeGen-Mono-16B---on HumanEval, a sanitized 427-problem MBPP subset, the 5,000-problem APPS test split, and a 165-problem CodeContests split. Its main sampling configuration uses temperature 0.8, top-$p=0.95$, maximum generation length 300, and a 0.1-second timeout per test execution; it samples 100 candidate programs per HumanEval/MBPP problem, 50 per APPS problem, and 1,000 per CodeContests problem. For HumanEval test generation, it draws 100 samples and retains at most five syntactically valid assertions per sample (up to 500 generated tests). In controlled same-baseline comparisons with code-davinci-002, CodeT raises pass@1 from 47.0\% to 65.8\% on HumanEval ($+18.8$ points), 58.1\% to 67.7\% on MBPP ($+9.6$), and 27.2\% to 34.6\% on APPS Introductory ($+7.4$); its 65.8\% HumanEval result also exceeds the 42.7\% result reported as prior published SOTA by Inala et al., but this is a field-SOTA comparison rather than a controlled same-model ablation. In the efficiency ablation, using only 10 test samples still yields 56.5\% on code-davinci-002/HumanEval, a 9.5-point gain over the 47.0\% baseline. These gains arise from post-hoc selection; CodeT performs no feedback-conditioned regeneration or iterative repair~\cite{chenbei2023}.
 % TODO: fill EvalPlus reduction figures after reading.
@@ -935,11 +951,13 @@ CodeT evaluates five models---code-cushman-001, code-davinci-001, code-davinci-0
 A structurally distinct point on the verification-signal spectrum is offered by deductive-verification-based consistency checking: Clover~\cite{sun2024clover} reduces correctness checking to consistency checking among code, docstrings, and formal (Dafny) annotations, combining a deductive soundness proof with five LLM-mediated reconstruction tests, accepting up to 87\% of correct examples on its CloverBench dataset while rejecting 100\% of adversarial incorrect ones across four mutation categories.
 
 \subsection{Discussion on Iterative Self-Repair}
-Bug taxonomy construction (e.g., Dou et al.'s 3-primary/10-secondary classification) provides essential analytical infrastructure for systematic repair. Self-critique with compiler feedback, combined with bug-taxonomy-driven prompts, achieves a 29.2\% repair success rate after two iterations on GPT-4 \cite{dou2026}. However, functional bugs, which account for the highest proportion of errors, remain the hardest to repair, with transformation rates (functional $\to$ correct) lagging behind syntax and runtime bug repair. This indicates that functional correctness demands deeper semantic understanding that current LLMs, even with iterative feedback, do not fully possess.
+Bug taxonomy construction (e.g., Dou et al.'s 3-primary/10-secondary classification) provides essential analytical infrastructure for systematic repair. Self-critique with compiler feedback, combined with bug-taxonomy-driven prompts, achieves a 29.2\% repair success rate after two iterations on GPT-4 \cite{dou2026}. Wang et al.~\cite{wang2025where} independently validate the severity of this challenge through repair-effort quantification: the majority of LLM-generated faults are single-hunk or multi-hunk errors that require substantial restructuring, and simple single-line patches are insufficient. Their finding that block-level errors dominate (over 40\% of all faults) directly motivates the need for fine-grained, taxonomy-guided feedback that can distinguish between, for example, a missing code block and a wrong logical direction. Pan et al.~\cite{pan2024lost} independently show that even in the related task of code translation---where the source code is explicitly provided---LLMs introduce distinct bug patterns (e.g., API behavior mismatch, incorrect operator use across languages) that require task-specific taxonomic knowledge rather than generic execution feedback. Their iterative mitigation results further confirm that structured error-context feedback yields measurable but bounded gains (+12.33\% for iter1, +1.7\% for iter2), reinforcing the need for fine-grained, taxonomy-aware feedback to maximize repair efficiency within a small iteration budget. However, functional bugs, which account for the highest proportion of errors, remain the hardest to repair, with transformation rates (functional $\to$ correct) lagging behind syntax and runtime bug repair. This indicates that functional correctness demands deeper semantic understanding that current LLMs, even with iterative feedback, do not fully possess.
 
 Tambon et al.~\cite{tambon2025} independently validate the need for fine-grained, LLM-specific bug taxonomies through an empirical study of 333 bugs generated by CodeGen, PanGu-Coder, and Codex on the CoderEval benchmark (230 real-world Python functions from 43 GitHub projects). Through open coding validated by practitioner surveys ($n=67$, $\rho=0.75$ correlation between observed and practitioner-reported bug frequencies for Codex), they identify 10 distinctive bug patterns---most notably Misinterpretation (20.77\% of buggy samples with docstring prompts) and Missing Corner Case (15.27\%). Crucially, they demonstrate that several high-frequency patterns, including Hallucinated Object, Prompt-biased Code, and Non-Prompted Consideration, are LLM-specific and rarely observed in human-written code. This finding directly supports the argument that generic APR tools designed for human bug distributions are structurally mismatched to LLM-generated faults. Nevertheless, Tambon et al. stop at empirical characterization and survey validation; they do not integrate their taxonomy into an automated verification or repair pipeline.
 
 Xia \& Zhang's ChatRepair~\cite{xia2024chatrepair} operationalizes execution-feedback repair through a conversational interface, achieving 114 correct fixes on Defects4J 1.2 by interleaving patch generation with test-validation feedback across up to 3 conversation turns. Its plausible-patch generation step adds 4--7 additional correct fixes. However, it assumes perfect fault localization and ground-truth developer tests, an oracle assumption that does not hold in production deployment.
+
+CYCLE~\cite{ding2024cycle} bakes execution-feedback understanding into model weights via continued training, yielding up to 63.5\% relative improvement with only 350M parameters. Its 4-step budget is a practical cutoff rather than an optimized design variable, and it depends on canonical solutions for training-data curation and is restricted to Python, leaving Gap 1 and Gap 3 open.
 
 Xia et al.~\cite{xia2023apr} provide a complementary sampling-and-ranking paradigm, evaluating nine LLMs (125M--20B parameters) across five datasets, three languages, and three repair settings. On the 255 single-function bugs in Defects4J 1.2, the nine-model ensemble produces 109 correct fixes (99 from Codex alone), compared with 67 for AlphaRepair, and finds 36 fixes not previously reported by existing tools (31 after excluding exact developer-patch matches). Infilling repairs 40\% of bugs with Codex versus 28\% for full-function generation. Their leakage analysis further finds that 234 of 354 correct patches (66\%) differ from the developer patch and that only 15\% of identical patches are traceable to the models' training data, weakening a pure-memorization explanation.
 
@@ -966,19 +984,19 @@ CodingCare~\cite{ding2025codingcare} reports CVE reductions ranging from 50\% to
 
 \subsection{Discussion on Paradigm Selection: Single-Agent versus Multi-Agent}
 \label{sec:paradigm_discussion}
-Although multi-agent frameworks such as ChatDev, MetaGPT, AutoGen, AnnCoder, and Bai et al.~\cite{qian2023chatdev,hong2023metagpt,wu2023autogen,zhang2025anncoder,bai2025collab} lie outside the primary study set of this review, their published results provide an informative cost--quality contrast. MetaGPT~\cite{hong2023metagpt} reports 85.9\% Pass@1 on HumanEval via SOP-encoded role specialization; notably, however, its own ablations attribute a substantial share of the gain to its \textit{executable feedback loop} -- an Engineer agent that iteratively runs generated unit tests and self-corrects for up to three retries, independently improving Pass@1 by 4.2\% (HumanEval) and 5.4\% (MBPP). These gains are directly comparable to the compiler-feedback repair results reported for the single-agent Self-Debug~\cite{chen2023selfdebug} and INTERVENOR~\cite{wang2024intervenor}. Meanwhile, the head-to-head comparison between MetaGPT and ChatDev~\cite{qian2023chatdev} documents token costs of 124.3 versus 248.9 per line of produced code, illustrating the overhead of dialogue-based multi-agent communication. Taken together, the evidence suggests that a substantial portion of multi-agent quality gains is attributable to \textit{verification-driven iteration} rather than to agent multiplicity itself -- a hypothesis further supported by test-based single-flow results reported outside this review's primary study set. Ridnik et al.'s AlphaCodium~\cite{ridnik2024} combines structured problem reflection, AI-generated test enrichment, and regression-protected (``test-anchored'') run-fix iteration on public and AI-generated tests in a purely single-agent flow, raising GPT-4's pass@5 accuracy on the competitive-programming benchmark CodeContests from 19\% with a single direct prompt to 44\%, at a reported cost of roughly 15--20 LLM calls per solution and with no multi-agent orchestration involved. AlphaCodium is cited here as corroborating evidence for the paradigm rather than as a primary study of this review: despite substantial citation uptake, it remains, at the time of writing, an unrefereed arXiv preprint that does not satisfy this review's Criterion 3 (Section~\ref{sec:criteria}). Notably, its own design also illustrates the gap this framework targets -- its run-fix iteration is neither guided by a bug taxonomy nor bounded to a small, fixed, reported budget, unlike the two-iteration pipeline of Dou et al.~\cite{dou2026} that anchors the present framework (Section~\ref{sec:research_gap}). A disciplined single-agent generate--verify--repair pipeline with a fixed iteration budget therefore occupies a cost-effective and largely unexamined point on the quality--cost frontier.
+Although multi-agent frameworks such as ChatDev, MetaGPT, AutoGen, AnnCoder, and Bai et al.~\cite{qian2023chatdev,hong2023metagpt,wu2023autogen,zhang2025anncoder,bai2025collab} lie outside the primary study set of this review, their published results provide an informative cost--quality contrast. MetaGPT~\cite{hong2023metagpt} reports 85.9\% Pass@1 on HumanEval via SOP-encoded role specialization; notably, however, its own ablations attribute a substantial share of the gain to its \textit{executable feedback loop} -- an Engineer agent that iteratively runs generated unit tests and self-corrects for up to three retries, independently improving Pass@1 by 4.2\% (HumanEval) and 5.4\% (MBPP). These gains are directly comparable to the compiler-feedback repair results reported for the single-agent Self-Debug~\cite{chen2023selfdebug} and INTERVENOR~\cite{wang2024intervenor}. Meanwhile, the head-to-head comparison between MetaGPT and ChatDev~\cite{qian2023chatdev} documents token costs of 124.3 versus 248.9 per line of produced code, illustrating the overhead of dialogue-based multi-agent communication. Taken together, the evidence suggests that a substantial portion of multi-agent quality gains is attributable to \textit{verification-driven iteration} rather than to agent multiplicity itself. Xia et al.'s Agentless~\cite{xia2025agentless}, retained as a primary study in the General category, provides the strongest refereed empirical evidence for this hypothesis: its non-iterative, sampling-based single-agent pipeline achieves 32.00\% resolution on SWE-bench Lite (96/300 issues) at \$0.70 per issue and 78{,}166 tokens, outperforming all open-source multi-agent alternatives. Ridnik et al.'s AlphaCodium~\cite{ridnik2024} remains cited as corroborating evidence for the paradigm rather than as a primary study: despite substantial citation uptake, it remains an unrefereed arXiv preprint that does not satisfy this review's Criterion 3 (Section~\ref{sec:criteria}). Notably, Agentless does not perform feedback-conditioned iterative refinement; it generates up to 40 candidate patches in parallel and selects via regression and reproduction tests. Consequently, a disciplined single-agent generate--verify--repair pipeline that couples \textit{iterative} taxonomy-guided feedback with a bounded iteration budget still occupies a distinct, largely unexamined point on the quality--cost frontier.
 
 \subsection{Research Gap and Framework Justification}
 \label{sec:research_gap}
-The synthesis of 37 primary studies reveals several critical research gaps that collectively motivate the development of a single-agent, taxonomy-guided generate--verify--repair framework.
+The synthesis of 40 primary studies reveals several critical research gaps that collectively motivate the development of a single-agent, taxonomy-guided generate--verify--repair framework.
 
-\textbf{Gap 1: Taxonomy-aware feedback is decoupled from verification-driven repair.} Dou et al.~\cite{dou2026} introduced a rigorous bug taxonomy, and iterative self-repair grounded in execution feedback is well established \cite{chen2023selfdebug,wang2024intervenor}; meanwhile, Clover~\cite{sun2024clover} provides strong formal consistency checks but explicitly stops at verification rather than performing repair. No existing work fuses \textit{fine-grained bug-taxonomy-guided feedback} into a \textit{verification-driven, bounded-iteration} single-agent repair loop. Tambon et al.~\cite{tambon2025} provide complementary empirical evidence from real-world Python tasks (CoderEval), yet their taxonomy likewise remains decoupled from automated repair infrastructure, underscoring that the gap is not a lack of taxonomic knowledge but the absence of mechanisms that operationalize such taxonomies inside a repair loop. This is the headline gap addressed by the proposed framework.
+\textbf{Gap 1: Taxonomy-aware feedback is decoupled from verification-driven repair.} Dou et al.~\cite{dou2026} introduced a rigorous bug taxonomy, and iterative self-repair grounded in execution feedback is well established \cite{chen2023selfdebug,wang2024intervenor}; meanwhile, Clover~\cite{sun2024clover} provides strong formal consistency checks but explicitly stops at verification rather than performing repair. No existing work fuses \textit{fine-grained bug-taxonomy-guided feedback} into a \textit{verification-driven, bounded-iteration} single-agent repair loop. Tambon et al.~\cite{tambon2025} provide complementary empirical evidence from real-world Python tasks (CoderEval), yet their taxonomy likewise remains decoupled from automated repair infrastructure, underscoring that the gap is not a lack of taxonomic knowledge but the absence of mechanisms that operationalize such taxonomies inside a repair loop. Wang et al.~\cite{wang2025where} provide further empirical grounding from the HumanEval benchmark, showing that LLM errors are structurally diverse and frequently multi-hunk, yet no existing work operationalizes their semantic/syntactic taxonomy inside an automated repair loop. Pan et al.~\cite{pan2024lost} provide complementary evidence from the translation domain that LLM bug patterns are task-dependent: translation bugs are dominated by data-type and API-behavior mismatches, whereas generation bugs are dominated by missing blocks and wrong logical direction. No existing work couples these domain-specific taxonomies into a unified repair loop. This is the headline gap addressed by the proposed framework.
 
-\textbf{Gap 2: Feedback quality is the proven bottleneck of self-repair.} Olausson et al.~\cite{olausson2024} demonstrate that self-repair effectiveness is limited primarily by the model's ability to generate accurate feedback on its own faulty code---and that, given a fixed sampling budget, allocating more of it to diverse initial generations consistently outperforms allocating more of it to additional repair iterations. Reflexion supplies independent evidence: it yields no HumanEval-Python improvement with StarChat-beta (0.26 vs.\ 0.26), while its generated-test false-positive rate varies from 1.4\% on HumanEval-Python to 16.3\% on MBPP-Python~\cite{shinn2023}. Structured, taxonomy-derived feedback is an unexplored remedy to precisely this bottleneck.
+\textbf{Gap 2: Feedback quality is the proven bottleneck of self-repair.} Olausson et al.~\cite{olausson2024} demonstrate that self-repair effectiveness is limited primarily by the model's ability to generate accurate feedback on its own faulty code---and that, given a fixed sampling budget, allocating more of it to diverse initial generations consistently outperforms allocating more of it to additional repair iterations. Pan et al.'s iterative prompting experiment~\cite{pan2024lost} provides domain-specific evidence for this bottleneck: providing compilation-error and test-failure context in the prompt fixes 58\% of compilation errors in one iteration, but only 45\% of runtime errors and 48\% of functional errors, indicating that coarse execution feedback is insufficient for semantically complex faults. Reflexion supplies independent evidence: it yields no HumanEval-Python improvement with StarChat-beta (0.26 vs.\ 0.26), while its generated-test false-positive rate varies from 1.4\% on HumanEval-Python to 16.3\% on MBPP-Python~\cite{shinn2023}. Wang et al.~\cite{wang2025where} further show that faults are structurally diverse and often multi-hunk, making unstructured execution feedback too coarse to reliably communicate whether repair requires a missing block, a corrected condition, or a reversal of logical direction. Structured, taxonomy-derived feedback is an unexplored remedy to precisely this bottleneck.
 
 \textbf{Gap 3: The iteration budget is not treated as a design variable.} Across the reviewed repair literature, iteration schedules are typically fixed a priori rather than tuned. Olausson et al.~\cite{olausson2024} is a partial exception, showing that budget spent on initial-sample diversity outperforms budget spent on repair depth; LDB~\cite{zhong2024ldb} provides a complementary depth curve, with HumanEval/GPT-3.5 increasing from 82.9\% at 10 iterations to 84.1\% at 20, but neither work couples budget allocation with a structured, taxonomy-guided feedback signal---the gap this framework addresses. The only taxonomy-grounded fixed-budget datapoint is Dou et al.'s 29.2\% repair success at two iterations \cite{dou2026}, and no work systematically optimizes \textit{what happens inside} each iteration under a fixed budget. The proposed framework adopts the two-iteration budget as its baseline to enable direct head-to-head comparison.
 
-\textbf{Gap 4: The single-agent point on the quality--cost frontier is unoccupied.} As discussed in Section~\ref{sec:paradigm_discussion}, published multi-agent results indicate that verification-driven iteration, not agent multiplicity, drives much of the quality gain, while multi-agent communication multiplies token cost. A disciplined single-agent pipeline with explicit verification and a bounded budget remains unexamined as a deliberate design choice. Even where single-agent, test-based iterative flows exist in the literature (e.g., AlphaCodium~\cite{ridnik2024}, Section~\ref{sec:paradigm_discussion}), none couples the iteration to a fine-grained bug taxonomy or treats a small, fixed budget as a first-class design variable -- the combination this framework proposes.
+\textbf{Gap 4: The single-agent point on the quality--cost frontier is now partially occupied by Agentless~\cite{xia2025agentless}, which demonstrates that a simple, non-iterative sampling-and-validation pipeline can outperform complex multi-agent tools on repository-level repair.} However, Agentless does not employ iterative self-repair, fine-grained bug-taxonomy-guided feedback, or a bounded iteration budget; its gains come from extensive patch sampling (up to 40 candidates per issue) rather than structured feedback-conditioned refinement. Therefore, the specific combination of taxonomy-guided feedback with verification-driven bounded repair remains unexamined.
 
 \textbf{Gap 5: Insufficient real-world, leakage-free benchmark coverage.} Of the 28 identified benchmarks, only RWPB, SWE-bench~\cite{jimenez2024swebench}, pypi\_malregistry, the real-world web projects, the SemOpt Benchmark, LeetcodeHardGym~\cite{shinn2023}, and \tbd\ (LiveCodeBench) target real-world or deliberately post-cutoff scenarios with low data-leakage risk. The field remains heavily dependent on HumanEval/MBPP/APPS, which have demonstrable leakage risks \cite{dou2026}. Evaluating on RWPB enables a direct comparison with Dou et al.
 
@@ -992,7 +1010,7 @@ A single-agent generate--verify--repair framework directly addresses Gaps 1--4 b
 \item A \textbf{bounded iteration budget of two repair cycles}, adopted from and directly comparable to the strongest published baseline \cite{dou2026} (Gap 3).
 \item \textbf{Evaluation on RWPB} alongside HumanEval+/MBPP+ for leakage-aware measurement (Gap 5).
 \end{itemize}
-Such a framework would represent the first unified single-agent response to the verification-and-repair demands identified across the 37 reviewed studies, targeting repair success beyond the 29.2\% two-iteration baseline at a fraction of the token cost documented for multi-agent alternatives.
+Such a framework would represent the first unified single-agent response to the verification-and-repair demands identified across the 40 reviewed studies, targeting repair success beyond the 29.2\% two-iteration baseline at a fraction of the token cost documented for multi-agent alternatives.
 
 \subsection{Limitations of Research}
 Although we have completely followed the guidelines of SLR and strictly observed the developed review protocol, there are still certain limitations:
@@ -1008,7 +1026,7 @@ Although we have completely followed the guidelines of SLR and strictly observed
 %====================================================================
 \section{Conclusions}
 \label{sec:conclusions}
-This Systematic Literature Review has rigorously identified, classified, and analyzed 37 primary studies on LLM-based code generation selected from the 2021--2025 search window, including two studies retained under the search protocol and formally published in 2026. Following a structured review protocol encompassing precise research questions, six concrete selection criteria, a multi-stage filtering process yielding 37 primary studies from an initial pool of \tbd\ candidates, and a comprehensive data extraction framework, the review provides an evidence-based synthesis of contemporary techniques, tools, and benchmarks.
+This Systematic Literature Review has rigorously identified, classified, and analyzed 40 primary studies on LLM-based code generation selected from the 2021--2025 search window, including two studies retained under the search protocol and formally published in 2026. Following a structured review protocol encompassing precise research questions, six concrete selection criteria, a multi-stage filtering process yielding 40 primary studies from an initial pool of \tbd\ candidates, and a comprehensive data extraction framework, the review provides an evidence-based synthesis of contemporary techniques, tools, and benchmarks.
 
 The key findings are fourfold. First, explicit reasoning scaffolding is prevalent in contemporary research, with \tbd\ of \tbd\ studies (\tbd\%) employing at least one of CoT, SCoT, Self-Planning, RCI, or self-critique. Second, verification signals span a spectrum from compiler diagnostics to LLM-generated tests, runtime traces, and learned verifiers, with the oracle assumption emerging as the decisive practical differentiator; iterative self-critique with execution feedback achieves up to 29.2\% repair success in two iterations \cite{dou2026}, while the feedback-quality bottleneck identified by \tbd~\cite{olausson2024} bounds further gains. Third, iteration budgets are ad hoc across the literature and are rarely treated as a first-class design variable. Fourth, significant research gaps remain in the integration of taxonomy-guided feedback with verification-driven bounded repair, the occupation of the single-agent point on the quality--cost frontier, and the availability of leakage-free real-world benchmarks.
 
@@ -1020,7 +1038,7 @@ These findings directly motivate the development of a single-agent generate--ver
 \begin{thebibliography}{99}
 \footnotesize
 
-% -------------------- PRIMARY STUDIES (frozen set of 37) --------------------
+% -------------------- PRIMARY STUDIES (current set of 40) --------------------
 \bibitem{dou2026}
 S. Dou, H. Jia, S. Wu, H. Zheng, M. Wu et al., ``What is wrong with your code generated by large language models? An extensive study,'' \textit{Science China Information Sciences}, vol. 69, no. 1, p. 112107, 2026.
 
@@ -1109,7 +1127,7 @@ J. Liu, C. S. Xia, Y. Wang, and L. Zhang, ``Is your code generated by ChatGPT re
 C. S. Xia and L. Zhang, ``Automated program repair via conversation: Fixing 162 out of 337 bugs for \$0.42 each using ChatGPT,'' in \textit{Proceedings of the 33rd ACM SIGSOFT International Symposium on Software Testing and Analysis (ISSTA)}, 2024. % CITATION-UNCONFIRMED: verify exact pages/venue before camera-ready
 
 \bibitem{ding2024cycle}
-Y. Ding, M. J. Min, G. Kaiser, and B. Ray, ``CYCLE: Learning to self-refine the code generation,'' \textit{Proceedings of the ACM on Programming Languages (OOPSLA)}, 2024. % CITATION-UNCONFIRMED: verify exact pages/venue before camera-ready
+Y. Ding, M. J. Min, G. Kaiser, and B. Ray, ``CYCLE: Learning to self-refine the code generation,'' \textit{Proceedings of the ACM on Programming Languages}, vol. 8, no. OOPSLA1, Article 108, April 2024, doi: \url{https://doi.org/10.1145/3649825}.
 
 \bibitem{ni2023lever}
 A. Ni, S. Iyer, D. Radev, V. Stoyanov, W. Yih, S. I. Wang, and X. V. Lin, ``LEVER: Learning to verify language-to-code generation with execution,'' in \textit{Proceedings of the 40th International Conference on Machine Learning (ICML)}, PMLR 202, Honolulu, Hawaii, USA, 2023.
@@ -1167,5 +1185,13 @@ B. Kitchenham, ``Procedures for performing systematic reviews,'' \textit{Keele U
 \bibitem{rashid2015}
 M. Rashid, M. W. Anwar, and A. M. Khan, ``Toward the tools selection in model based system engineering for embedded systems --- A systematic literature review,'' \textit{Journal of Systems and Software}, vol. 106, pp. 150--163, 2015.
 
+\bibitem{wang2025where}
+Z. Wang, Z. Zhou, D. Song, Y. Huang, S. Chen, L. Ma, and T. Zhang, ``Where do large language models fail when generating code?'' in \textit{Proceedings of the 47th IEEE/ACM International Conference on Software Engineering (ICSE)}, 2025.
+
+\bibitem{xia2025agentless}
+C. S. Xia, Y. Deng, S. Dunn, and L. Zhang, ``Agentless: Demystifying LLM-based software engineering agents,'' in \textit{Proceedings of the 39th ACM SIGSOFT International Symposium on the Foundations of Software Engineering (FSE)}, 2025.
+
+\bibitem{pan2024lost}
+R. Pan, S. Gulwani, and S. Le, ``Lost in translation: A study of bugs introduced by large language models while translating code,'' in \textit{Proceedings of the 46th IEEE/ACM International Conference on Software Engineering (ICSE)}, 2024, pp. 1--12.
 \end{thebibliography}
 \end{document}
