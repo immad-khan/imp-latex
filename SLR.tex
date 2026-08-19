@@ -136,7 +136,7 @@ This Systematic Literature Review (SLR) aims to identify, classify, and analyze 
 \noindent
 Systematic Literature Review methodology has been adopted following the guidelines proposed by Kitchenham, as operationalized by Rashid et al. A comprehensive review protocol was developed incorporating six concrete selection criteria, a structured search process across four renowned scientific databases (IEEE, ACM, Springer, Elsevier, supplemented by arXiv), quality assessment procedures, and a formal data extraction and synthesis framework. Six predefined categories guided the classification of selected research works.
 \noindent
-From an initial pool of 197,920 gross retrievals (pre-deduplication) across five sources (IEEE, ACM, Springer, Elsevier, arXiv), 46 primary research works were selected through a purposive screening process guided by six selection criteria, continued until thematic saturation was reached across the six target categories. The selected studies were classified into six categories: General (8), Code Generation (8), Bug Detection \& Classification (4), Verification \& Test Generation (10), Iterative Self-Repair (10), and Optimization \& Security (9). The analysis identified zero-shot prompting as the most prevalent prompting technique family (37.0\% of studies), self-critique with compiler or execution feedback as the leading repair mechanism (19.6\%), and compiler or execution feedback as the dominant repair feedback source, while iteration budgets across the literature were found to be predominantly post-hoc or unbounded, with only a minority adopting fixed small budgets ($\leq$3 iterations). The bug-taxonomy synthesis is anchored by the fine-grained taxonomies of Dou et al.~\cite{dou2026}, Tambon et al.~\cite{tambon2025}, Wang et al.~\cite{wang2025where}, and Pan et al.~\cite{pan2024lost}. HumanEval/MBPP/APPS were the most widely used benchmarks. A comprehensive comparative evaluation of 39 tools and frameworks was performed using both general and activity-specific characteristics, including feedback source, verification signal, oracle assumption, and iteration budget.
+From an initial pool of 35,211 gross retrievals (pre-deduplication) across five sources (IEEE, ACM, Springer, Elsevier, arXiv), 46 primary research works were selected through a purposive screening process guided by six selection criteria, continued until thematic saturation was reached across the six target categories. The selected studies were classified into six categories: General (8), Code Generation (8), Bug Detection \& Classification (4), Verification \& Test Generation (10), Iterative Self-Repair (10), and Optimization \& Security (9). The analysis identified zero-shot prompting as the most prevalent prompting technique family (37.0\% of studies), self-critique with compiler or execution feedback as the leading repair mechanism (19.6\%), and compiler or execution feedback as the dominant repair feedback source, while iteration budgets across the literature were found to be predominantly post-hoc or unbounded, with only a minority adopting fixed small budgets ($\leq$3 iterations). The bug-taxonomy synthesis is anchored by the fine-grained taxonomies of Dou et al.~\cite{dou2026}, Tambon et al.~\cite{tambon2025}, Wang et al.~\cite{wang2025where}, and Pan et al.~\cite{pan2024lost}. HumanEval/MBPP/APPS were the most widely used benchmarks. A comprehensive comparative evaluation of 39 tools and frameworks was performed using both general and activity-specific characteristics, including feedback source, verification signal, oracle assumption, and iteration budget.
 \noindent
 The SLR reveals that contemporary research treats verification and repair as separable concerns, with bug-taxonomy knowledge, verification signals, and iteration budgets rarely integrated into one repair loop. A significant research gap exists in single-agent frameworks that couple fine-grained bug-taxonomy-guided feedback with verification-driven, bounded-iteration self-repair. This gap justifies the development of a generate--verify--repair pipeline that targets higher repair success than the two-iteration baseline reported by Dou et al., at a fraction of the computational cost documented for multi-agent alternatives.
 }
@@ -327,40 +327,72 @@ We define concrete criteria for the selection and rejection of research works. S
 \label{sec:search_process}
 The search process was systematically executed across four renowned scientific databases (IEEE Xplore, ACM Digital Library, SpringerLink, Elsevier ScienceDirect) and arXiv. A combination of search terms with AND/OR Boolean operators was employed, and the ``2021--2025'' publication filter was applied universally. Table~\ref{tab:search_terms} summarizes the search terms and the number of results obtained from each database.
 
-% NOTE: run the searches and fill REAL counts. Do not invent numbers.
 \begin{table*}[!t]
 \centering
-\caption{Search terms with Boolean operators and number of search results per database.}
+\caption{Search terms with Boolean operators and number of search 
+results per database.}
 \label{tab:search_terms}
 \small
 \begin{tabular}{@{}clcccccc@{}}
 \toprule
-\textbf{\#} & \textbf{Search Term} & \textbf{Operator} & \textbf{IEEE} & \textbf{Springer} & \textbf{Elsevier} & \textbf{ACM} & \textbf{arXiv} \\
+\textbf{\#} & \textbf{Search Term} & \textbf{Op.} 
+& \textbf{IEEE} & \textbf{Springer} 
+& \textbf{Elsevier} & \textbf{ACM} & \textbf{arXiv} \\
 \midrule
-1 & LLM code generation & AND & 14600 & 1149 & 22 & 1099 & 10371 \\
-2 & Self-repair code generation & AND & 38 & 13 & 9 & 29 & 52 \\
-3 & Self-debugging large language model & AND & 68 & 10 & 0 & 8 & 56 \\
-4 & Iterative refinement code generation & AND & 253 & 141 & 4 & 90 & 714 \\
-5 & Self-correction LLM code & AND & 29 & 100 & 1 & 14 & 5 \\
-6 & Test generation verification LLM & AND & 164 & 46 & 2 & 96 & 239 \\
-7 & Execution feedback code repair & AND & 16 & 2 & 5 & 18 & 23 \\
-8 & Bug taxonomy LLM & AND & 10 & 1 & 0 & 1 & 14 \\
-9 & Automated program repair LLM & AND & 82 & 233 & 0 & 63 & 54 \\
-10 & LLM generated unit tests & AND & 161 & 11 & 3 & 61 & 247 \\
-11 & Chain-of-thought code generation & AND & 10 & 290 & 21 & 71 & 743 \\
-12 & Secure code generation LLM & AND & 126 & 18 & 8 & 7 & 535 \\
-13 & Code efficiency LLM optimization & AND & 109 & 10 & 2 & 60 & 1003 \\
-14 & HumanEval MBPP benchmark evaluation & AND & 68 & 200 & 0 & 7 & 164181 \\
-15 & Benchmark contamination data leakage code & AND & 5 & 0 & 0 & 2 & 17 \\
+1  & \texttt{LLM OR "large language model" "code generation"} 
+   & AND & 14600 & 1149 & 22   & 1099 & 10371 \\
+2  & \texttt{"self-repair" "code generation"} 
+   & AND & 38   & 13   & 9    & 29   & 52    \\
+3  & \texttt{"self-debugging" "large language model"} 
+   & AND & 68   & 10   & 0    & 8    & 56    \\
+4  & \texttt{"iterative refinement" "code generation"} 
+   & AND & 253  & 141  & 4    & 90   & 714   \\
+5  & \texttt{"self-correction" "LLM" "code"} 
+   & AND & 29   & 100  & 1    & 14   & 5     \\
+6  & \texttt{"test generation" "verification" "LLM"} 
+   & AND & 164  & 46   & 2    & 96   & 239   \\
+7  & \texttt{"execution feedback" "code repair"} 
+   & AND & 16   & 2    & 5    & 18   & 23    \\
+8  & \texttt{"bug taxonomy" "LLM"} 
+   & AND & 10   & 1    & 0    & 1    & 14    \\
+9  & \texttt{("automated program repair" OR "APR") "LLM"} 
+   & AND & 82   & 233  & 0    & 63   & 54    \\
+10 & \texttt{"LLM" "generated unit tests"} 
+   & AND & 161  & 11   & 3    & 61   & 247   \\
+11 & \texttt{"chain-of-thought" "code generation"} 
+   & AND & 10   & 290  & 21   & 71   & 743   \\
+12 & \texttt{"secure code generation" "LLM"} 
+   & AND & 126  & 18   & 8    & 7    & 535   \\
+13 & \texttt{"code efficiency" "LLM" "optimization"} 
+   & AND & 109  & 10   & 2    & 60   & 1003  \\
+14 & \texttt{("HumanEval" OR "MBPP") 
+    ("benchmark" OR "evaluation")} 
+   & AND & 68   & 200  & 0    & 7    & 2611  \\
+15 & \texttt{"benchmark contamination" "data leakage" "code"} 
+   & AND & 5    & 0    & 0    & 2    & 17    \\
 \midrule
-\multicolumn{3}{r}{\textbf{Total initial results:}} & 15739 & 2224 & 77 & 1626 & 178254 \\
+\multicolumn{3}{r}{\textbf{Total initial results:}} 
+& \textbf{14600} & \textbf{2224} & \textbf{77} 
+& \textbf{1626} & \textbf{16684} \\
+\multicolumn{3}{r}{\textbf{Grand total (pre-deduplication):}} 
+& \multicolumn{5}{r}{\textbf{35,211}} \\
 \bottomrule
 \end{tabular}
+\begin{flushleft}
+\footnotesize
+Search filters applied uniformly: publication year 2021--2025;
+fields searched: Title, Abstract, and Keywords (or closest equivalent
+per database). Term~1 uses OR to capture both abbreviated and full
+forms of the model name. Term~9 uses OR to capture both the full
+phrase and the established abbreviation. Term~14 uses OR within
+each phrase group to maximise benchmark-name recall. All searches
+were conducted in [MONTH YEAR --- fill from your screenshots].
+\end{flushleft}
 \end{table*}
 
-The search across five sources yielded 197,920 gross retrievals (pre-deduplication), as summarized in Table~\ref{tab:search_terms}. Given the scale and heterogeneity of this initial pool, an exhaustive stage-by-stage screening of every record was not performed. Instead, a purposive selection process was adopted: candidate studies were evaluated directly against the six selection and rejection criteria (Section~\ref{sec:criteria}), prioritizing studies with clear relevance to one of the six predefined categories (Section~\ref{sec:categories}) and citation linkages to established anchor works in the field (e.g., Dou et al.~\cite{dou2026}). Selection continued until thematic saturation was reached.
+The search across five sources yielded 35,211 gross retrievals (pre-deduplication), as summarized in Table~\ref{tab:search_terms}. Given the scale and heterogeneity of this initial pool, an exhaustive stage-by-stage screening of every record was not performed. Instead, a purposive selection process was adopted: candidate studies were evaluated directly against the six selection and rejection criteria (Section~\ref{sec:criteria}), prioritizing studies with clear relevance to one of the six predefined categories (Section~\ref{sec:categories}) and citation linkages to established anchor works in the field (e.g., Dou et al.~\cite{dou2026}). Selection continued until thematic saturation was reached.
 
-\noindent\textit{Purposive selection deviations from standard PRISMA.} Because the gross retrieval volume ($N=197{,}920$) made exhaustive title/abstract screening infeasible, we adopted a purposive-eligibility assessment rather than a conventional systematic screen. During this phase, we applied three additional gates not captured by the six binary criteria: (1) \textit{arXiv verification}: the publication status of arXiv preprints was checked against official proceedings or the paper's publication header. This confirmed subsequent peer-reviewed publication for works such as PromSec (CCS '24), Copilot-in-the-Loop (ASE '24), Clover (SAIV 2024, Springer LNCS), LiveCodeBench (ICLR 2025), and Bruni et al. (FORGE 2025). Foundational preprint-only benchmarks, including ClassEval, were retained transparently where they satisfied the remaining criteria. (2) \textit{Contrast literature reclassification}: papers whose principal contribution was multi-agent orchestration (ChatDev, MetaGPT, AutoGen, AnnCoder, and Bai et al.) were not rejected outright but moved to a separate contrast-literature pool. These five papers are cited only to contextualize the single-agent scope of this review (Section~\ref{sec:introduction}), ensuring that they do not inflate the primary-study counts. (3) \textit{Named date exceptions}: Dou et al. and SemOpt were retained under the 2021--2025 window for different documented reasons. Dou et al. was accepted on 15 October 2025 and formally published in January 2026, whereas SemOpt was publicly available as a 2025 preprint before its formal TOSEM publication in 2026.
+\noindent\textit{Purposive selection deviations from standard PRISMA.} Because the gross retrieval volume ($N=35{,}211$) made exhaustive title/abstract screening infeasible, we adopted a purposive-eligibility assessment rather than a conventional systematic screen. During this phase, we applied three additional gates not captured by the six binary criteria: (1) \textit{arXiv verification}: the publication status of arXiv preprints was checked against official proceedings or the paper's publication header. This confirmed subsequent peer-reviewed publication for works such as PromSec (CCS '24), Copilot-in-the-Loop (ASE '24), Clover (SAIV 2024, Springer LNCS), LiveCodeBench (ICLR 2025), and Bruni et al. (FORGE 2025). Foundational preprint-only benchmarks, including ClassEval, were retained transparently where they satisfied the remaining criteria. (2) \textit{Contrast literature reclassification}: papers whose principal contribution was multi-agent orchestration (ChatDev, MetaGPT, AutoGen, AnnCoder, and Bai et al.) were not rejected outright but moved to a separate contrast-literature pool. These five papers are cited only to contextualize the single-agent scope of this review (Section~\ref{sec:introduction}), ensuring that they do not inflate the primary-study counts. (3) \textit{Named date exceptions}: Dou et al. and SemOpt were retained under the 2021--2025 window for different documented reasons. Dou et al. was accepted on 15 October 2025 and formally published in January 2026, whereas SemOpt was publicly available as a 2025 preprint before its formal TOSEM publication in 2026.
 
 Additional candidate studies within each category were no longer surfacing substantively new techniques, mechanisms, or findings relative to the studies already selected. This process converged on 46 distinct primary studies and 49 category assignments across the six categories, as shown in Fig.~\ref{fig:prisma}.
 
@@ -386,9 +418,10 @@ Additional candidate studies within each category were no longer surfacing subst
 % === IDENTIFICATION ===
 \node[widebox] (id) at (0,0) {
     \textbf{Identification: Records from databases (2021--2025 window)}\\[2pt]
-    IEEE Xplore (\textit{n}=15,739) $\cdot$ ACM DL (\textit{n}=1,626) $\cdot$ Springer (\textit{n}=2,224) $\cdot$
-    Elsevier (\textit{n}=77) $\cdot$ arXiv (\textit{n}=178,254)\\[1pt]
-    \textbf{Total retrieved \textit{N}=197,920 (pre-deduplication)}
+    IEEE (\textit{n}=14{,}600) $\cdot$ ACM (\textit{n}=1{,}626) $\cdot$
+    Springer (\textit{n}=2{,}224)\\
+    Elsevier (\textit{n}=77) $\cdot$ arXiv (\textit{n}=16{,}684)\\
+    \textbf{Gross retrievals, pre-dedup: \textit{n}=35{,}211}
 };
 
 % === SCREENING / VERIFICATION GATE ===
@@ -1095,7 +1128,7 @@ Such a framework would represent the first unified single-agent response to the 
 \subsection{Limitations of Research}
 Although we have completely followed the guidelines of SLR and strictly observed the developed review protocol, there are still certain limitations:
 \begin{itemize}[leftmargin=*]
-\item Exhaustive stage-by-stage screening of all 197,920 retrieved records (e.g., full title screening, full abstract screening) was not performed given the scale of the initial pool. Selection instead followed a purposive protocol against the six predefined criteria, continued until thematic saturation across categories. This is a recognized alternative to strict PRISMA-style exhaustive screening for large, heterogeneous retrieval sets, but it means the reported 46 studies are not guaranteed to be the maximal set satisfying the criteria across the full retrieval pool.
+\item Exhaustive stage-by-stage screening of all 35,211 retrieved records (e.g., full title screening, full abstract screening) was not performed given the scale of the initial pool. Selection instead followed a purposive protocol against the six predefined criteria, continued until thematic saturation across categories. This is a recognized alternative to strict PRISMA-style exhaustive screening for large, heterogeneous retrieval sets, but it means the reported 46 studies are not guaranteed to be the maximal set satisfying the criteria across the full retrieval pool.
 \item We have used appropriate search terms and thoroughly scanned the search results. However, a few search terms returned thousands of results that cannot be scanned exhaustively. Furthermore, we have rejected a number of researches based on their titles, and there is a possibility that the contents of such researches are not properly reflected in the titles. Consequently, we do not claim the exhaustiveness of our research.
 \item We have used five sources (four renowned scientific databases plus arXiv). These sources provide a large amount of journal and conference publications. However, some relevant research work may be provided by other sources (e.g., OpenReview). Therefore, there is a fair chance that we have missed some relevant researches. However, we believe that the ultimate findings of this SLR are not affected significantly because the selected sources provide high-quality recent research literature.
 \item The field of LLM-based code generation is evolving extraordinarily rapidly, with new techniques emerging on a monthly basis. Our cutoff of 2025 may therefore exclude very recent developments. Future SLR updates will be required to maintain currency.
@@ -1107,7 +1140,7 @@ Although we have completely followed the guidelines of SLR and strictly observed
 %====================================================================
 \section{Conclusions}
 \label{sec:conclusions}
-This Systematic Literature Review has rigorously identified, classified, and analyzed 46 primary studies on LLM-based code generation selected from the 2021--2025 search window, including two studies retained under the search protocol and formally published in 2026. Following a structured review protocol encompassing precise research questions, the review employed a purposive screening process guided by six selection criteria, continued until thematic saturation, yielding 46 primary studies from an initial pool of 197,920 gross retrievals (pre-deduplication). Together with a comprehensive data extraction framework, the review provides an evidence-based synthesis of contemporary techniques, tools, and benchmarks.
+This Systematic Literature Review has rigorously identified, classified, and analyzed 46 primary studies on LLM-based code generation selected from the 2021--2025 search window, including two studies retained under the search protocol and formally published in 2026. Following a structured review protocol encompassing precise research questions, the review employed a purposive screening process guided by six selection criteria, continued until thematic saturation, yielding 46 primary studies from an initial pool of 35,211 gross retrievals (pre-deduplication). Together with a comprehensive data extraction framework, the review provides an evidence-based synthesis of contemporary techniques, tools, and benchmarks.
 
 The key findings are fourfold. First, explicit reasoning scaffolding is prevalent in contemporary research, with 12 of 46 studies (26.1\%) employing at least one of CoT, SCoT, Self-Planning, RCI, or self-critique. Second, verification signals span a spectrum from compiler diagnostics to LLM-generated tests, runtime traces, and learned verifiers, with the oracle assumption emerging as the decisive practical differentiator; iterative self-critique with execution feedback achieves up to 29.2\% repair success in two iterations \cite{dou2026}, while the feedback-quality bottleneck identified by Olausson et al.~\cite{olausson2024} bounds further gains. Third, iteration budgets are ad hoc across the literature and are rarely treated as a first-class design variable. Fourth, significant research gaps remain in the integration of taxonomy-guided feedback with verification-driven bounded repair, the occupation of the single-agent point on the quality--cost frontier, and the availability of leakage-free real-world benchmarks.
 
